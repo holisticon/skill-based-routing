@@ -1,4 +1,4 @@
-package org.camunda.dmn.engine.test.rule;
+package test.rule;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -10,7 +10,7 @@ import org.camunda.dmn.engine.context.DmnContextFactory;
 import org.camunda.dmn.engine.context.DmnDecisionContext;
 import org.camunda.dmn.engine.impl.DmnEngineConfigurationImpl;
 import org.camunda.dmn.engine.impl.context.DmnContextFactoryImpl;
-import org.camunda.dmn.engine.test.assertions.DmnEngineAssertions;
+import test.assertions.DmnEngineAssertions;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;

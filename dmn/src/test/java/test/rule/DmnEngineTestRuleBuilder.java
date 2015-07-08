@@ -1,4 +1,4 @@
-package org.camunda.dmn.engine.test.rule;
+package test.rule;
 
 import org.apache.commons.lang3.builder.Builder;
 

@@ -1,12 +1,12 @@
 package de.holisticon.bpm.sbr.dmn;
 
-import org.camunda.dmn.engine.test.rule.DecisionDeployment;
-import org.camunda.dmn.engine.test.rule.DmnEngineTestRule;
-import org.camunda.dmn.engine.test.rule.DmnEngineTestRuleBuilder;
+import test.rule.DecisionDeployment;
+import test.rule.DmnEngineTestRule;
+import test.rule.DmnEngineTestRuleBuilder;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.camunda.dmn.engine.test.assertions.DmnEngineAssertions.decision;
+import static test.assertions.DmnEngineAssertions.decision;
 
 /**
  * This class demonstrates the possible usage of DMN Engine API

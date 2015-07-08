@@ -1,4 +1,4 @@
-package org.camunda.dmn.engine.test.assertions;
+package test.assertions;
 
 import java.util.HashMap;
 import java.util.Map;

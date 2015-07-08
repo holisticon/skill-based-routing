@@ -1,4 +1,4 @@
-package org.camunda.dmn.engine.test.assertions;
+package test.assertions;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;

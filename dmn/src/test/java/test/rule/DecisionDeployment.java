@@ -1,4 +1,4 @@
-package org.camunda.dmn.engine.test.rule;
+package test.rule;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
