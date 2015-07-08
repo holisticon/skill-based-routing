@@ -8,6 +8,16 @@ package de.holisticon.bpm.sbr.dmn;
  */
 public class ApprovalSheet {
 
+  public ApprovalSheet() {
+
+  }
+
+  public ApprovalSheet(String customerCode, Double approvalSum, CustomerStatus customerStatus) {
+    this.customerCode = customerCode;
+    this.approvalSum = approvalSum;
+    this.customerStatus = customerStatus;
+  }
+
   private String customerCode;
   private Double approvalSum;
   private CustomerStatus customerStatus;
