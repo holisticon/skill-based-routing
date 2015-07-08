@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.holisticon.maven</groupId>
+		<artifactId>holisticon-oss-parent</artifactId>
+		<version>2</version>
+		<relativePath />
+	</parent>
+
+
+	<groupId>de.holisticon</groupId>
+	<artifactId>skill-based-routing-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+
+	<name>Skill-Based Routing Example application</name>
+	<description>Example demonstrating skill-based routing built with camunda BPM Platform using its DMN features.</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<camunda.version>7.3.0</camunda.version>
+		<camunda.dmn.version>7.4.0-SNAPSHOT</camunda.dmn.version>
+		<groovy.version>2.3.6</groovy.version>
+	</properties>
+
+	<modules>
+		<module>web</module>
+		<module>dmn</module>
+	</modules>
+
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- client for Java EE application server integration, included in WAR as an alternative to write your own ProcessApplication 
+					class -->
+				<groupId>org.camunda.bpm.javaee</groupId>
+				<artifactId>camunda-ejb-client</artifactId>
+				<version>${camunda.version}</version>
+			</dependency>
+			<dependency>
+				<!-- process engine, needs to be provided -->
+				<groupId>org.camunda.bpm</groupId>
+				<artifactId>camunda-engine</artifactId>
+				<version>${camunda.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<!-- CDI integration, needs to be included in WAR, otherwise CDI can not work correctly -->
+				<groupId>org.camunda.bpm</groupId>
+				<artifactId>camunda-engine-cdi</artifactId>
+				<version>${camunda.version}</version>
+			</dependency>
+			<!-- Import all JEE specs -->
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-7.0</artifactId>
+				<version>1.0.0.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.groovy</groupId>
+				<artifactId>groovy-all</artifactId>
+				<version>${groovy.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.camunda.dmn</groupId>
+				<artifactId>camunda-engine-dmn</artifactId>
+				<version>${camunda.dmn.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.camunda.dmn</groupId>
+				<artifactId>camunda-scriptengine-dmn</artifactId>
+				<version>${camunda.dmn.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.camunda.dmn</groupId>
+				<artifactId>camunda-scriptengine-juel</artifactId>
+				<version>${camunda.dmn.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.5</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>1.7.5</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- Test dependencies -->
+			<dependency>
+				<groupId>org.camunda.bpm.extension</groupId>
+				<artifactId>camunda-bpm-needle</artifactId>
+				<version>1.0</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.camunda.bpm.extension</groupId>
+				<artifactId>camunda-bpm-assert</artifactId>
+				<version>1.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.camunda.bpm.extension</groupId>
+				<artifactId>camunda-bpm-mockito</artifactId>
+				<scope>test</scope>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<!-- Needed for InMemoryH2Test -->
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>1.2.132</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<repositories>
+		<repository>
+			<id>JBoss Repository</id>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+</project>
