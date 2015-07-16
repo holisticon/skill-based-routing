@@ -1,0 +1,29 @@
+<h3>Leistungsabrechnung</h3>
+<form role="form" name="variablesForm">
+
+    <!-- VSNR -->
+    <div class="form-group">
+      <label for="vsnr">Versicherungsschein</label>
+      <div class="controls">
+        <input class="form-control"
+               required
+               type="text"
+               cam-variable-name="vsnr"
+               cam-variable-type="String"
+               ng-minlength="4"
+               ng-maxlength="9" />
+      </div>
+    </div>
+
+    <!-- Erstattungsantrag -->
+    <div class="form-group">
+      <label for="erstattungsantrag">Erstattungsantrag</label>
+      <div class="controls">
+        <textarea class="form-control"
+                  cam-variable-name="erstattungsantrag"
+                  cam-variable-type="String"
+                  placeholder="Leistungen und zu erstattende Beträge"
+                  rows="4"></textarea>
+      </div>
+    </div>
+</form>
