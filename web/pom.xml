@@ -15,6 +15,16 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>de.holisticon</groupId>
+			<artifactId>skill-based-routing-dmn</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+			   <exclusion>
+			     <artifactId>assertj-core</artifactId>
+			   </exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>org.camunda.bpm.javaee</groupId>
 			<artifactId>camunda-ejb-client</artifactId>
 		</dependency>
