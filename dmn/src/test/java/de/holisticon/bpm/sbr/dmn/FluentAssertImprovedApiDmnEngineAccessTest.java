@@ -1,12 +1,12 @@
 package de.holisticon.bpm.sbr.dmn;
 
-import test.rule.DecisionDeployment;
-import test.rule.DmnEngineTestRule;
-import test.rule.DmnEngineTestRuleBuilder;
+import de.holisticon.bpm.sbr.dmn.test.rule.DecisionDeployment;
+import de.holisticon.bpm.sbr.dmn.test.rule.DmnEngineTestRule;
+import de.holisticon.bpm.sbr.dmn.test.rule.DmnEngineTestRuleBuilder;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static test.assertions.DmnEngineAssertions.decision;
+import static de.holisticon.bpm.sbr.dmn.test.assertions.DmnEngineAssertions.decision;
 
 /**
  * This class demonstrates the possible usage of DMN Engine API

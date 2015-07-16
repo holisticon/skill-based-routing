@@ -41,7 +41,7 @@ public class ApprovalProcessTest {
   }
 
   /**
-   * Glue between the test and the process.
+   * Glue between the de.holisticon.bpm.sbr.dmn.test.test and the process.
    */
   class ProcessDriver {
 

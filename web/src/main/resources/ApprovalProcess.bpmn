@@ -7,16 +7,14 @@
     <bpmn2:startEvent id="start_approval_sheet" name="Approval sheet&#xD;&#xA;received">
       <bpmn2:outgoing>seq_1</bpmn2:outgoing>
     </bpmn2:startEvent>
-    <bpmn2:businessRuleTask id="rule_determine_approver_group" camunda:delegateExpression="#{sdrGroupSelector}" name="Determine&#xD;&#xA;approver&#xD;&#xA;group">
-      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
-      <bpmn2:outgoing>seq_2</bpmn2:outgoing>
-    </bpmn2:businessRuleTask>
     <bpmn2:sequenceFlow id="seq_1" name="" sourceRef="start_approval_sheet" targetRef="service_load_sheet"/>
     <bpmn2:userTask id="user_approve_sheet" name="Approve &#xD;&#xA;Approval sheet">
-      <bpmn2:incoming>seq_2</bpmn2:incoming>
+      <bpmn2:extensionElements>
+        <camunda:taskListener delegateExpression="#{skillBasedRoutingListener}" event="create"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
       <bpmn2:outgoing>seq_3</bpmn2:outgoing>
     </bpmn2:userTask>
-    <bpmn2:sequenceFlow id="seq_2" sourceRef="rule_determine_approver_group" targetRef="user_approve_sheet"/>
     <bpmn2:exclusiveGateway id="xor_is_approved" name="Is approved?" default="seq_approved_yes">
       <bpmn2:incoming>seq_3</bpmn2:incoming>
       <bpmn2:outgoing>seq_approved_yes</bpmn2:outgoing>
@@ -35,9 +33,9 @@
     </bpmn2:sequenceFlow>
     <bpmn2:serviceTask id="service_load_sheet" camunda:delegateExpression="#{loadApprovalSheet}" name="Load&#xD;&#xA;Approval sheet">
       <bpmn2:incoming>seq_1</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
     </bpmn2:serviceTask>
-    <bpmn2:sequenceFlow id="SequenceFlow_1" name="" sourceRef="service_load_sheet" targetRef="rule_determine_approver_group"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" name="" sourceRef="service_load_sheet" targetRef="user_approve_sheet"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="_Collaboration_5">
@@ -50,9 +48,6 @@
           <dc:Bounds height="38.0" width="101.0" x="337.0" y="205.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_BusinessRuleTask_3" bpmnElement="rule_determine_approver_group">
-        <dc:Bounds height="80.0" width="100.0" x="648.0" y="142.0"/>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="seq_1" sourceElement="_BPMNShape_StartEvent_16" targetElement="_BPMNShape_ServiceTask_78">
         <di:waypoint xsi:type="dc:Point" x="405.0" y="182.0"/>
         <di:waypoint xsi:type="dc:Point" x="489.0" y="182.0"/>
@@ -63,13 +58,6 @@
       <bpmndi:BPMNShape id="_BPMNShape_UserTask_24" bpmnElement="user_approve_sheet">
         <dc:Bounds height="80.0" width="100.0" x="810.0" y="142.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="seq_2" sourceElement="_BPMNShape_BusinessRuleTask_3" targetElement="_BPMNShape_UserTask_24">
-        <di:waypoint xsi:type="dc:Point" x="748.0" y="182.0"/>
-        <di:waypoint xsi:type="dc:Point" x="810.0" y="182.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="0.0" width="0.0" x="773.0" y="182.0"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_ExclusiveGateway_45" bpmnElement="xor_is_approved" isMarkerVisible="true">
         <dc:Bounds height="50.0" width="50.0" x="960.0" y="157.0"/>
         <bpmndi:BPMNLabel>
@@ -113,12 +101,9 @@
       <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_78" bpmnElement="service_load_sheet">
         <dc:Bounds height="80.0" width="100.0" x="489.0" y="142.0"/>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_1" sourceElement="_BPMNShape_ServiceTask_78" targetElement="_BPMNShape_BusinessRuleTask_3">
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_2" sourceElement="_BPMNShape_ServiceTask_78" targetElement="_BPMNShape_UserTask_24">
         <di:waypoint xsi:type="dc:Point" x="589.0" y="182.0"/>
-        <di:waypoint xsi:type="dc:Point" x="648.0" y="182.0"/>
-        <bpmndi:BPMNLabel>
-          <dc:Bounds height="6.0" width="6.0" x="622.0" y="182.0"/>
-        </bpmndi:BPMNLabel>
+        <di:waypoint xsi:type="dc:Point" x="810.0" y="182.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

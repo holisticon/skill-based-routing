@@ -1,4 +1,4 @@
-package test.assertions;
+package de.holisticon.bpm.sbr.dmn.test.assertions;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package test.assertions;
+package de.holisticon.bpm.sbr.dmn.test.assertions;
 
 import org.assertj.core.api.Assertions;
 import org.camunda.dmn.engine.DmnDecision;

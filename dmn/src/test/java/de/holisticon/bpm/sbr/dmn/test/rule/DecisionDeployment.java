@@ -1,4 +1,4 @@
-package test.rule;
+package de.holisticon.bpm.sbr.dmn.test.rule;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,4 +1,4 @@
-package test.rule;
+package de.holisticon.bpm.sbr.dmn.test.rule;
 
 import org.apache.commons.lang3.builder.Builder;
 

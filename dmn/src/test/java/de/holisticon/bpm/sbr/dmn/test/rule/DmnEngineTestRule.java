@@ -1,4 +1,4 @@
-package test.rule;
+package de.holisticon.bpm.sbr.dmn.test.rule;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -10,7 +10,7 @@ import org.camunda.dmn.engine.context.DmnContextFactory;
 import org.camunda.dmn.engine.context.DmnDecisionContext;
 import org.camunda.dmn.engine.impl.DmnEngineConfigurationImpl;
 import org.camunda.dmn.engine.impl.context.DmnContextFactoryImpl;
-import test.assertions.DmnEngineAssertions;
+import de.holisticon.bpm.sbr.dmn.test.assertions.DmnEngineAssertions;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Simple DMN Engine test rule.
+ * Simple DMN Engine de.holisticon.bpm.sbr.dmn.test.test rule.
  * 
  * @author Simon Zambrovski (Holisticon AG)
  */
