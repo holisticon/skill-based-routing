@@ -7,14 +7,10 @@ public class Leistung implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  public static enum Tarif {
-    T1, T2, T3;
-  }
-
   private String bezeichnung;
   private boolean gebuehrenrechtlichOk;
   private Tarif tarif;
-  private BigDecimal erstattungsBetrag;
+  private BigDecimal erstattungsbetrag;
 
   public Leistung(String bezeichung) {
     bezeichnung = bezeichung;
@@ -44,12 +40,12 @@ public class Leistung implements Serializable {
     this.tarif = tarif;
   }
 
-  public BigDecimal getErstattungsBetrag() {
-    return erstattungsBetrag;
+  public BigDecimal getErstattungsbetrag() {
+    return erstattungsbetrag;
   }
 
-  public void setErstattungsBetrag(BigDecimal erstattungsBetrag) {
-    this.erstattungsBetrag = erstattungsBetrag;
+  public void setErstattungsbetrag(BigDecimal erstattungsBetrag) {
+    this.erstattungsbetrag = erstattungsBetrag;
   }
 
 }

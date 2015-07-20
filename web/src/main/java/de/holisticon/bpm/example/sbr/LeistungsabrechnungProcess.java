@@ -8,6 +8,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import de.holisticon.bpm.sbr.dmn.Leistung;
+import de.holisticon.bpm.sbr.dmn.Leistungsabrechnung;
 
 public class LeistungsabrechnungProcess {
 
@@ -26,9 +27,11 @@ public class LeistungsabrechnungProcess {
   public static enum Variables {
 
     ;
-    public static final String LEISTUNGEN = "leistungen";
     public static final String VERSICHERUNGSNUMMER = "vsnr";
-    public static final String FREIGABE = "freigabe";
+    public static final String ERSTATTUNGSWUNSCH = "erstattungswunsch";
+    public static final String PRODUKT = "produkt";
+    public static final String KUNDENSTATUS = "kundenstatus";
+    public static final String LEISTUNGSABRECHNUNG = "leistungsabrechnung";
   }
 
   @Named(VersicherungschutzErmitteln.NAME)
@@ -38,7 +41,7 @@ public class LeistungsabrechnungProcess {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-      List<Leistung> leistung = (List<Leistung>) execution.getVariable(Variables.LEISTUNGEN);
+      Leistungsabrechnung abrechnung = (Leistungsabrechnung) execution.getVariable(Variables.LEISTUNGSABRECHNUNG);
     }
   }
 

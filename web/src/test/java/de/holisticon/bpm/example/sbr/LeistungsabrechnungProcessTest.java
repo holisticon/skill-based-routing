@@ -31,7 +31,8 @@ import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.VersicherungschutzErmitteln;
 import de.holisticon.bpm.example.sbr.adapter.SkillBasedRoutingGroupSelector;
 import de.holisticon.bpm.sbr.dmn.Leistung;
-import de.holisticon.bpm.sbr.dmn.Leistung.Tarif;
+import de.holisticon.bpm.sbr.dmn.Leistungsabrechnung;
+import de.holisticon.bpm.sbr.dmn.Tarif;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.init;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.runtimeService;
@@ -42,175 +43,188 @@ import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.withVari
 @SuppressWarnings("unchecked")
 public class LeistungsabrechnungProcessTest {
 
-  @Rule
-  public ProcessEngineNeedleRule rule = new ProcessEngineNeedleRuleBuilder(this).build();
-  @Inject
-  RuntimeService runtimeService;
-  @Inject
-  TaskService taskService;
-  @Inject
-  SkillBasedRoutingGroupSelector selector;
+    @Rule
+    public ProcessEngineNeedleRule rule = new ProcessEngineNeedleRuleBuilder(this).build();
 
-  Driver driver;
+    @Inject
+    RuntimeService runtimeService;
 
-  @Before
-  public void setup() {
-    init(rule.getProcessEngine());
-    driver = new Driver();
-  }
+    @Inject
+    TaskService taskService;
 
-  @Test
-  @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
-  public void deploy() {
-    // just deploy
-  }
+    @Inject
+    SkillBasedRoutingGroupSelector selector;
 
-  @Test
-  @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
-  public void startToLeistungenErfassen() {
-    ProcessInstance instance = driver.startProcess();
-    assertThat(instance).task().hasDefinitionKey(Activities.task_leistungen_erfassen);
-  }
+    Driver driver;
 
-  @Test
-  @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
-  public void leistungenErfassenToGebuehrenPruefen() {
-    ProcessInstance instance = driver.startProcess();
-    driver.leistungenErfassen();
-    assertThat(instance).task().hasDefinitionKey(Activities.task_gebuehren_pruefen);
-  }
-
-  @Test
-  @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
-  public void gebuehrenPruefenToErstattungBerechnen() throws Exception {
-    ProcessInstance instance = driver.inGebuehrenPruefen();
-    driver.gebuehrenPruefen();
-    assertThat(instance).task().hasDefinitionKey(Activities.task_erstattungsbetrag_berechnen);
-  }
-
-  @Test
-  @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
-  public void erstattungBerechnenToZahlungFreigeben() {
-    ProcessInstance instance = driver.inErstattungBerechnen();
-    driver.erstattungBerechnen();
-    assertThat(instance).task().hasDefinitionKey(Activities.task_zahlung_freigeben);
-  }
-
-  @Test
-  @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
-  public void zahlungFreigebenToEnd() {
-    ProcessInstance instance = driver.inZahlungFreigeben();
-    driver.zahlungFreigeben();
-    assertThat(instance).isEnded();
-  }
-
-  /**
-   * Glue between the test and the process.
-   */
-  class Driver {
-
-    private static final String L3 = "L3";
-    private static final String L2 = "L2";
-    private static final String L1 = "L1";
-    private static final double BETRAG = 12.45;
-
-    public ProcessInstance startProcess() {
-      Map<String, Object> variables = org.camunda.bpm.engine.variable.Variables.createVariables().putValue(Variables.VERSICHERUNGSNUMMER, "4711");
-      ProcessInstance instance = runtimeService.startProcessInstanceByKey(LeistungsabrechnungProcess.KEY, variables);
-      assertThat(instance).isNotNull();
-      return instance;
+    @Before
+    public void setup() {
+        init(rule.getProcessEngine());
+        driver = new Driver();
     }
 
-    public void ermittleVersicherungsschutz() throws Exception {
-      JavaDelegate mock = DelegateExpressions.registerJavaDelegateMock(VersicherungschutzErmitteln.NAME).getMock();
-      Mockito.doAnswer(new JavaDelegateAnswer(mock) {
+    @Test
+    @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
+    public void deploy() {
+        // just deploy
+    }
 
-        @Override
-        protected void answer(DelegateExecution execution) throws Exception {
-          List<Leistung> leistungen = (List<Leistung>) execution.getVariable(Variables.LEISTUNGEN);
-          for (final Leistung leistung : leistungen) {
-            if (leistung.isGebuehrenrechtlichOk()) {
-              switch (leistung.getBezeichnung()) {
-              case L1:
-                leistung.setTarif(Tarif.T1);
-                break;
-              case L2:
-                leistung.setTarif(Tarif.T2);
-                break;
-              case L3:
-                leistung.setTarif(Tarif.T3);
-                break;
-              }
+    @Test
+    @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
+    public void startToLeistungenErfassen() {
+        ProcessInstance instance = driver.startProcess();
+        assertThat(instance).task().hasDefinitionKey(Activities.task_leistungen_erfassen);
+    }
+
+    @Test
+    @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
+    public void leistungenErfassenToGebuehrenPruefen() {
+        ProcessInstance instance = driver.startProcess();
+        driver.leistungenErfassen();
+        assertThat(instance).task().hasDefinitionKey(Activities.task_gebuehren_pruefen);
+    }
+
+    @Test
+    @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
+    public void gebuehrenPruefenToErstattungBerechnen() throws Exception {
+        ProcessInstance instance = driver.inGebuehrenPruefen();
+        driver.gebuehrenPruefen();
+        assertThat(instance).task().hasDefinitionKey(Activities.task_erstattungsbetrag_berechnen);
+    }
+
+    @Test
+    @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
+    public void erstattungBerechnenToZahlungFreigeben() {
+        ProcessInstance instance = driver.inErstattungBerechnen();
+        driver.erstattungBerechnen();
+        assertThat(instance).task().hasDefinitionKey(Activities.task_zahlung_freigeben);
+    }
+
+    @Test
+    @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
+    public void zahlungFreigebenToEnd() {
+        ProcessInstance instance = driver.inZahlungFreigeben();
+        driver.zahlungFreigeben();
+        assertThat(instance).isEnded();
+    }
+
+    /**
+     * Glue between the test and the process.
+     */
+    class Driver {
+
+        private static final String L3 = "L3";
+        private static final String L2 = "L2";
+        private static final String L1 = "L1";
+        private static final double BETRAG = 12.45;
+
+        public ProcessInstance startProcess() {
+            Map<String, Object> variables = org.camunda.bpm.engine.variable.Variables.createVariables().putValue(
+                    Variables.VERSICHERUNGSNUMMER, "4711");
+            ProcessInstance instance = runtimeService.startProcessInstanceByKey(LeistungsabrechnungProcess.KEY, variables);
+            assertThat(instance).isNotNull();
+            return instance;
+        }
+
+        public void ermittleVersicherungsschutz() throws Exception {
+            JavaDelegate mock = DelegateExpressions.registerJavaDelegateMock(VersicherungschutzErmitteln.NAME).getMock();
+            Mockito.doAnswer(new JavaDelegateAnswer(mock) {
+
+                @Override
+                protected void answer(DelegateExecution execution) throws Exception {
+                    Leistungsabrechnung abrechnung = (Leistungsabrechnung) execution.getVariable(Variables.LEISTUNGSABRECHNUNG);
+                    for (final Leistung leistung : abrechnung.getLeistungen()) {
+                        if (leistung.isGebuehrenrechtlichOk()) {
+                            switch (leistung.getBezeichnung()) {
+                            case L1:
+                                leistung.setTarif(Tarif.T1);
+                                break;
+                            case L2:
+                                leistung.setTarif(Tarif.T2);
+                                break;
+                            case L3:
+                                leistung.setTarif(Tarif.T3);
+                                break;
+                            }
+                        }
+                    }
+                    execution.setVariable(Variables.LEISTUNGSABRECHNUNG, abrechnung);
+                }
+
+            }).when(mock).execute(Matchers.any(DelegateExecution.class));
+        }
+
+        public void erstattungBerechnen() {
+            final Leistungsabrechnung abrechnung = getLeistungsabrechnung();
+            for (final Leistung leistung : abrechnung.getLeistungen()) {
+                if (leistung.isGebuehrenrechtlichOk() && leistung.getTarif() != null) {
+                    leistung.setErstattungsbetrag(BigDecimal.valueOf(BETRAG));
+                }
             }
-          }
-          execution.setVariable(Variables.LEISTUNGEN, leistungen);
+            taskService().complete(task().getId(), withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung));
         }
 
-      }).when(mock).execute(Matchers.any(DelegateExecution.class));
-    }
-
-    public void erstattungBerechnen() {
-      final List<Leistung> leistungen = getLeistungen();
-      for (final Leistung leistung : leistungen) {
-        if (leistung.isGebuehrenrechtlichOk() && leistung.getTarif() != null) {
-          leistung.setErstattungsBetrag(BigDecimal.valueOf(BETRAG));
+        public void gebuehrenPruefen() {
+            final Leistungsabrechnung abrechnung = getLeistungsabrechnung();
+            for (final Leistung leistung : abrechnung.getLeistungen()) {
+                leistung.setGebuehrenrechtlichOk(!leistung.getBezeichnung().endsWith("2"));
+            }
+            taskService().complete(task().getId(), withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung));
         }
-      }
-      taskService().complete(task().getId(), withVariables(Variables.LEISTUNGEN, leistungen));
-    }
 
-    public void gebuehrenPruefen() {
-      final List<Leistung> leistungen = getLeistungen();
-      for (final Leistung leistung : leistungen) {
-        leistung.setGebuehrenrechtlichOk(!leistung.getBezeichnung().endsWith("2"));
-      }
-      taskService().complete(task().getId(), withVariables(Variables.LEISTUNGEN, leistungen));
-    }
+        public void zahlungFreigeben() {
+            final Leistungsabrechnung abrechnung = getLeistungsabrechnung();
+            abrechnung.setFreigegeben(true);
+            DelegateExpressions.registerJavaDelegateMock(AbrechnungVerschickt.NAME);
+            taskService().complete(task().getId(), withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung));
+        }
 
-    public void zahlungFreigeben() {
-      DelegateExpressions.registerJavaDelegateMock(AbrechnungVerschickt.NAME);
-      taskService().complete(task().getId(), withVariables(Variables.FREIGABE, true));
-    }
+        private Leistungsabrechnung getLeistungsabrechnung() {
+            Leistungsabrechnung abrechnung = (Leistungsabrechnung) runtimeService().getVariable(processInstance().getId(),
+                    Variables.LEISTUNGSABRECHNUNG);
+            return abrechnung;
+        }
 
-    private List<Leistung> getLeistungen() {
-      List<Leistung> leistungen = (List<Leistung>) runtimeService().getVariable(processInstance().getId(), Variables.LEISTUNGEN);
-      return leistungen;
-    }
+        private ProcessInstance processInstance() {
+            return ProcessEngineTests.processInstanceQuery().singleResult();
+        }
 
-    private ProcessInstance processInstance() {
-      return ProcessEngineTests.processInstanceQuery().singleResult();
-    }
+        public void leistungenErfassen() {
+            Leistungsabrechnung abrechnung = new Leistungsabrechnung();
+            abrechnung.setLeistungsbereich("Sehhilfe");
+            List<Leistung> leistungen = new ArrayList<Leistung>();
+            leistungen.add(new Leistung(L1));
+            leistungen.add(new Leistung(L2));
+            leistungen.add(new Leistung(L3));
+            abrechnung.setLeistungen(leistungen);
+            taskService().complete(
+                    task().getId(),
+                    withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung, Variables.PRODUKT, "Basis-Schutz", Variables.KUNDENSTATUS,
+                            "VIP"));
+        }
 
-    public void leistungenErfassen() {
-      List<Leistung> leistungen = new ArrayList<Leistung>();
-      leistungen.add(new Leistung(L1));
-      leistungen.add(new Leistung(L2));
-      leistungen.add(new Leistung(L3));
-      taskService().complete(task().getId(), withVariables(Variables.LEISTUNGEN, leistungen));
-    }
+        public ProcessInstance inGebuehrenPruefen() {
+            try {
+                ermittleVersicherungsschutz();
+            } catch (Exception e) {
+                Assert.fail(e.getMessage());
+            }
+            ProcessInstance instance = startProcess();
+            leistungenErfassen();
+            return instance;
+        }
 
-    public ProcessInstance inGebuehrenPruefen() {
-      try {
-        ermittleVersicherungsschutz();
-      } catch (Exception e) {
-        Assert.fail(e.getMessage());
-      }
-      ProcessInstance instance = startProcess();
-      leistungenErfassen();
-      return instance;
-    }
+        public ProcessInstance inErstattungBerechnen() {
+            ProcessInstance instance = inGebuehrenPruefen();
+            gebuehrenPruefen();
+            return instance;
+        }
 
-    public ProcessInstance inErstattungBerechnen() {
-      ProcessInstance instance = inGebuehrenPruefen();
-      gebuehrenPruefen();
-      return instance;
-    }
+        public ProcessInstance inZahlungFreigeben() {
+            ProcessInstance instance = inErstattungBerechnen();
+            erstattungBerechnen();
+            return instance;
+        }
 
-    public ProcessInstance inZahlungFreigeben() {
-      ProcessInstance instance = inErstattungBerechnen();
-      erstattungBerechnen();
-      return instance;
     }
-
-  }
 }
