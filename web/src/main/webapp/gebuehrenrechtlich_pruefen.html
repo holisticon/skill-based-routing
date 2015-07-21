@@ -1,0 +1,89 @@
+<form role="form" name="gebuehrenrechtlich_pruefen">
+ 	
+  <script cam-script type="text/form-script">
+
+
+    camForm.on('form-loaded', function() {
+
+      // fetch variables
+      camForm.variableManager.fetchVariable('vsnr');
+      camForm.variableManager.fetchVariable('rechnungsart');
+      camForm.variableManager.fetchVariable('erstattungswunsch');
+      camForm.variableManager.fetchVariable('produkt');
+      camForm.variableManager.fetchVariable('kundenstatus');
+      camForm.variableManager.fetchVariable('leistungsabrechnung');
+    });
+
+    camForm.on('variables-fetched', function() {
+
+      // after the variables are fetched, bind the values to a angular scope
+      $scope.versicherungsnummer = camForm.variableManager.variable('vsnr').value;
+      $scope.rechnungsart = camForm.variableManager.variable('rechnungsart').value;
+      $scope.erstattungswunsch = camForm.variableManager.variable('erstattungswunsch').value;
+      $scope.produkt = camForm.variableManager.variable('produkt').value;
+      $scope.kundenstatus = camForm.variableManager.variable('kundenstatus').value;
+      $scope.leistungsabrechnung = camForm.variableManager.variable('leistungsabrechnung').value;
+    });
+
+    camForm.on('submit', function() {
+      // remove '$$hashKey' properties from leistungen objects
+      angular.forEach($scope.leistungsabrechnung.leistungen, function(leistung) {
+        delete leistung.$$hashKey;
+      });
+    });
+
+  </script>
+  
+    <table width="100%">
+      <tr>
+        <td width="33%">
+          <div class="form-group">
+            <label>Versicherungsnummer</label> 
+            <div class="form-control">{{versicherungsnummer}}</div>
+          </div>
+        </td>
+        <td>&nbsp;</td>       
+        <td width="33%">
+         <div class="form-group">
+            <label>Produkt</label> 
+            <div class="form-control">{{produkt}}</div>
+          </div>
+        </td>
+        <td>&nbsp;</td>       
+        <td width="32%">
+         <div class="form-group">
+            <label>Kundenstatus</label> 
+            <div class="form-control">{{kundenstatus}}</div>
+          </div>
+        </td>
+      </tr>
+    </table>
+    
+    <div class="form-group">
+      <label>Erstattungswunsch</label> 
+      <div class="form-control" style="height: 100%">{{erstattungswunsch}}</div>
+	</div>
+
+    <div style="padding-bottom: 10px;">
+    
+      <label>Abzurechnende Leistungen</label>       
+         
+      <div ng-repeat="leistung in leistungsabrechnung.leistungen">  
+      <table width="100%">
+        <tr>
+          <td width="67%">
+              <div class="form-control" style="margin-bottom: -1px">{{leistung.bezeichnung}}</div>
+          </td>
+          <td width="20px">&nbsp;</td>
+          <td>
+            <div>
+              <input type="checkbox" ng-model="leistung.gebuehrenrechtlichOk" />&nbsp; geb&uuml;hrenrechtlich OK
+            </div>
+          </td>
+        </tr>
+      </table>
+      
+      </div>        
+    </div>
+
+</form>

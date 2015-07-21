@@ -19,7 +19,7 @@ public class LeistungsabrechnungProcess {
     ;
     public static final String service_versicherungsschutz_ermitteln = "service_versicherungsschutz_ermitteln";
     public static final String task_leistungen_erfassen = "task_leistungen_erfassen";
-    public static final String task_gebuehren_pruefen = "task_gebuehren_pruefen";
+    public static final String task_gebuehrenrechtlich_pruefen = "task_gebuehrenrechtlich_pruefen";
     public static final String task_erstattungsbetrag_berechnen = "task_erstattungsbetrag_berechnen";
     public static final String task_zahlung_freigeben = "task_zahlung_freigeben";
   }
@@ -28,6 +28,7 @@ public class LeistungsabrechnungProcess {
 
     ;
     public static final String VERSICHERUNGSNUMMER = "vsnr";
+    public static final String RECHNUNGSART = "rechnungsart";
     public static final String ERSTATTUNGSWUNSCH = "erstattungswunsch";
     public static final String PRODUKT = "produkt";
     public static final String KUNDENSTATUS = "kundenstatus";

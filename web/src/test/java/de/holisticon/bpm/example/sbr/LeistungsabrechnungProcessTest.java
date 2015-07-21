@@ -1,5 +1,12 @@
 package de.holisticon.bpm.example.sbr;
 
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.init;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.runtimeService;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.task;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.taskService;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.withVariables;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +39,6 @@ import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Versicherungschu
 import de.holisticon.bpm.example.sbr.adapter.SkillBasedRoutingGroupSelector;
 import de.holisticon.bpm.sbr.dmn.Leistung;
 import de.holisticon.bpm.sbr.dmn.Leistungsabrechnung;
-import de.holisticon.bpm.sbr.dmn.Tarif;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.init;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.runtimeService;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.task;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.taskService;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.withVariables;
 
 @SuppressWarnings("unchecked")
 public class LeistungsabrechnungProcessTest {
@@ -74,6 +74,7 @@ public class LeistungsabrechnungProcessTest {
     public void startToLeistungenErfassen() {
         ProcessInstance instance = driver.startProcess();
         assertThat(instance).task().hasDefinitionKey(Activities.task_leistungen_erfassen);
+        assertThat(instance).hasVariables(Variables.VERSICHERUNGSNUMMER, Variables.RECHNUNGSART);
     }
 
     @Test
@@ -81,7 +82,9 @@ public class LeistungsabrechnungProcessTest {
     public void leistungenErfassenToGebuehrenPruefen() {
         ProcessInstance instance = driver.startProcess();
         driver.leistungenErfassen();
-        assertThat(instance).task().hasDefinitionKey(Activities.task_gebuehren_pruefen);
+        assertThat(instance).task().hasDefinitionKey(Activities.task_gebuehrenrechtlich_pruefen);
+        assertThat(instance).hasVariables(Variables.PRODUKT, Variables.KUNDENSTATUS, Variables.LEISTUNGSABRECHNUNG);
+
     }
 
     @Test
@@ -119,8 +122,9 @@ public class LeistungsabrechnungProcessTest {
         private static final double BETRAG = 12.45;
 
         public ProcessInstance startProcess() {
-            Map<String, Object> variables = org.camunda.bpm.engine.variable.Variables.createVariables().putValue(
-                    Variables.VERSICHERUNGSNUMMER, "4711");
+            Map<String, Object> variables = org.camunda.bpm.engine.variable.Variables.createVariables();
+            variables.put(Variables.VERSICHERUNGSNUMMER, "4711");
+            variables.put(Variables.RECHNUNGSART, "Arzt");
             ProcessInstance instance = runtimeService.startProcessInstanceByKey(LeistungsabrechnungProcess.KEY, variables);
             assertThat(instance).isNotNull();
             return instance;
@@ -137,13 +141,13 @@ public class LeistungsabrechnungProcessTest {
                         if (leistung.isGebuehrenrechtlichOk()) {
                             switch (leistung.getBezeichnung()) {
                             case L1:
-                                leistung.setTarif(Tarif.T1);
+                                leistung.setTarif("T1");
                                 break;
                             case L2:
-                                leistung.setTarif(Tarif.T2);
+                                leistung.setTarif("T2");
                                 break;
                             case L3:
-                                leistung.setTarif(Tarif.T3);
+                                leistung.setTarif("T3");
                                 break;
                             }
                         }
@@ -180,8 +184,7 @@ public class LeistungsabrechnungProcessTest {
         }
 
         private Leistungsabrechnung getLeistungsabrechnung() {
-            Leistungsabrechnung abrechnung = (Leistungsabrechnung) runtimeService().getVariable(processInstance().getId(),
-                    Variables.LEISTUNGSABRECHNUNG);
+            Leistungsabrechnung abrechnung = (Leistungsabrechnung) runtimeService().getVariable(processInstance().getId(), Variables.LEISTUNGSABRECHNUNG);
             return abrechnung;
         }
 
@@ -191,16 +194,13 @@ public class LeistungsabrechnungProcessTest {
 
         public void leistungenErfassen() {
             Leistungsabrechnung abrechnung = new Leistungsabrechnung();
-            abrechnung.setLeistungsbereich("Sehhilfe");
             List<Leistung> leistungen = new ArrayList<Leistung>();
             leistungen.add(new Leistung(L1));
             leistungen.add(new Leistung(L2));
             leistungen.add(new Leistung(L3));
             abrechnung.setLeistungen(leistungen);
-            taskService().complete(
-                    task().getId(),
-                    withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung, Variables.PRODUKT, "Basis-Schutz", Variables.KUNDENSTATUS,
-                            "VIP"));
+            taskService().complete(task().getId(),
+                withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung, Variables.PRODUKT, "Premium", Variables.KUNDENSTATUS, "VIP"));
         }
 
         public ProcessInstance inGebuehrenPruefen() {

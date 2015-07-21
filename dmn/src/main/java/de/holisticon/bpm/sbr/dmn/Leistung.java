@@ -5,47 +5,50 @@ import java.math.BigDecimal;
 
 public class Leistung implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private String bezeichnung;
-  private boolean gebuehrenrechtlichOk;
-  private Tarif tarif;
-  private BigDecimal erstattungsbetrag;
+    private String bezeichnung;
+    private boolean gebuehrenrechtlichOk;
+    private String tarif;
+    private BigDecimal erstattungsbetrag;
 
-  public Leistung(String bezeichung) {
-    bezeichnung = bezeichung;
-  }
+    public Leistung() {
+    }
 
-  public String getBezeichnung() {
-    return bezeichnung;
-  }
+    public Leistung(String bezeichung) {
+        bezeichnung = bezeichung;
+    }
 
-  public void setBezeichnung(String bezeichnung) {
-    this.bezeichnung = bezeichnung;
-  }
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
 
-  public boolean isGebuehrenrechtlichOk() {
-    return gebuehrenrechtlichOk;
-  }
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
 
-  public void setGebuehrenrechtlichOk(boolean gebuehrenrechtlichOk) {
-    this.gebuehrenrechtlichOk = gebuehrenrechtlichOk;
-  }
+    public boolean isGebuehrenrechtlichOk() {
+        return gebuehrenrechtlichOk;
+    }
 
-  public Tarif getTarif() {
-    return tarif;
-  }
+    public void setGebuehrenrechtlichOk(boolean gebuehrenrechtlichOk) {
+        this.gebuehrenrechtlichOk = gebuehrenrechtlichOk;
+    }
 
-  public void setTarif(Tarif tarif) {
-    this.tarif = tarif;
-  }
+    public String getTarif() {
+        return tarif;
+    }
 
-  public BigDecimal getErstattungsbetrag() {
-    return erstattungsbetrag;
-  }
+    public void setTarif(String tarif) {
+        this.tarif = tarif;
+    }
 
-  public void setErstattungsbetrag(BigDecimal erstattungsBetrag) {
-    this.erstattungsbetrag = erstattungsBetrag;
-  }
+    public BigDecimal getErstattungsbetrag() {
+        return erstattungsbetrag;
+    }
+
+    public void setErstattungsbetrag(BigDecimal erstattungsBetrag) {
+        this.erstattungsbetrag = erstattungsBetrag;
+    }
 
 }

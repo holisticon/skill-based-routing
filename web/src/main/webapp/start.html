@@ -1,19 +1,48 @@
 <h3>Leistungsabrechnung</h3>
 <form role="form" name="start">
 
-    <!-- VSNR -->
-    <div class="form-group">
-      <label for="vsnr">Versicherungsnummer</label>
-      <div class="controls">
-        <input class="form-control"
-               required
-               type="text"
-               cam-variable-name="vsnr"
-               cam-variable-type="String"
-               ng-minlength="4"
-               ng-maxlength="9" />
-      </div>
-    </div>
+    <table width="100%">
+      <tr>
+        <td>
+          <!-- VSNR -->
+          <div class="form-group">
+            <label for="vsnr">Versicherungsnummer</label>
+            <div class="controls">
+              <input class="form-control" 
+                required 
+                type="text"
+                cam-variable-name="vsnr" 
+                cam-variable-type="String"
+                ng-minlength="4" 
+                ng-maxlength="15" />
+            </div>
+          </div>
+        </td>
+        <td>&nbsp;</td>       
+        <td>
+          <div class="form-group">
+            <label for="rechnungsart">Rechnungsart</label>
+            <div class="controls">
+            <select name="rechnungsart"
+                    class="form-control"
+                    required 
+                    cam-variable-name="rechnungsart"
+                    cam-variable-type="String">
+                    <option selected value=''></option>
+                    <option value="Arzt">Arzt</option>
+                    <option value="Zahnarzt">Zahnarzt</option>
+                    <option value="Augenarzt">Augenarzt</option>
+                    <option value="Optiker">Optiker</option>
+                    <option value="Arzneimittel">Arzneimittel</option>
+                    <option value="Physiotherapie">Physiotherapie</option>
+                    <option value="Ergotherapie">Ergotherapie</option>
+                    <option value="Sonstiges">Sonstiges</option>
+             </select>
+             </div>
+          </div>
+        </td>
+      </tr>
+    </table>
 
     <!-- Erstattungsantrag -->
     <div class="form-group">

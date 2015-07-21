@@ -7,7 +7,7 @@
       leistungen : []
     };
 
-    // scope function which adds a new address
+    // scope function which adds a new leistung
     $scope.leistungHinzufuegen = function() {
       leistungsabrechnung.leistungen.push({});
     };
@@ -20,6 +20,7 @@
 
       // fetch existing variables
       camForm.variableManager.fetchVariable('vsnr');
+      camForm.variableManager.fetchVariable('rechnungsart');
       camForm.variableManager.fetchVariable('erstattungswunsch');
 
       // declare variable 'leistungsabrechnung' incuding metadata for serialization
@@ -41,27 +42,32 @@
       // after the variables are fetched, bind the value of customerData to a angular
       // scope value such that the form can work on it
       $scope.versicherungsnummer = camForm.variableManager.variable('vsnr').value;
+      $scope.rechnungsart = camForm.variableManager.variable('rechnungsart').value;
       $scope.erstattungswunsch = camForm.variableManager.variable('erstattungswunsch').value;
+
+      // add at least one leistung
+      $scope.leistungHinzufuegen();
     });
 
     camForm.on('submit', function() {
       // remove '$$hashKey' properties from leistungen objects
-      angular.forEach(leistungsabrechnung.leistungen, function(leistung) {
+      angular.forEach($scope.leistungsabrechnung.leistungen, function(leistung) {
         delete leistung.$$hashKey;
       });
     });
 
   </script>
+  
     <table width="100%">
       <tr>
-        <td>
+        <td width="33%">
           <div class="form-group">
             <label>Versicherungsnummer</label> 
             <div class="form-control">{{versicherungsnummer}}</div>
           </div>
         </td>
         <td>&nbsp;</td>       
-        <td>
+        <td width="33%">
           <div class="form-group">
             <label for="produkt">Produkt</label>
             <div class="controls">
@@ -71,16 +77,17 @@
                     cam-variable-name="produkt"
                     cam-variable-type="String">
                     <option selected value=''></option>
-                    <option value="Arzt">Basis-Schutz</option>
-                    <option value=Zahn>Zahnzusatz</option>
-                    <option value="Sehhilfe">Brille 2000</option>
-                    <option value="Sonstiges">Sonstige</option>
+                    <option value="Basis-Schutz">Basis-Schutz</option>
+                    <option value="Premium Komplett">Premium Komplett</option>
+                    <option value=Zahnzusatz>Zahnzusatz</option>
+                    <option value="Brille 2000">Brille 2000</option>
+                    <option value="Sonstiges">Sonstiges</option>
              </select>
              </div>
           </div>
         </td>
         <td>&nbsp;</td>       
-        <td>
+        <td width="32%">
           <div class="form-group">
             <label for="kundenstatus">Kundenstatus</label>
             <div class="controls">
@@ -90,49 +97,84 @@
                     cam-variable-name="kundenstatus"
                     cam-variable-type="String">
                     <option selected value=''></option>
-                    <option value="Arzt">Standard</option>
-                    <option value=Zahn>VIP</option>
-                    <option value="Sehhilfe">Mitarbeiter</option>
+                    <option value="Standard">Standard</option>
+                    <option value="VIP">VIP</option>
+                    <option value="Mitarbeiter">Mitarbeiter</option>
              </select>
              </div>
           </div>
         </td>
       </tr>
     </table>
+    
     <div class="form-group">
       <label>Erstattungswunsch</label> 
       <div class="form-control" style="height: 100%">{{erstattungswunsch}}</div>
 	</div>
 
-  <!-- Leistungsbereich -->
-         <div class="form-group">
-          <label for="leistungsbereich">Leistungsbereich</label>
-          <div class="controls">
-            <select name="leistungsbereich" class="form-control"
-              required cam-variable-name="leistungsbereich"
-              cam-variable-type="String">
-              <option selected value=''></option>
-              <option value="Arzt">GOÄ</option>
-              <option value=Zahn>GOZ</option>
-              <option value="Sehhilfe">Sehhilfe</option>
-              <option value="Sonstiges">Sonstiges</option>
-            </select>
-          </div>
-        </div>
+    <!-- Leistungsbereich -->
+    <!-- 
+    <div class="form-group">
+      <label for="leistungsbereich">Leistungsbereich</label>
+      <div class="controls">
+        <select name="leistungsbereich" class="form-control"
+          required 
+          cam-variable-name="leistungsbereich"
+          cam-variable-type="String">
+          <option selected value=''></option>
+          <option value="Arzt">GOÄ</option>
+          <option value=Zahn>GOZ</option>
+          <option value="Sehhilfe">Sehhilfe</option>
+          <option value="Sonstiges">Sonstiges</option>
+        </select>
+      </div>
+    </div>
+    -->
 
 
-  <div style="padding-bottom: 10px;">
-      <strong>Abzurechnende Einzelleitungen</strong> 
+    <div style="padding-bottom: 10px;">
+      <strong>Abzurechnende Leistungen</strong> 
       <a href ng-click="leistungHinzufuegen()" class="btn">[+] Hinzuf&uuml;gen</a> 
       
-      <div ng-repeat="leistung in leistungsabrechnung.leistungen">
+      <div ng-repeat="leistung in leistungsabrechnung.leistungen">     
+        <!-- 
+        <table width="100%">
+          <tr>
+            <td width="195px">
+              <div class="controls">
+                <input class="form-control"
+                   style="margin-bottom: -1px"
+                   required
+                   type="text"
+                   ng-model="leistung.gebuehrenziffer" 
+                   placeholder="Ziffer/Schlüssel"
+                   ng-minlength="3" 
+                   ng-maxlength="8" />
+              </div>
+            </td>
+            <td>
+              <div class="controls">
+                <input class="form-control"
+                   style="margin-bottom: -1px; margin-left: -1px;"
+                   required
+                   type="text"
+                   ng-model="leistung.bezeichnung" 
+                   placeholder="Beschreibung" />
+              </div>
+            </td>
+          </tr>
+        </table>
+        -->
+        
         <div class="controls">
           <input class="form-control"
                  style="margin-bottom: -1px"
                  required
                  type="text"
-                 ng-model="leistung.bezeichnung" />
+                 ng-model="leistung.bezeichnung" 
+                 placeholder="Ziffer/Schlüssel (+ ggf. Beschreibung)" />
         </div>
+        
       </div>
     </div>
 

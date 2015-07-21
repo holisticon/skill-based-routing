@@ -7,17 +7,8 @@ public class Leistungsabrechnung implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String leistungsbereich;
     private List<Leistung> leistungen;
     private boolean freigegeben;
-
-    public String getLeistungsbereich() {
-        return leistungsbereich;
-    }
-
-    public void setLeistungsbereich(String leistungsbereich) {
-        this.leistungsbereich = leistungsbereich;
-    }
 
     public List<Leistung> getLeistungen() {
         return leistungen;

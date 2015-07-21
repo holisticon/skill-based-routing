@@ -10,7 +10,7 @@
         <bpmn2:flowNodeRef>task_leistungen_erfassen</bpmn2:flowNodeRef>
       </bpmn2:lane>
       <bpmn2:lane id="Lane_2" name="Fachabteiltung">
-        <bpmn2:flowNodeRef>task_gebuehren_pruefen</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>task_gebuehrenrechtlich_pruefen</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>service_versicherungsschutz_ermitteln</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>task_erstattungsbetrag_berechnen</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>task_zahlung_freigeben</bpmn2:flowNodeRef>
@@ -22,11 +22,13 @@
     </bpmn2:startEvent>
     <bpmn2:sequenceFlow id="seq_1" name="" sourceRef="start" targetRef="task_leistungen_erfassen"/>
     <bpmn2:userTask id="task_leistungen_erfassen" camunda:formKey="embedded:app:leistungen_erfassen.html" name="Leistungen&#xD;&#xA;erfassen">
+      <bpmn2:documentation>Erfassung der abzurechnenden Einzelleitungen gem. der jeweiligen Gebührenordnung</bpmn2:documentation>
       <bpmn2:incoming>seq_1</bpmn2:incoming>
       <bpmn2:outgoing>seq_2</bpmn2:outgoing>
     </bpmn2:userTask>
-    <bpmn2:sequenceFlow id="seq_2" name="" sourceRef="task_leistungen_erfassen" targetRef="task_gebuehren_pruefen"/>
-    <bpmn2:userTask id="task_gebuehren_pruefen" name="Gebührenrechtliche&#xD;&#xA;Prüfung&#xD;&#xA;durchführen">
+    <bpmn2:sequenceFlow id="seq_2" name="" sourceRef="task_leistungen_erfassen" targetRef="task_gebuehrenrechtlich_pruefen"/>
+    <bpmn2:userTask id="task_gebuehrenrechtlich_pruefen" camunda:formKey="embedded:app:gebuehrenrechtlich_pruefen.html" name="Gebührenrechtliche&#xD;&#xA;Prüfung&#xD;&#xA;durchführen">
+      <bpmn2:documentation>Prüfung der erfassten Leistungen auf ihre gebührenrechtliche Korrektheit</bpmn2:documentation>
       <bpmn2:incoming>seq_2</bpmn2:incoming>
       <bpmn2:outgoing>seq_3</bpmn2:outgoing>
     </bpmn2:userTask>
@@ -34,7 +36,7 @@
       <bpmn2:incoming>seq_3</bpmn2:incoming>
       <bpmn2:outgoing>seq_4</bpmn2:outgoing>
     </bpmn2:serviceTask>
-    <bpmn2:sequenceFlow id="seq_3" sourceRef="task_gebuehren_pruefen" targetRef="service_versicherungsschutz_ermitteln"/>
+    <bpmn2:sequenceFlow id="seq_3" sourceRef="task_gebuehrenrechtlich_pruefen" targetRef="service_versicherungsschutz_ermitteln"/>
     <bpmn2:userTask id="task_erstattungsbetrag_berechnen" name="Erstattungsbetrag berechnen">
       <bpmn2:incoming>seq_4</bpmn2:incoming>
       <bpmn2:outgoing>seq_5</bpmn2:outgoing>
@@ -78,7 +80,7 @@
           <dc:Bounds height="6.0" width="6.0" x="265.0" y="300.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_UserTask_25" bpmnElement="task_gebuehren_pruefen">
+      <bpmndi:BPMNShape id="_BPMNShape_UserTask_25" bpmnElement="task_gebuehrenrechtlich_pruefen">
         <dc:Bounds height="80.0" width="100.0" x="516.0" y="336.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="seq_2" sourceElement="_BPMNShape_Task_2" targetElement="_BPMNShape_UserTask_25">
