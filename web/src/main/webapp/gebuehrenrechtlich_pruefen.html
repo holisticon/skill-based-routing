@@ -11,7 +11,7 @@
       camForm.variableManager.fetchVariable('erstattungswunsch');
       camForm.variableManager.fetchVariable('produkt');
       camForm.variableManager.fetchVariable('kundenstatus');
-      camForm.variableManager.fetchVariable('leistungsabrechnung');
+      camForm.variableManager.fetchVariable('leistungen');
     });
 
     camForm.on('variables-fetched', function() {
@@ -22,12 +22,12 @@
       $scope.erstattungswunsch = camForm.variableManager.variable('erstattungswunsch').value;
       $scope.produkt = camForm.variableManager.variable('produkt').value;
       $scope.kundenstatus = camForm.variableManager.variable('kundenstatus').value;
-      $scope.leistungsabrechnung = camForm.variableManager.variable('leistungsabrechnung').value;
+      $scope.leistungen = camForm.variableManager.variable('leistungen').value;
     });
 
     camForm.on('submit', function() {
       // remove '$$hashKey' properties from leistungen objects
-      angular.forEach($scope.leistungsabrechnung.leistungen, function(leistung) {
+      angular.forEach($scope.leistungen, function(leistung) {
         delete leistung.$$hashKey;
       });
     });
@@ -68,7 +68,7 @@
     
       <label>Abzurechnende Leistungen</label>       
          
-      <div ng-repeat="leistung in leistungsabrechnung.leistungen">  
+      <div ng-repeat="leistung in leistungen">  
       <table width="100%">
         <tr>
           <td width="67%">

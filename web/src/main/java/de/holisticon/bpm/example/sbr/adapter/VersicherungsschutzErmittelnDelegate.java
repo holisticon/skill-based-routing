@@ -1,25 +1,24 @@
 package de.holisticon.bpm.example.sbr.adapter;
 
+import static org.apache.commons.lang3.StringUtils.split;
+import static org.apache.commons.lang3.StringUtils.upperCase;
+
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Named;
 
 import org.apache.commons.lang3.ArrayUtils;
-
-import static org.apache.commons.lang3.StringUtils.*;
-
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.variable.value.ObjectValue;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableMap;
 
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
 import de.holisticon.bpm.sbr.dmn.Leistung;
-import de.holisticon.bpm.sbr.dmn.Leistungsabrechnung;
 
 /**
  * Ermittelt die versicherten Tarife für die abzurechnenden Leistungen.
@@ -40,37 +39,47 @@ public class VersicherungsschutzErmittelnDelegate implements JavaDelegate {
     protected static final String PRODUKT_ZAHNZUSATZ = "Zahnzusatz";
     protected static final String PRODUKT_BRILLE_2000 = "Brille 2000";
 
+    @SuppressWarnings("unchecked")
     @Override
     public void execute(final DelegateExecution execution) throws Exception {
 
         String produkt = (String) execution.getVariable(Variables.PRODUKT);
-        Leistungsabrechnung abrechnung = (Leistungsabrechnung) execution.getVariable(Variables.LEISTUNGSABRECHNUNG);
-        for (final Leistung leistung : abrechnung.getLeistungen()) {
-            if (leistung.isGebuehrenrechtlichOk()) {
-                switch (produkt) {
-                case PRODUKT_BASIS_SCHUTZ:
-                    leistung.setTarif(basisTarife.get(getKey(leistung)));
-                    break;
-                case PRODUKT_PREMIUM_KOMPLETT:
-                    leistung.setTarif(premiumTarife.get(getKey(leistung)));
-                    break;
-                case PRODUKT_ZAHNZUSATZ:
-                    leistung.setTarif(zahnzusatzTarife.get(getKey(leistung)));
-                    break;
-                case PRODUKT_BRILLE_2000:
-                    leistung.setTarif(sehhilfeTarife.get(getKey(leistung)));
-                    break;
-                default:
-                    break;
-                }
+        List<Leistung> leistungen = (List<Leistung>) execution.getVariable(Variables.LEISTUNGEN);
+        for (final Leistung leistung : leistungen) {
+            switch (produkt) {
+            case PRODUKT_BASIS_SCHUTZ:
+                ermittleVersicherungsschutz(leistung, basisTarife);
+                break;
+            case PRODUKT_PREMIUM_KOMPLETT:
+                ermittleVersicherungsschutz(leistung, premiumTarife);
+                break;
+            case PRODUKT_ZAHNZUSATZ:
+                ermittleVersicherungsschutz(leistung, zahnzusatzTarife);
+                break;
+            case PRODUKT_BRILLE_2000:
+                ermittleVersicherungsschutz(leistung, sehhilfeTarife);
+                break;
+            default:
+                break;
             }
         }
         
-        ObjectValue jsonValue = org.camunda.bpm.engine.variable.Variables.objectValue(abrechnung).serializationDataFormat("application/json").create();
-        execution.setVariable(Variables.LEISTUNGSABRECHNUNG, jsonValue);
+        ObjectValue jsonValue = org.camunda.bpm.engine.variable.Variables.objectValue(leistungen).serializationDataFormat("application/json").create();
+        execution.setVariable(Variables.LEISTUNGEN, jsonValue);
         
-        //execution.setVariable(Variables.LEISTUNGSABRECHNUNG, abrechnung);
+        // if <property name="defaultSerializationFormat">application/json</property> is set in engine configuration (standalone.xml)
+        // we could use the usual way to set this process variable:
+        // execution.setVariable(Variables.LEISTUNGEN, leistungen);
 
+    }
+    
+    private void ermittleVersicherungsschutz(Leistung leistung, Map<String,String> tariftabelle) {
+        if (leistung.isGebuehrenrechtlichOk()) {
+            leistung.setTarif(tariftabelle.get(getKey(leistung)));
+        }
+        if (leistung.getTarif() == null) {
+            leistung.setErstattungsbetrag(0d);
+        }
     }
 
     @VisibleForTesting

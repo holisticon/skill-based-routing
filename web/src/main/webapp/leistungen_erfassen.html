@@ -3,13 +3,11 @@
   <script cam-script type="text/form-script">
 
     // angular form works on scope object
-    var leistungsabrechnung = $scope.leistungsabrechnung = {
-      leistungen : []
-    };
+    var leistungen = $scope.leistungen = [];
 
     // scope function which adds a new leistung
     $scope.leistungHinzufuegen = function() {
-      leistungsabrechnung.leistungen.push({});
+      leistungen.push({});
     };
 
     /**
@@ -23,16 +21,16 @@
       camForm.variableManager.fetchVariable('rechnungsart');
       camForm.variableManager.fetchVariable('erstattungswunsch');
 
-      // declare variable 'leistungsabrechnung' incuding metadata for serialization
+      // declare variable 'leistungen' incuding metadata for serialization
       camForm.variableManager.createVariable({
-        name: 'leistungsabrechnung',
+        name: 'leistungen',
         type: 'Object',
-        value: leistungsabrechnung,
+        value: leistungen,
         valueInfo: {
           // indicate that object is serialized as json
           serializationDataFormat: 'application/json',
           // provide classname of java object
-          objectTypeName: 'de.holisticon.bpm.sbr.dmn.Leistungsabrechnung'
+          objectTypeName: 'java.util.ArrayList<de.holisticon.bpm.sbr.dmn.Leistung>'
         }
       });
 
@@ -51,7 +49,7 @@
 
     camForm.on('submit', function() {
       // remove '$$hashKey' properties from leistungen objects
-      angular.forEach($scope.leistungsabrechnung.leistungen, function(leistung) {
+      angular.forEach($scope.leistungen, function(leistung) {
         delete leistung.$$hashKey;
       });
     });
@@ -112,31 +110,11 @@
       <div class="form-control" style="height: 100%">{{erstattungswunsch}}</div>
 	</div>
 
-    <!-- Leistungsbereich -->
-    <!-- 
-    <div class="form-group">
-      <label for="leistungsbereich">Leistungsbereich</label>
-      <div class="controls">
-        <select name="leistungsbereich" class="form-control"
-          required 
-          cam-variable-name="leistungsbereich"
-          cam-variable-type="String">
-          <option selected value=''></option>
-          <option value="Arzt">GOÄ</option>
-          <option value=Zahn>GOZ</option>
-          <option value="Sehhilfe">Sehhilfe</option>
-          <option value="Sonstiges">Sonstiges</option>
-        </select>
-      </div>
-    </div>
-    -->
-
-
     <div style="padding-bottom: 10px;">
       <strong>Abzurechnende Leistungen</strong> 
       <a href ng-click="leistungHinzufuegen()" class="btn">[+] Hinzuf&uuml;gen</a> 
       
-      <div ng-repeat="leistung in leistungsabrechnung.leistungen">     
+      <div ng-repeat="leistung in leistungen">     
         <!-- 
         <table width="100%">
           <tr>

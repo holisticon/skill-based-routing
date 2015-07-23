@@ -67,7 +67,7 @@
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_18" bpmnElement="start">
         <dc:Bounds height="36.0" width="36.0" x="175.0" y="82.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="38.0" width="93.0" x="147.0" y="144.0"/>
+          <dc:Bounds height="28.0" width="68.0" x="159.0" y="126.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_Task_2" bpmnElement="task_leistungen_erfassen">

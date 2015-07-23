@@ -10,7 +10,7 @@ public class Leistung implements Serializable {
     private String bezeichnung;
     private boolean gebuehrenrechtlichOk;
     private String tarif;
-    private BigDecimal erstattungsbetrag;
+    private Double erstattungsbetrag;
 
     public Leistung() {
     }
@@ -43,11 +43,11 @@ public class Leistung implements Serializable {
         this.tarif = tarif;
     }
 
-    public BigDecimal getErstattungsbetrag() {
+    public Double getErstattungsbetrag() {
         return erstattungsbetrag;
     }
 
-    public void setErstattungsbetrag(BigDecimal erstattungsBetrag) {
+    public void setErstattungsbetrag(Double erstattungsBetrag) {
         this.erstattungsbetrag = erstattungsBetrag;
     }
 

@@ -1,16 +1,15 @@
 package de.holisticon.bpm.example.sbr.adapter;
 
-import static org.hamcrest.core.Is.*;
-import static org.hamcrest.core.IsNull.*;
+import static de.holisticon.bpm.example.sbr.adapter.VersicherungsschutzErmittelnDelegate.PRODUKT_PREMIUM_KOMPLETT;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
-import static de.holisticon.bpm.example.sbr.adapter.VersicherungsschutzErmittelnDelegate.*;
 
 import java.util.List;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,7 +21,6 @@ import com.google.common.collect.Lists;
 
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
 import de.holisticon.bpm.sbr.dmn.Leistung;
-import de.holisticon.bpm.sbr.dmn.Leistungsabrechnung;
 
 public class VersicherungsschutzErmittelnTest {
 
@@ -35,7 +33,6 @@ public class VersicherungsschutzErmittelnTest {
     @Mock
     private DelegateExecution execution;
 
-    private Leistungsabrechnung abrechnung;
     private List<Leistung> leistungen;
     
 
@@ -51,16 +48,14 @@ public class VersicherungsschutzErmittelnTest {
         leistung3.setGebuehrenrechtlichOk(true);
         leistung4.setGebuehrenrechtlichOk(true);
         
-        abrechnung = new Leistungsabrechnung();
         leistungen = Lists.newArrayList(leistung1, leistung2, leistung3, leistung4);
-        abrechnung.setLeistungen(leistungen);
     }
 
     
     @Test
     public void shouldMapLeistungenToTarife() throws Exception {
         given(execution.getVariable(Variables.PRODUKT)).willReturn(PRODUKT_PREMIUM_KOMPLETT);
-        given(execution.getVariable(Variables.LEISTUNGSABRECHNUNG)).willReturn(abrechnung);
+        given(execution.getVariable(Variables.LEISTUNGEN)).willReturn(leistungen);
         
         delegate.execute(execution);
         

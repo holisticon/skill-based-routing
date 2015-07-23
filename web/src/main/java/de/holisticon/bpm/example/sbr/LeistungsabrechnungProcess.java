@@ -1,14 +1,9 @@
 package de.holisticon.bpm.example.sbr;
 
-import java.util.List;
-
 import javax.inject.Named;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-
-import de.holisticon.bpm.sbr.dmn.Leistung;
-import de.holisticon.bpm.sbr.dmn.Leistungsabrechnung;
 
 public class LeistungsabrechnungProcess {
 
@@ -25,26 +20,17 @@ public class LeistungsabrechnungProcess {
   }
 
   public static enum Variables {
-
     ;
     public static final String VERSICHERUNGSNUMMER = "vsnr";
     public static final String RECHNUNGSART = "rechnungsart";
     public static final String ERSTATTUNGSWUNSCH = "erstattungswunsch";
     public static final String PRODUKT = "produkt";
     public static final String KUNDENSTATUS = "kundenstatus";
-    public static final String LEISTUNGSABRECHNUNG = "leistungsabrechnung";
+    public static final String LEISTUNGEN = "leistungen";
+    public static final String ERSTATTUNG_GESAMT = "erstattungGesamt";
+    public static final String FREIGEGEBEN = "freigegeben";
   }
 
-  @Named(VersicherungschutzErmitteln.NAME)
-  public class VersicherungschutzErmitteln implements JavaDelegate {
-
-    public static final String NAME = "versicherungsschutzErmitteln";
-
-    @Override
-    public void execute(DelegateExecution execution) throws Exception {
-      Leistungsabrechnung abrechnung = (Leistungsabrechnung) execution.getVariable(Variables.LEISTUNGSABRECHNUNG);
-    }
-  }
 
   @Named(AbrechnungVerschickt.NAME)
   public class AbrechnungVerschickt implements JavaDelegate {

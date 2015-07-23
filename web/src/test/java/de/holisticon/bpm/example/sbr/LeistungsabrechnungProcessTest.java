@@ -35,10 +35,9 @@ import org.mockito.Mockito;
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.AbrechnungVerschickt;
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Activities;
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
-import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.VersicherungschutzErmitteln;
 import de.holisticon.bpm.example.sbr.adapter.SkillBasedRoutingGroupSelector;
+import de.holisticon.bpm.example.sbr.adapter.VersicherungsschutzErmittelnDelegate;
 import de.holisticon.bpm.sbr.dmn.Leistung;
-import de.holisticon.bpm.sbr.dmn.Leistungsabrechnung;
 
 @SuppressWarnings("unchecked")
 public class LeistungsabrechnungProcessTest {
@@ -83,7 +82,7 @@ public class LeistungsabrechnungProcessTest {
         ProcessInstance instance = driver.startProcess();
         driver.leistungenErfassen();
         assertThat(instance).task().hasDefinitionKey(Activities.task_gebuehrenrechtlich_pruefen);
-        assertThat(instance).hasVariables(Variables.PRODUKT, Variables.KUNDENSTATUS, Variables.LEISTUNGSABRECHNUNG);
+        assertThat(instance).hasVariables(Variables.PRODUKT, Variables.KUNDENSTATUS, Variables.LEISTUNGEN);
 
     }
 
@@ -131,13 +130,13 @@ public class LeistungsabrechnungProcessTest {
         }
 
         public void ermittleVersicherungsschutz() throws Exception {
-            JavaDelegate mock = DelegateExpressions.registerJavaDelegateMock(VersicherungschutzErmitteln.NAME).getMock();
+            JavaDelegate mock = DelegateExpressions.registerJavaDelegateMock(VersicherungsschutzErmittelnDelegate.NAME).getMock();
             Mockito.doAnswer(new JavaDelegateAnswer(mock) {
 
                 @Override
                 protected void answer(DelegateExecution execution) throws Exception {
-                    Leistungsabrechnung abrechnung = (Leistungsabrechnung) execution.getVariable(Variables.LEISTUNGSABRECHNUNG);
-                    for (final Leistung leistung : abrechnung.getLeistungen()) {
+                    List<Leistung> leistungen = (List<Leistung>) execution.getVariable(Variables.LEISTUNGEN);
+                    for (final Leistung leistung : leistungen) {
                         if (leistung.isGebuehrenrechtlichOk()) {
                             switch (leistung.getBezeichnung()) {
                             case L1:
@@ -152,40 +151,37 @@ public class LeistungsabrechnungProcessTest {
                             }
                         }
                     }
-                    execution.setVariable(Variables.LEISTUNGSABRECHNUNG, abrechnung);
+                    execution.setVariable(Variables.LEISTUNGEN, leistungen);
                 }
 
             }).when(mock).execute(Matchers.any(DelegateExecution.class));
         }
 
         public void erstattungBerechnen() {
-            final Leistungsabrechnung abrechnung = getLeistungsabrechnung();
-            for (final Leistung leistung : abrechnung.getLeistungen()) {
+            final List<Leistung> leistungen = getLeistungen();
+            for (final Leistung leistung : leistungen) {
                 if (leistung.isGebuehrenrechtlichOk() && leistung.getTarif() != null) {
-                    leistung.setErstattungsbetrag(BigDecimal.valueOf(BETRAG));
+                    leistung.setErstattungsbetrag(BETRAG);
                 }
             }
-            taskService().complete(task().getId(), withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung));
+            taskService().complete(task().getId(), withVariables(Variables.LEISTUNGEN, leistungen));
         }
 
         public void gebuehrenPruefen() {
-            final Leistungsabrechnung abrechnung = getLeistungsabrechnung();
-            for (final Leistung leistung : abrechnung.getLeistungen()) {
+            final List<Leistung> leistungen = getLeistungen();
+            for (final Leistung leistung : leistungen) {
                 leistung.setGebuehrenrechtlichOk(!leistung.getBezeichnung().endsWith("2"));
             }
-            taskService().complete(task().getId(), withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung));
+            taskService().complete(task().getId(), withVariables(Variables.LEISTUNGEN, leistungen));
         }
 
         public void zahlungFreigeben() {
-            final Leistungsabrechnung abrechnung = getLeistungsabrechnung();
-            abrechnung.setFreigegeben(true);
             DelegateExpressions.registerJavaDelegateMock(AbrechnungVerschickt.NAME);
-            taskService().complete(task().getId(), withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung));
+            taskService().complete(task().getId(), withVariables(Variables.FREIGEGEBEN, true));
         }
 
-        private Leistungsabrechnung getLeistungsabrechnung() {
-            Leistungsabrechnung abrechnung = (Leistungsabrechnung) runtimeService().getVariable(processInstance().getId(), Variables.LEISTUNGSABRECHNUNG);
-            return abrechnung;
+        private List<Leistung> getLeistungen() {
+            return (List<Leistung>) runtimeService().getVariable(processInstance().getId(), Variables.LEISTUNGEN);
         }
 
         private ProcessInstance processInstance() {
@@ -193,14 +189,12 @@ public class LeistungsabrechnungProcessTest {
         }
 
         public void leistungenErfassen() {
-            Leistungsabrechnung abrechnung = new Leistungsabrechnung();
             List<Leistung> leistungen = new ArrayList<Leistung>();
             leistungen.add(new Leistung(L1));
             leistungen.add(new Leistung(L2));
             leistungen.add(new Leistung(L3));
-            abrechnung.setLeistungen(leistungen);
             taskService().complete(task().getId(),
-                withVariables(Variables.LEISTUNGSABRECHNUNG, abrechnung, Variables.PRODUKT, "Premium", Variables.KUNDENSTATUS, "VIP"));
+                withVariables(Variables.LEISTUNGEN, leistungen, Variables.PRODUKT, "Premium", Variables.KUNDENSTATUS, "VIP"));
         }
 
         public ProcessInstance inGebuehrenPruefen() {
