@@ -1,9 +1,5 @@
 package de.holisticon.bpm.example.sbr;
 
-import javax.inject.Named;
-
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 public class LeistungsabrechnungProcess {
 
@@ -31,15 +27,4 @@ public class LeistungsabrechnungProcess {
     public static final String FREIGEGEBEN = "freigegeben";
   }
 
-
-  @Named(AbrechnungVerschickt.NAME)
-  public class AbrechnungVerschickt implements JavaDelegate {
-
-    public static final String NAME = "abrechnungVerschickt";
-
-    @Override
-    public void execute(DelegateExecution execution) throws Exception {
-
-    }
-  }
 }

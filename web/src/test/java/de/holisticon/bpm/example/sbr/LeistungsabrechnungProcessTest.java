@@ -32,7 +32,6 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
-import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.AbrechnungVerschickt;
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Activities;
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
 import de.holisticon.bpm.example.sbr.adapter.SkillBasedRoutingGroupSelector;
@@ -176,7 +175,6 @@ public class LeistungsabrechnungProcessTest {
         }
 
         public void zahlungFreigeben() {
-            DelegateExpressions.registerJavaDelegateMock(AbrechnungVerschickt.NAME);
             taskService().complete(task().getId(), withVariables(Variables.FREIGEGEBEN, true));
         }
 
