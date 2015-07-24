@@ -30,6 +30,12 @@
       $scope.erstattungGesamt = camForm.variableManager.variable('erstattungGesamt').value;
     });
 
+    camForm.on('submit', function() {
+      // remove '$$hashKey' properties from leistungen objects
+      angular.forEach($scope.leistungen, function(leistung) {
+        delete leistung.$$hashKey;
+      });
+    });
 
   </script>
   
