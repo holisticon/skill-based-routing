@@ -2,6 +2,10 @@
  	
   <script cam-script type="text/form-script">
 
+    var scriptTag = document.createElement('script');
+    scriptTag.setAttribute('src', 'http://code.angularjs.org/1.4.3/i18n/angular-locale_de-de.js');
+    document.head.appendChild(scriptTag);
+
     camForm.on('form-loaded', function() {
 
       // fetch variables
@@ -92,7 +96,7 @@
             </div>
           </td>
           <td width="32%">
-            <div class="form-control" style="margin-bottom: -1px; margin-left: -2px; font-weight: bold;">{{leistung.erstattungsbetrag}}</div>
+            <div class="form-control" style="margin-bottom: -1px; margin-left: -2px;">{{leistung.erstattungsbetrag | number:2 }}</div>
           </td>
         </tr>
         <tr height="15px"></tr>
@@ -106,11 +110,19 @@
             <span class="pull-right" style="margin-right: 15px;">Gesamt:</span>
           </td>
           <td>
-            <div class="form-control" style="margin-bottom: -1px; margin-left: -2px;"font-weight: bold; background-color: #FFF;> {{erstattungGesamt}} </div>
+            <div class="form-control" 
+                 style="margin-bottom: -1px; margin-left: -2px; font-weight: bold"
+                 ng-style="freigegeben && {'background-color': '#E1FDE1'} || !freigegeben && {'background-color': '#F5E5E5'}">
+                 {{erstattungGesamt | number:2 }} 
+                 <span class="pull-right">
+                   <span ng-if="freigegeben"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                   <span ng-if="!freigegeben"><span class="glyphicon glyphicon-ban-circle text-danger"></span></span>
+                 </span>
+            </div>
           </td>
         </tr>
       </table>
-  
+      
      </div>
 
 </form>
