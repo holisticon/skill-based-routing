@@ -1,6 +1,26 @@
 <h3>Leistungsabrechnung</h3>
 <form role="form" name="start">
 
+  <script cam-script type="text/form-script">
+
+   //var kundenstatus = $scope.kundenstatus = null;
+
+   $scope.checkboxValue = function() {
+      if ($scope.checkboxChecked()) {
+        $scope.kundenstatus = "Mitarbeiter";
+      } else {
+        $scope.kundenstatus = null;
+      }
+    };
+
+    $scope.checkboxChecked = function() {
+       return (document.getElementById('mitarbeiterCheckbox').checked);
+    };
+
+
+
+  </script>
+
     <table width="100%">
       <tr>
         <td>
@@ -55,4 +75,13 @@
                   rows="4"></textarea>
       </div>
     </div>
-</form>
+    
+    <div class="form-group">
+      <input type="checkbox" id="mitarbeiterCheckbox" ng-click="checkboxValue()"/>&nbsp; Leistungsempfänger ist Mitarbeiter des Unternehmens
+      <input type="hidden"
+             ng-value="kundenstatus" 
+             cam-variable-name="kundenstatus"
+             cam-variable-type="String" /> 
+     </div>
+    
+ </form>
