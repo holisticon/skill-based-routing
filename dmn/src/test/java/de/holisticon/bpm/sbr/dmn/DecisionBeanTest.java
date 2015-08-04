@@ -2,6 +2,7 @@ package de.holisticon.bpm.sbr.dmn;
 
 
 import org.assertj.core.api.Assertions;
+import org.camunda.dmn.engine.DmnDecisionOutput;
 import org.camunda.dmn.engine.DmnDecisionResult;
 import org.junit.Test;
 
@@ -23,6 +24,7 @@ public class DecisionBeanTest {
 
     Assertions.assertThat(result.getOutputs()).hasSize(1);
 
-    Assertions.assertThat(result.getOutputs().iterator().next()).isEqualTo("customerService");
+    DmnDecisionOutput output = result.getOutputs().iterator().next();
+    Assertions.assertThat(output.getValue()).isEqualTo("customerService");
   }
 }

@@ -27,7 +27,7 @@ public class DecisionBean {
   public void loadDecision() {
 
     DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-    decision = dmnEngine.parseDecision(getClass().getClassLoader().getResourceAsStream("/findApprover.dmn"));
+    decision = dmnEngine.parseDecision(getClass().getClassLoader().getResourceAsStream("findApprover.dmn"));
 
     logger.info("create decision for findApprover.dmn");
   }
