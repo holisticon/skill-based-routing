@@ -3,7 +3,7 @@
   <bpmn2:collaboration id="_Collaboration_5">
     <bpmn2:participant id="approval_pool" name="Approval" processRef="approval"/>
   </bpmn2:collaboration>
-  <bpmn2:process id="approval" name="Approval" isExecutable="true">
+  <bpmn2:process id="approval" name="Approval" isExecutable="false">
     <bpmn2:startEvent id="start_approval_sheet" name="Approval sheet&#xD;&#xA;received">
       <bpmn2:outgoing>seq_1</bpmn2:outgoing>
     </bpmn2:startEvent>

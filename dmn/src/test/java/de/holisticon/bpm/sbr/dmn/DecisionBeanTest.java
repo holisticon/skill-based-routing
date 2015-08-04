@@ -2,7 +2,6 @@ package de.holisticon.bpm.sbr.dmn;
 
 
 import org.assertj.core.api.Assertions;
-import org.camunda.bpm.dmn.engine.DmnDecisionResult;
 import org.junit.Test;
 
 public class DecisionBeanTest {
@@ -24,5 +23,6 @@ public class DecisionBeanTest {
     Assertions.assertThat(result.getCandidateGroups()).hasSize(1);
 
     Assertions.assertThat(result.getCandidateGroups().get(0)).isEqualTo("customerService");
+
   }
 }

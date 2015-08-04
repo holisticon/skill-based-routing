@@ -6,7 +6,6 @@ import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.context.DmnDecisionContext;
 import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
 import org.camunda.bpm.dmn.engine.impl.context.DmnContextFactoryImpl;
-import org.camunda.bpm.model.dmn.impl.DmnElementImpl;
 import org.slf4j.Logger;
 
 import javax.annotation.PostConstruct;
