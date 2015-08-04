@@ -1,9 +1,9 @@
 package de.holisticon.bpm.sbr.dmn.test.assertions;
 
 import org.assertj.core.api.Assertions;
-import org.camunda.dmn.engine.DmnDecision;
-import org.camunda.dmn.engine.DmnEngine;
-import org.camunda.dmn.engine.impl.context.DmnContextFactoryImpl;
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnEngine;
+import org.camunda.bpm.dmn.engine.impl.context.DmnContextFactoryImpl;
 
 public class DmnEngineAssertions extends Assertions {
 

@@ -1,11 +1,12 @@
 package de.holisticon.bpm.example.sbr.listener;
 
+import com.google.common.base.Joiner;
 import de.holisticon.bpm.sbr.dmn.ApprovalSheet;
+import de.holisticon.bpm.sbr.dmn.CandidateResult;
 import de.holisticon.bpm.sbr.dmn.CustomerStatus;
 import de.holisticon.bpm.sbr.dmn.DecisionBean;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.TaskListener;
-import org.camunda.dmn.engine.DmnDecisionResult;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -18,15 +19,15 @@ public class SkillBasedRoutingListener implements TaskListener{
 
   private final Logger logger = getLogger(this.getClass());
 
-  //@Inject
+  @Inject
   private DecisionBean decisionBean;
 
   @Override
   public void notify(DelegateTask delegateTask) {
     logger.info(delegateTask.getTaskDefinitionKey());
 
-    //final DmnDecisionResult result = decisionBean.evaluate(new ApprovalSheet("foo", 1.0, CustomerStatus.BRONZE));
+    final CandidateResult result = decisionBean.evaluate(new ApprovalSheet("foo", 1.0, CustomerStatus.BRONZE));
 
-    //delegateTask.addCandidateGroup((String) result.getOutputs().iterator().next().getValue());
+    delegateTask.addCandidateGroup(Joiner.on(",").join(result.getCandidateGroups()));
   }
 }

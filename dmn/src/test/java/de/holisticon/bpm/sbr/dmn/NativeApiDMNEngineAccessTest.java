@@ -2,12 +2,12 @@ package de.holisticon.bpm.sbr.dmn;
 
 import java.io.InputStream;
 
-import org.camunda.dmn.engine.DmnDecision;
-import org.camunda.dmn.engine.DmnDecisionResult;
-import org.camunda.dmn.engine.DmnEngine;
-import org.camunda.dmn.engine.context.DmnDecisionContext;
-import org.camunda.dmn.engine.impl.DmnEngineConfigurationImpl;
-import org.camunda.dmn.engine.impl.context.DmnContextFactoryImpl;
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnDecisionResult;
+import org.camunda.bpm.dmn.engine.DmnEngine;
+import org.camunda.bpm.dmn.engine.context.DmnDecisionContext;
+import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
+import org.camunda.bpm.dmn.engine.impl.context.DmnContextFactoryImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 
 public class NativeApiDMNEngineAccessTest {
 
-  DmnEngine dmnEngine;
-  InputStream dmnResource;
-  DmnDecision decision;
+  private DmnEngine dmnEngine;
+  private InputStream dmnResource;
+  private DmnDecision decision;
   ApprovalSheet approvalSheet;
 
   @Before
@@ -41,7 +41,7 @@ public class NativeApiDMNEngineAccessTest {
     final DmnDecisionResult result = decisionContext.evaluate(decision);
 
     // assert
-    assertEquals(1, result.getOutputs().size());
-    assertEquals("customerService", result.getOutputs().iterator().next().getValue());
+    assertEquals(1, result.size());
+    assertEquals("customerService", result.iterator().next().getValue());
   }
 }

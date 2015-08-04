@@ -2,7 +2,7 @@ package de.holisticon.bpm.sbr.dmn;
 
 
 import org.assertj.core.api.Assertions;
-import org.camunda.dmn.engine.DmnDecisionResult;
+import org.camunda.bpm.dmn.engine.DmnDecisionResult;
 import org.junit.Test;
 
 public class DecisionBeanTest {
@@ -19,10 +19,10 @@ public class DecisionBeanTest {
     ApprovalSheet approvalSheet = new ApprovalSheet();
     approvalSheet.setCustomerStatus(CustomerStatus.BRONZE);
 
-    final DmnDecisionResult result = bean.evaluate(approvalSheet);
+    final CandidateResult result = bean.evaluate(approvalSheet);
 
-    Assertions.assertThat(result.getOutputs()).hasSize(1);
+    Assertions.assertThat(result.getCandidateGroups()).hasSize(1);
 
-    Assertions.assertThat(result.getOutputs().iterator().next()).isEqualTo("customerService");
+    Assertions.assertThat(result.getCandidateGroups().get(0)).isEqualTo("customerService");
   }
 }

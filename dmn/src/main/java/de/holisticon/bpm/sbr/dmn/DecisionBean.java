@@ -1,14 +1,12 @@
 package de.holisticon.bpm.sbr.dmn;
 
 
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnEngine;
+import org.camunda.bpm.dmn.engine.context.DmnDecisionContext;
+import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
+import org.camunda.bpm.dmn.engine.impl.context.DmnContextFactoryImpl;
 import org.camunda.bpm.model.dmn.impl.DmnElementImpl;
-import org.camunda.dmn.engine.DmnDecision;
-import org.camunda.dmn.engine.DmnDecisionResult;
-import org.camunda.dmn.engine.DmnEngine;
-import org.camunda.dmn.engine.context.DmnDecisionContext;
-import org.camunda.dmn.engine.impl.DmnEngineConfigurationImpl;
-import org.camunda.dmn.engine.impl.DmnEngineImpl;
-import org.camunda.dmn.engine.impl.context.DmnContextFactoryImpl;
 import org.slf4j.Logger;
 
 import javax.annotation.PostConstruct;
@@ -27,16 +25,18 @@ public class DecisionBean {
   public void loadDecision() {
 
     DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-    decision = dmnEngine.parseDecision(getClass().getClassLoader().getResourceAsStream("/findApprover.dmn"));
+    final InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("findApprover.dmn");
+    decision = dmnEngine.parseDecision(resourceAsStream);
 
     logger.info("create decision for findApprover.dmn");
   }
 
-  public DmnDecisionResult evaluate(ApprovalSheet sheet) {
+  public CandidateResult evaluate(ApprovalSheet sheet) {
     final DmnDecisionContext decisionContext = new DmnContextFactoryImpl().createDecisionContext();
     decisionContext.getVariableContext().setVariable("sheet", sheet);
 
-    return decisionContext.evaluate(decision);
+    //return decisionContext.evaluate(decision);
+    return new CandidateResult();
   }
 
 

@@ -4,5 +4,6 @@
 *.iml
 .idea
 .java-version
-target
-tmp
+target/
+tmp/
+web/src/main/resources/*.png

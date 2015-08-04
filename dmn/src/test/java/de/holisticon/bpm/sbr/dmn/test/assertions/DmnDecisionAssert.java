@@ -1,12 +1,13 @@
 package de.holisticon.bpm.sbr.dmn.test.assertions;
 
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnDecisionResult;
+import org.camunda.bpm.dmn.engine.context.DmnContextFactory;
+import org.camunda.bpm.dmn.engine.context.DmnDecisionContext;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.camunda.dmn.engine.DmnDecision;
-import org.camunda.dmn.engine.DmnDecisionResult;
-import org.camunda.dmn.engine.context.DmnContextFactory;
-import org.camunda.dmn.engine.context.DmnDecisionContext;
 
 public class DmnDecisionAssert {
 
@@ -16,7 +17,6 @@ public class DmnDecisionAssert {
   /**
    * Constructs the assert.
    * 
-   * @param dmnEngine
    * @param current
    * @param factory
    */

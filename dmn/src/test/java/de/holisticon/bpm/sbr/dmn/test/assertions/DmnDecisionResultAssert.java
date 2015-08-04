@@ -2,9 +2,9 @@ package de.holisticon.bpm.sbr.dmn.test.assertions;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
-import org.camunda.dmn.engine.DmnDecision;
-import org.camunda.dmn.engine.DmnDecisionOutput;
-import org.camunda.dmn.engine.DmnDecisionResult;
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
+import org.camunda.bpm.dmn.engine.DmnDecisionResult;
 
 /**
  * Assert for decision result.
@@ -39,9 +39,9 @@ public class DmnDecisionResultAssert {
    */
   public DmnDecisionResultAssert hasResults(final int count) {
     Assertions
-        .assertThat(current.getOutputs().size())
+        .assertThat(current.size())
         .overridingErrorMessage("Expecting %s to evaluate to %d result(s), but found it to be evaluating to to '%d!", decision.toString(), count,
-            current.getOutputs().size()).isEqualTo(count);
+            current.size()).isEqualTo(count);
 
     return this;
   }
@@ -62,7 +62,7 @@ public class DmnDecisionResultAssert {
       }
     };
 
-    Assertions.assertThat(current.getOutputs())
+    Assertions.assertThat(current)
         .overridingErrorMessage("Expecting %s to contain a result %s result(s), but didn't find it!", current.toString(), value)
         .are(dmnDecisionOutputCondition);
 
