@@ -26,7 +26,7 @@ public class DmnEngineAssertions extends Assertions {
   }
 
   public static DmnDecisionAssert assertThat(DmnDecision decision) {
-    final DmnDecisionAssert decisionAssert = DmnDecisionAssert.assertThat(decision, new DmnContextFactoryImpl());
+    final DmnDecisionAssert decisionAssert = DmnDecisionAssert.assertThat(decision, dmnEngine());
     DmnEngineAssertions.dmnDecisionAssertTL.set(decisionAssert);
     return decisionAssert;
   }

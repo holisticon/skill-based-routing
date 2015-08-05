@@ -55,11 +55,11 @@ public class DmnEngineTestRule implements TestRule {
           throw new IllegalArgumentException("Decision resource not found");
         }
         decision = dmnEngine.parseDecision(dmnResource);
-        
+
         if (this.installAssertions) {
-            DmnEngineAssertions.assertThat(decision);
+          DmnEngineAssertions.assertThat(decision);
         }
-        
+
         decisionContext = decisionContextFactory.createDecisionContext();
       }
     }
@@ -107,9 +107,9 @@ public class DmnEngineTestRule implements TestRule {
    */
   public DmnDecisionResult evaluate(final Map<String, Object> variables) {
     if (variables != null) {
-      getDecisionContext().getVariableContext().setVariables(variables);
+      dmnEngine.evaluate(getDecision(), variables);
     }
-    return getDecisionContext().evaluate(getDecision());
+    return dmnEngine.evaluate(getDecision(), null);
   }
 
   /**

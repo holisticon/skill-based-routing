@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CandidateResult implements Serializable{
+public class CandidateResult implements Serializable {
 
   private final List<String> candidateUsers = new ArrayList<>();
   private final List<String> candidateGroups = new ArrayList<>();

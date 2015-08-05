@@ -8,7 +8,6 @@ public class DecisionBeanTest {
 
 
   private final DecisionBean bean = new DecisionBean();
-
   {
     bean.loadDecision();
   }

@@ -1,18 +1,16 @@
 package de.holisticon.bpm.sbr.dmn.test.assertions;
 
-import org.camunda.bpm.dmn.engine.DmnDecision;
-import org.camunda.bpm.dmn.engine.DmnDecisionResult;
-import org.camunda.bpm.dmn.engine.context.DmnContextFactory;
-import org.camunda.bpm.dmn.engine.context.DmnDecisionContext;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnDecisionResult;
+import org.camunda.bpm.dmn.engine.DmnEngine;
 
 public class DmnDecisionAssert {
 
   private DmnDecision current;
-  private DmnContextFactory dmnContextFactory;
+  private DmnEngine dmnEngine;
 
   /**
    * Constructs the assert.
@@ -20,13 +18,13 @@ public class DmnDecisionAssert {
    * @param current
    * @param factory
    */
-  public DmnDecisionAssert(DmnDecision current, DmnContextFactory factory) {
+  public DmnDecisionAssert(DmnDecision current, DmnEngine engine) {
     this.current = current;
-    this.dmnContextFactory = factory;
+    this.dmnEngine = engine;
   }
 
-  public static DmnDecisionAssert assertThat(DmnDecision decision, DmnContextFactory factory) {
-    return new DmnDecisionAssert(decision, factory);
+  public static DmnDecisionAssert assertThat(DmnDecision decision, DmnEngine engine) {
+    return new DmnDecisionAssert(decision, engine);
   }
 
   /**
@@ -63,11 +61,7 @@ public class DmnDecisionAssert {
    * @return fluent instance.
    */
   public DmnDecisionResultAssert evaluate(final Map<String, Object> variables) {
-    final DmnDecisionContext decisionContext = dmnContextFactory.createDecisionContext();
-    if (variables != null) {
-      decisionContext.getVariableContext().setVariables(variables);
-    }
-    final DmnDecisionResult result = decisionContext.evaluate(this.current);
+    final DmnDecisionResult result = dmnEngine.evaluate(this.current, variables);
     return new DmnDecisionResultAssert(this.current, result);
   }
 

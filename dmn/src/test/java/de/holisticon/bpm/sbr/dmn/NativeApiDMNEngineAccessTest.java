@@ -1,6 +1,8 @@
 package de.holisticon.bpm.sbr.dmn;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionResult;
@@ -34,11 +36,12 @@ public class NativeApiDMNEngineAccessTest {
     approvalSheet = new ApprovalSheet();
     approvalSheet.setCustomerStatus(CustomerStatus.BRONZE);
 
-    final DmnDecisionContext decisionContext = new DmnContextFactoryImpl().createDecisionContext();
-    decisionContext.getVariableContext().setVariable("sheet", approvalSheet);
+    Map<String, Object> context = new HashMap<String, Object>();
+    context.put("sheet", approvalSheet);
+    dmnEngine.evaluate(decision, context);
 
     // action
-    final DmnDecisionResult result = decisionContext.evaluate(decision);
+    final DmnDecisionResult result = dmnEngine.evaluate(decision, context);
 
     // assert
     assertEquals(1, result.size());
