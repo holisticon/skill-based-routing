@@ -25,6 +25,7 @@
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>skill-based-routing-dmn-impl</artifactId>
+                            <bundleFileName>skill-based-routing-dmn-impl.jar</bundleFileName>
                         </ejbModule>
                     </modules>
                     <version>6</version>
