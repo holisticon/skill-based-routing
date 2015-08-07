@@ -55,11 +55,16 @@ public class SkillBasedRoutingServiceBean implements SkillBasedRoutingService {
     final CandidateResult candidateResult = new CandidateResult();
     final Map<String, Object> context = new HashMap<String, Object>();
 
+    CustomerStatus c = null;
     String customerStatus = (String) task.getVariable("customerStatus");
-    double approvalSum = (double) task.getVariable("aprovalSum");
-    String
+    if (customerStatus != null) {
+      c = CustomerStatus.valueOf(customerStatus);
+    }
 
-    context.put("sheet", new ApprovalSheet("",0.0, CustomerStatus.BRONZE));
+    double approvalSum = (double) task.getVariable("aprovalSum");
+    String customerCode = (String) task.getVariable("customerCode");
+
+    context.put("sheet", new ApprovalSheet(customerCode,approvalSum, c));
     String candidateGroup = evaluateSingleResult(context, "group");
     if (candidateGroup != null) {
       candidateResult.getCandidateGroups().add(candidateGroup);
