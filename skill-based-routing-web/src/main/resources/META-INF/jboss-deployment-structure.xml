@@ -3,7 +3,7 @@
     <deployment>
         <module-alias name="skill-based-routing-web"/>
         <dependencies>
-            <module name="com.google.guava" slot="14" export="true"/>
+            <module name="com.google.guava" export="true"/>
             <module name="org.camunda.bpm.camunda-engine" export="true"/>
         </dependencies>
     </deployment>
