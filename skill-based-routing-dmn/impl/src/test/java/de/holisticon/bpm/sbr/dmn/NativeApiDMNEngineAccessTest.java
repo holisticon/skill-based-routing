@@ -9,6 +9,7 @@ import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionResult;
 import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
+import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +20,6 @@ public class NativeApiDMNEngineAccessTest {
   private DmnEngine dmnEngine;
   private InputStream dmnResource;
   private DmnDecision decision;
-  ApprovalSheet approvalSheet;
 
   @Before
   public void setup() {
@@ -31,12 +31,10 @@ public class NativeApiDMNEngineAccessTest {
   @Test
   public void bronzeCustomerService() {
 
-    // setup
-    approvalSheet = new ApprovalSheet();
-    approvalSheet.setCustomerStatus(CustomerStatus.BRONZE);
+    DelegateTask task = CreateDelegateTask.delegateTask(null, null, CustomerStatus.BRONZE);
 
     Map<String, Object> context = new HashMap<String, Object>();
-    context.put("sheet", approvalSheet);
+    context.put("sheet", new CreateApprovalSheet().apply(task));
     dmnEngine.evaluate(decision, context);
 
     // action

@@ -1,7 +1,6 @@
 package de.holisticon.bpm.sbr.api;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class Leistung implements Serializable {
 
@@ -12,8 +11,6 @@ public class Leistung implements Serializable {
     private String tarif;
     private Double erstattungsbetrag;
 
-    public Leistung() {
-    }
 
     public Leistung(String bezeichung) {
         bezeichnung = bezeichung;

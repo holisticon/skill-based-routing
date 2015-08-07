@@ -53,12 +53,15 @@ public class LeistungsabrechnungProcessTest {
     @Inject
     SkillBasedRoutingGroupSelector selector;
 
+
     Driver driver;
 
     @Before
     public void setup() {
         init(rule.getProcessEngine());
         driver = new Driver();
+
+      DelegateExpressions.autoMock(LeistungsabrechnungProcess.RESOURCE);
     }
 
     @Test

@@ -1,13 +1,5 @@
 package de.holisticon.bpm.sbr.dmn;
 
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
-
 import de.holisticon.bpm.sbr.api.CustomerStatus;
 import de.holisticon.bpm.sbr.dmn.api.CandidateResult;
 import de.holisticon.bpm.sbr.dmn.api.SkillBasedRoutingService;
@@ -19,6 +11,14 @@ import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.slf4j.Logger;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Stateless
@@ -29,6 +29,9 @@ public class SkillBasedRoutingServiceBean implements SkillBasedRoutingService {
   private final static String DMN_RESOURCE = "findApprover.dmn";
   private DmnDecision decision;
   private DmnEngine dmnEngine;
+
+  @Inject
+  private CreateApprovalSheet createApprovalSheet;
 
   @PostConstruct
   public void loadDecision() {
@@ -55,16 +58,8 @@ public class SkillBasedRoutingServiceBean implements SkillBasedRoutingService {
     final CandidateResult candidateResult = new CandidateResult();
     final Map<String, Object> context = new HashMap<String, Object>();
 
-    CustomerStatus c = null;
-    String customerStatus = (String) task.getVariable("customerStatus");
-    if (customerStatus != null) {
-      c = CustomerStatus.valueOf(customerStatus);
-    }
 
-    double approvalSum = (double) task.getVariable("aprovalSum");
-    String customerCode = (String) task.getVariable("customerCode");
-
-    context.put("sheet", new ApprovalSheet(customerCode,approvalSum, c));
+    context.put("sheet", createApprovalSheet.apply(task));
     String candidateGroup = evaluateSingleResult(context, "group");
     if (candidateGroup != null) {
       candidateResult.getCandidateGroups().add(candidateGroup);
@@ -72,4 +67,5 @@ public class SkillBasedRoutingServiceBean implements SkillBasedRoutingService {
     logger.info("Candidate group: {}", candidateGroup);
     return candidateResult;
   }
+
 }

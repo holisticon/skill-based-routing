@@ -4,22 +4,35 @@ package de.holisticon.bpm.sbr.dmn;
 import de.holisticon.bpm.sbr.api.CustomerStatus;
 import de.holisticon.bpm.sbr.dmn.api.CandidateResult;
 import org.assertj.core.api.Assertions;
+import org.camunda.bpm.engine.delegate.DelegateTask;
+import org.junit.Rule;
 import org.junit.Test;
+import org.needle4j.annotation.InjectIntoMany;
+import org.needle4j.annotation.ObjectUnderTest;
+import org.needle4j.injection.DefaultMockInjectionProvider;
+import org.needle4j.junit.NeedleRule;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class SkillBasedRoutingServiceBeanTest {
 
+  @Rule
+  public final NeedleRule needle = new NeedleRule();
 
-  private final SkillBasedRoutingServiceBean bean = new SkillBasedRoutingServiceBean();
-  {
-    bean.loadDecision();
-  }
+
+  @InjectIntoMany
+  private CreateApprovalSheet createApprovalSheet = new CreateApprovalSheet();
+
+  @ObjectUnderTest(postConstruct = true)
+  private SkillBasedRoutingServiceBean bean;
 
   @Test
   public void evaluate() {
-    ApprovalSheet approvalSheet = new ApprovalSheet();
-    approvalSheet.setCustomerStatus(CustomerStatus.BRONZE);
+    DelegateTask task = CreateDelegateTask.delegateTask("foo", 1.0, CustomerStatus.BRONZE);
 
-    final CandidateResult result = bean.evaluate(approvalSheet);
+
+    final CandidateResult result = bean.evaluate(task);
 
     Assertions.assertThat(result.getCandidateGroups()).hasSize(1);
 
