@@ -12,38 +12,56 @@
 
     <groupId>de.holisticon</groupId>
     <artifactId>skill-based-routing-root</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <camunda.version>7.4.0-SNAPSHOT</camunda.version>
-        <camunda.dmn.version>7.4.0-SNAPSHOT</camunda.dmn.version>
         <groovy.version>2.3.6</groovy.version>
     </properties>
 
     <modules>
-        <module>web</module>
-        <module>dmn</module>
+        <module>skill-based-routing-api</module>
+        <module>skill-based-routing-dmn</module>
+        <module>skill-based-routing-web</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>de.holisticon</groupId>
+                <artifactId>skill-based-routing-dmn-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.holisticon</groupId>
+                <artifactId>skill-based-routing-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.camunda.bpm</groupId>
                 <artifactId>camunda-bom</artifactId>
-                <version>7.4.0-SNAPSHOT</version>
+                <version>${camunda.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-            <!-- Import all JEE specs -->
+
             <dependency>
                 <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-7.0</artifactId>
-                <version>1.0.0.Final</version>
-                <type>pom</type>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>3.0.2.Final-redhat-3</version>
                 <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>1.1</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
@@ -56,11 +74,6 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>1.7.5</version>
                 <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>de.holisticon</groupId>
-                <artifactId>skill-based-routing-dmn</artifactId>
-                <version>${project.parent.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
