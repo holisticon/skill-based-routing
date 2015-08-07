@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
+import de.holisticon.bpm.sbr.api.CustomerStatus;
 import de.holisticon.bpm.sbr.dmn.api.CandidateResult;
 import de.holisticon.bpm.sbr.dmn.api.SkillBasedRoutingService;
 import org.camunda.bpm.dmn.engine.DmnDecision;
@@ -48,20 +49,22 @@ public class SkillBasedRoutingServiceBean implements SkillBasedRoutingService {
     return null;
   }
 
-  public CandidateResult evaluate(ApprovalSheet sheet) {
+
+  @Override
+  public CandidateResult evaluate(final DelegateTask task) {
     final CandidateResult candidateResult = new CandidateResult();
     final Map<String, Object> context = new HashMap<String, Object>();
-    context.put("sheet", sheet);
+
+    String customerStatus = (String) task.getVariable("customerStatus");
+    double approvalSum = (double) task.getVariable("aprovalSum");
+    String
+
+    context.put("sheet", new ApprovalSheet("",0.0, CustomerStatus.BRONZE));
     String candidateGroup = evaluateSingleResult(context, "group");
     if (candidateGroup != null) {
       candidateResult.getCandidateGroups().add(candidateGroup);
     }
     logger.info("Candidate group: {}", candidateGroup);
     return candidateResult;
-  }
-
-  @Override
-  public CandidateResult evaluate(final DelegateTask task) {
-    return null;
   }
 }

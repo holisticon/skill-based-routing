@@ -2,9 +2,8 @@ package de.holisticon.bpm.example.sbr;
 
 /**
  * Constants for the approval process.
- * 
+ *
  * @author Simon Zambrovski (Holisticon AG)
- * 
  */
 public class ApprovalProcess {
 

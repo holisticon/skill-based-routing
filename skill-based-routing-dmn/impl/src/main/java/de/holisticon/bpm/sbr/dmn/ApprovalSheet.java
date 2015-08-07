@@ -10,9 +10,6 @@ import de.holisticon.bpm.sbr.api.CustomerStatus;
  */
 public class ApprovalSheet {
 
-  public ApprovalSheet() {
-
-  }
 
   public ApprovalSheet(String customerCode, Double approvalSum, CustomerStatus customerStatus) {
     this.customerCode = customerCode;
