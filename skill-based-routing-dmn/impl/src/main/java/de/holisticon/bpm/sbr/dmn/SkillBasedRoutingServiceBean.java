@@ -1,71 +1,118 @@
 package de.holisticon.bpm.sbr.dmn;
 
-import de.holisticon.bpm.sbr.api.CustomerStatus;
-import de.holisticon.bpm.sbr.dmn.api.CandidateResult;
-import de.holisticon.bpm.sbr.dmn.api.SkillBasedRoutingService;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.Remote;
+import javax.ejb.Singleton;
+
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
 import org.camunda.bpm.dmn.engine.DmnDecisionResult;
 import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
-import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.slf4j.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
+import de.holisticon.bpm.sbr.dmn.api.CandidateResult;
+import de.holisticon.bpm.sbr.dmn.api.SkillBasedRoutingService;
 import static org.slf4j.LoggerFactory.getLogger;
 
-@Stateless
+@Singleton
 @Remote(SkillBasedRoutingService.class)
 public class SkillBasedRoutingServiceBean implements SkillBasedRoutingService {
   private final Logger logger = getLogger(this.getClass());
 
-  private final static String DMN_RESOURCE = "findApprover.dmn";
-  private DmnDecision decision;
   private DmnEngine dmnEngine;
 
-  @Inject
-  private CreateApprovalSheet createApprovalSheet;
+  private Map<String, DmnDecision> decisions;
 
   @PostConstruct
-  public void loadDecision() {
-
+  public void initializeEngine() {
+    decisions = new HashMap<String, DmnDecision>();
     dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-    final InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(DMN_RESOURCE);
-    decision = dmnEngine.parseDecision(resourceAsStream);
-    logger.info("created decision for " + DMN_RESOURCE);
+  }
+
+  @Override
+  public CandidateResult evaluate(Map<String, String> task, Map<String, Object> variables) {
+    final CandidateResult candidateResult = new CandidateResult();
+    final Map<String, Object> context = new HashMap<String, Object>();
+    context.put("variables", variables);
+    context.put("task", task);
+    String candidateGroup = evaluateSingleResult(getProcessDefinitionKey(task), context, "group");
+    if (candidateGroup != null) {
+      candidateResult.getCandidateGroups().add(candidateGroup);
+      logger.info("Candidate group: {}", candidateGroup);
+    }
+    String candidateUser = evaluateSingleResult(getProcessDefinitionKey(task), context, "user");
+    if (candidateUser != null) {
+      candidateResult.getCandidateUsers().add(candidateUser);
+      logger.info("Candidate user: {}", candidateUser);
+    }
+
+    return candidateResult;
   }
 
   @SuppressWarnings("unchecked")
-  public <T> T evaluateSingleResult(final Map<String, Object> context, String resultName) {
-    final DmnDecisionResult result = dmnEngine.evaluate(decision, context);
+  public <T> T evaluateSingleResult(final String decisionName, final Map<String, Object> context, final String resultName) {
+    final DmnDecisionResult result = dmnEngine.evaluate(getDecision(decisionName), context);
     if (result != null && !result.isEmpty()) {
       final DmnDecisionOutput output = result.get(0);
+      if (result.size() > 1) {
+        logger.warn("Warning, there were multiple results available.");
+      }
       return (T) output.get(resultName);
     }
     return null;
   }
 
+  /**
+   * Retrieves the process definition key from the task delegate.
+   * 
+   * @param task
+   *          delegate.
+   * @return process definition key.
+   */
+  private String getProcessDefinitionKey(final Map<String, String> task) {
+    final String processDefinitionId = task.get("processDefinitionId");
+    return processDefinitionId.split(":")[0];
+  }
 
-  @Override
-  public CandidateResult evaluate(final DelegateTask task) {
-    final CandidateResult candidateResult = new CandidateResult();
-    final Map<String, Object> context = new HashMap<String, Object>();
-
-
-    context.put("sheet", createApprovalSheet.apply(task));
-    String candidateGroup = evaluateSingleResult(context, "group");
-    if (candidateGroup != null) {
-      candidateResult.getCandidateGroups().add(candidateGroup);
+  /**
+   * Retrieves a decision by name.
+   * <p>
+   * This method will try to load a decision, if this is not loaded yet
+   * </p>
+   * 
+   * @param decisionName
+   *          name of the decision.
+   * @return decision.
+   */
+  private DmnDecision getDecision(final String decisionName) {
+    if (!decisions.containsKey(decisionName)) {
+      final String decisionPath = constructDecisionPath(decisionName);
+      logger.info("Loading decision {} from {}", decisionName, decisionPath);
+      final InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(decisionPath);
+      if (resourceAsStream == null) {
+        throw new IllegalArgumentException("Could not load specified decision " + decisionPath);
+      }
+      final DmnDecision decision = dmnEngine.parseDecision(resourceAsStream);
+      logger.info("Created decision for {}.", decisionName);
+      decisions.put(decisionName, decision);
     }
-    logger.info("Candidate group: {}", candidateGroup);
-    return candidateResult;
+    return decisions.get(decisionName);
+  }
+
+  /**
+   * Constructs path for decision resource from decision name.
+   * 
+   * @param decisionName
+   *          name of the decision.
+   * @return path to decision DMN resource.
+   */
+  private String constructDecisionPath(String decisionName) {
+    return decisionName.concat(".dmn");
   }
 
 }

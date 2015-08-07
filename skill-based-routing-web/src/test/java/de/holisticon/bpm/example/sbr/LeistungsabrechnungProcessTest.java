@@ -1,13 +1,5 @@
 package de.holisticon.bpm.example.sbr;
 
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.init;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.runtimeService;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.task;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.taskService;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.withVariables;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +29,12 @@ import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
 import de.holisticon.bpm.example.sbr.adapter.SkillBasedRoutingGroupSelector;
 import de.holisticon.bpm.example.sbr.adapter.VersicherungsschutzErmittelnDelegate;
 import de.holisticon.bpm.sbr.api.Leistung;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.init;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.runtimeService;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.task;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.taskService;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.withVariables;
 
 @SuppressWarnings("unchecked")
 public class LeistungsabrechnungProcessTest {
