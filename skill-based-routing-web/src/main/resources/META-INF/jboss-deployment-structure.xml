@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
+    <deployment>
+        <module-alias name="skill-based-routing-web"/>
+        <dependencies>
+            <module name="com.google.guava" slot="14" export="true"/>
+            <module name="org.camunda.bpm.camunda-engine" export="true"/>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>

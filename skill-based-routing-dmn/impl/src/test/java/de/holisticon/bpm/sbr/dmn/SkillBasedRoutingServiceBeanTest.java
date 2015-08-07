@@ -15,7 +15,7 @@ public class SkillBasedRoutingServiceBeanTest {
   }
 
   @Test
-  public void _() {
+  public void evaluate() {
     ApprovalSheet approvalSheet = new ApprovalSheet();
     approvalSheet.setCustomerStatus(CustomerStatus.BRONZE);
 

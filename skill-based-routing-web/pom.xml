@@ -22,11 +22,17 @@
             <artifactId>skill-based-routing-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>18.0</version>
+            <version>14.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
