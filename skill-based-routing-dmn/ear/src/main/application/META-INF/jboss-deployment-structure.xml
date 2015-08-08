@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
-	<deployment>
-		<module-alias name="skill-based-routing-dmn-ear" />
-		<dependencies>
-			<module name="com.google.guava" export="true" />
-			<module name="org.camunda.bpm.camunda-engine" export="true" />
-			<module name="org.camunda.bpm.dmn.camunda-engine-dmn" export="true" />
-			<module name="org.camunda.bpm.dmn.camunda-scriptengine-dmn" export="true" />
-		</dependencies>
-	</deployment>
-	<sub-deployment name="skill-based-routing-dmn-impl.jar">
-		<dependencies>
-			<module name="com.google.guava" export="true" />
-		</dependencies>
-	</sub-deployment>
+    <deployment>
+        <module-alias name="skill-based-routing-dmn-ear"/>
+        <dependencies>
+            <module name="com.google.guava" export="true"/>
+            <module name="org.camunda.bpm.camunda-engine" export="true"/>
+            <module name="org.camunda.bpm.dmn.camunda-engine-dmn" export="true"/>
+            <module name="org.camunda.bpm.dmn.camunda-scriptengine-dmn" export="true"/>
+        </dependencies>
+    </deployment>
+    <sub-deployment name="skill-based-routing-dmn-impl.jar">
+        <dependencies>
+            <module name="com.google.guava" export="true"/>
+        </dependencies>
+    </sub-deployment>
 </jboss-deployment-structure>
