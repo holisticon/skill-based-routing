@@ -9,6 +9,7 @@ import de.holisticon.bpm.sbr.dmn.test.rule.DecisionDeployment;
 import de.holisticon.bpm.sbr.dmn.test.rule.DmnEngineTestRule;
 import de.holisticon.bpm.sbr.dmn.test.rule.DmnEngineTestRuleBuilder;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -20,6 +21,7 @@ import static de.holisticon.bpm.sbr.dmn.test.assertions.DmnEngineAssertions.deci
  * @author Simon Zambrovski (Holisticon AG)
  * 
  */
+@Ignore
 public class LeistungsabrechnungRuleTest {
 
   @Rule
