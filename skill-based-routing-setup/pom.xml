@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>skill-based-routing-setup</artifactId>
-    <packaging>jar</packaging>
+    <packaging>ejb</packaging>
 
     <dependencies>
         <dependency>
@@ -22,6 +22,17 @@
             <artifactId>camunda-engine</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

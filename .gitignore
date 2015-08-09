@@ -1,9 +1,16 @@
+#
+# Eclipse
+#
 .classpath
 .project
 .settings/
+#
+# Idea
+#
 *.iml
 .idea
 .java-version
 target/
 tmp/
-web/src/main/resources/*.png
+*/src/main/resources/*.png
+*.bak
