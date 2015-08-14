@@ -6,6 +6,7 @@ import java.util.Map;
 import org.camunda.bpm.dmn.engine.test.DecisionResource;
 import org.camunda.bpm.dmn.engine.test.DmnEngineTestRule;
 
+
 import static org.camunda.bpm.dmn.engine.test.asserts.DmnAssertions.assertThat;
 
 import org.junit.Ignore;
@@ -18,6 +19,7 @@ import org.junit.Test;
  * @author Simon Zambrovski (Holisticon AG)
  * 
  */
+@Ignore
 public class LeistungsabrechnungRuleTest {
 
   private static final String CANDIDATE_USER = "candidateUser";

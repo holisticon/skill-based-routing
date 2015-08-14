@@ -23,6 +23,7 @@
     </properties>
 
     <modules>
+        <module>skill-based-routing-setup</module>
         <module>skill-based-routing-api</module>
         <module>skill-based-routing-dmn</module>
         <module>skill-based-routing-web</module>
@@ -57,12 +58,6 @@
                 <type>pom</type>
             </dependency>
 
-            <dependency>
-                <groupId>javax.enterprise</groupId>
-                <artifactId>cdi-api</artifactId>
-                <version>1.1</version>
-                <scope>provided</scope>
-            </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
@@ -124,6 +119,18 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <!-- Profile to make war deployable as exploded artifact. JBoss expects the .war extension on an artifact to
+                properly deploy it. By default, the name of the directory where exploded output is written to does not have this extension.
+                Activate this profile to add the extension. Note that this will cause the archive to have two .war extensions, e.g. "xxx.war.war". -->
+            <id>exploded</id>
+            <build>
+                <finalName>${project.artifactId}-${project.version}.war</finalName>
+            </build>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
