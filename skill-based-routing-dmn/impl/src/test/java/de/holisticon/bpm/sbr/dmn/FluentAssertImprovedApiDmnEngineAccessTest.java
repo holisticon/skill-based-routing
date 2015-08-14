@@ -1,13 +1,15 @@
 package de.holisticon.bpm.sbr.dmn;
 
-import de.holisticon.bpm.sbr.api.CustomerStatus;
-import de.holisticon.bpm.sbr.dmn.test.rule.DecisionDeployment;
-import de.holisticon.bpm.sbr.dmn.test.rule.DmnEngineTestRule;
-import de.holisticon.bpm.sbr.dmn.test.rule.DmnEngineTestRuleBuilder;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.camunda.bpm.dmn.engine.test.DecisionResource;
+import org.camunda.bpm.dmn.engine.test.DmnEngineTestRule;
+import static org.camunda.bpm.dmn.engine.test.asserts.DmnAssertions.*;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static de.holisticon.bpm.sbr.dmn.test.assertions.DmnEngineAssertions.decision;
+import de.holisticon.bpm.sbr.api.CustomerStatus;
 
 /**
  * This class demonstrates the possible usage of DMN Engine API
@@ -18,22 +20,18 @@ import static de.holisticon.bpm.sbr.dmn.test.assertions.DmnEngineAssertions.deci
 public class FluentAssertImprovedApiDmnEngineAccessTest {
 
   @Rule
-  public DmnEngineTestRule rule = new DmnEngineTestRuleBuilder(this).withAssertions().build();
+  public DmnEngineTestRule rule = new DmnEngineTestRule();
 
   @Test
-  @DecisionDeployment(resource = "findApprover.dmn")
+  @DecisionResource(resource = "findApprover.dmn")
   public void bronzeCustomerService() {
 
     // setup
     final ApprovalSheet approvalSheet = new ApprovalSheet("4711", 5000d, CustomerStatus.BRONZE);
+    Map<String, Object> context = new HashMap<String, Object>();
+    context.put("sheet", approvalSheet);
 
-    // evaluate
-    decision().evaluate("sheet", approvalSheet)
-    // assert result count
-        .hasSingleResult()
-        // assert value match
-        .hasValue("customerService");
-
+    assertThat(rule.getDmnEngine()).evaluates(rule.getDecision(), context).hasResult().hasSingleOutput()
+        .hasSingleEntry("group", "customerService");
   }
-
 }

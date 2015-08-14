@@ -9,6 +9,7 @@ import org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions;
 import org.camunda.bpm.extension.needle.ProcessEngineNeedleRule;
 import org.camunda.bpm.extension.needle.ProcessEngineNeedleRuleBuilder;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -34,6 +35,7 @@ public class ApprovalProcessTest {
     driver = new ProcessDriver();
   }
 
+  @Ignore("Ignoring the test, since the process is non-executable (on purpose, to avoid deployments)") 
   @Test
   @Deployment(resources = ApprovalProcess.RESOURCE)
   public void shouldDeploy() {

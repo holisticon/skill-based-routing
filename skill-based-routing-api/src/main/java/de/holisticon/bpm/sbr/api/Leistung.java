@@ -11,6 +11,9 @@ public class Leistung implements Serializable {
     private String tarif;
     private Double erstattungsbetrag;
 
+    public Leistung() {
+      // Needed for JSON
+    }
 
     public Leistung(String bezeichung) {
         bezeichnung = bezeichung;

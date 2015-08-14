@@ -8,40 +8,40 @@
             
             <clause id="clause1" name="Task Definition Key">
                 <inputExpression id="inputExpression1" name="Task Definition Key">
-                    <text>task.taskDefinitionKey</text>
+                    <text>task['taskDefinitionKey']</text>
                 </inputExpression>
                 <inputEntry id="inputEntry1">
-                    <text>#{task.taskDefinitionKey == 'task_gebuehrenrechtlich_pruefen'}</text>
+                    <text>#{task['taskDefinitionKey'] == 'task_gebuehrenrechtlich_pruefen'}</text>
                 </inputEntry>
                 <inputEntry id="inputEntry2">
-                    <text>#{task.taskDefinitionKey == 'task_erstattungsbetrag_berechnen'}</text>
+                    <text>#{task['taskDefinitionKey'] == 'task_erstattungsbetrag_berechnen'}</text>
                 </inputEntry>
             </clause>
             
             <clause id="clause2" name="Rechnungsart">
                 <inputExpression id="inputExpression2" name="Rechnungsart">
-                    <text>variables.rechnungsart</text>
+                    <text>variables['rechnungsart']</text>
                 </inputExpression>
                 <inputEntry id="inputEntry3">
-                    <text>#{variables.rechnungsart == 'Arzt'}</text>
+                    <text>#{variables['rechnungsart'] == 'Arzt'}</text>
                 </inputEntry>
                 <inputEntry id="inputEntry4">
-                    <text>#{variables.rechnungsart == 'Zahnarzt'}</text>
+                    <text>#{variables['rechnungsart'] == 'Zahnarzt'}</text>
                 </inputEntry>
                 <inputEntry id="inputEntry5">
-                    <text>#{variables.rechnungsart == 'Augenarzt'}</text>
+                    <text>#{variables['rechnungsart'] == 'Augenarzt'}</text>
                 </inputEntry>
                 <inputEntry id="inputEntry6">
-                    <text>#{variables.rechnungsart == 'Optiker'}</text>
+                    <text>#{variables['rechnungsart'] == 'Optiker'}</text>
                 </inputEntry>
                 <inputEntry id="inputEntry7">
-                    <text>#{variables.rechnungsart == 'Arztneimittel'}</text>
+                    <text>#{variables['rechnungsart'] == 'Arztneimittel'}</text>
                 </inputEntry>
                 <inputEntry id="inputEntry8">
-                    <text>#{variables.rechnungsart == 'Physiotherapie'}</text>
+                    <text>#{variables['rechnungsart'] == 'Physiotherapie'}</text>
                 </inputEntry>
                 <inputEntry id="inputEntry9">
-                    <text>#{variables.rechnungsart == 'Ergotherapie'}</text>
+                    <text>#{variables['rechnungsart'] == 'Ergotherapie'}</text>
                 </inputEntry>
             </clause>
             
