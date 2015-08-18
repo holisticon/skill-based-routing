@@ -25,8 +25,6 @@ public class ApprovalSheet {
     return customerCode;
   }
 
-  
-
   public void setCustomerCode(String customerCode) {
     this.customerCode = customerCode;
   }

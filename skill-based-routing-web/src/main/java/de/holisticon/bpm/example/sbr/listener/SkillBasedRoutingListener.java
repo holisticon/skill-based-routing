@@ -35,7 +35,7 @@ public class SkillBasedRoutingListener implements TaskListener {
     task.put("processDefinitionId", delegateTask.getProcessDefinitionId());
     task.put("caseDefinitionId", delegateTask.getCaseDefinitionId());
 
-    final CandidateResult candidateResult = decisionBean.evaluate(task, vars);
+    final CandidateResult candidateResult = null; //= decisionBean.evaluate(task, vars);
     
     if (candidateResult != null) {
       delegateTask.addCandidateUser(Joiner.on(",").join(candidateResult.getCandidateUsers()));

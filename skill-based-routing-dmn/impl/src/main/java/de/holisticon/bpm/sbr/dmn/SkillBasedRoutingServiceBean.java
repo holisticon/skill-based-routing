@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 
 import de.holisticon.bpm.sbr.dmn.api.CandidateResult;
 import de.holisticon.bpm.sbr.dmn.api.SkillBasedRoutingService;
+import de.holisticon.bpm.sbr.dmn.api.TaskHolder;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Singleton
@@ -35,17 +36,17 @@ public class SkillBasedRoutingServiceBean implements SkillBasedRoutingService {
   }
 
   @Override
-  public CandidateResult evaluate(Map<String, String> task, Map<String, Object> variables) {
+  public CandidateResult evaluate(final TaskHolder task, final Map<String, Object> variables) {
     final CandidateResult candidateResult = new CandidateResult();
     final Map<String, Object> context = new HashMap<String, Object>();
     context.put("variables", variables);
     context.put("task", task);
-    String candidateGroup = evaluateSingleResult(getProcessDefinitionKey(task), context, "group");
+    final String candidateGroup = evaluateSingleResult(getProcessDefinitionKey(task), context, "group");
     if (candidateGroup != null) {
       candidateResult.getCandidateGroups().add(candidateGroup);
       logger.info("Candidate group: {}", candidateGroup);
     }
-    String candidateUser = evaluateSingleResult(getProcessDefinitionKey(task), context, "user");
+    final String candidateUser = evaluateSingleResult(getProcessDefinitionKey(task), context, "user");
     if (candidateUser != null) {
       candidateResult.getCandidateUsers().add(candidateUser);
       logger.info("Candidate user: {}", candidateUser);
@@ -76,6 +77,11 @@ public class SkillBasedRoutingServiceBean implements SkillBasedRoutingService {
    */
   private String getProcessDefinitionKey(final Map<String, String> task) {
     final String processDefinitionId = task.get("processDefinitionId");
+    return processDefinitionId.split(":")[0];
+  }
+
+  private String getProcessDefinitionKey(final TaskHolder task) {
+    final String processDefinitionId = task.getProcessDefinitionId();
     return processDefinitionId.split(":")[0];
   }
 
