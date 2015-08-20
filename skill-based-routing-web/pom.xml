@@ -88,7 +88,7 @@
                 Activate this profile to add the extension. Note that this will cause the archive to have two .war extensions, e.g. "xxx.war.war". -->
             <id>exploded</id>
             <build>
-                <finalName>${project.artifactId}.war</finalName>
+                <finalName>${project.artifactId}-${project.version}.war</finalName>
             </build>
         </profile>
     </profiles>

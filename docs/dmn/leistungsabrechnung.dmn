@@ -285,6 +285,9 @@
                 <inputEntry id="inputEntry44" expressionLanguage="groovy">
                     <text>['GOZ', 'TAR_EZ'].containsAll(requiredSkills)</text>
                 </inputEntry>
+                <inputEntry id="inputEntry47" expressionLanguage="groovy">
+                    <text>['HeilM-RL'].containsAll(requiredSkills)</text>
+                </inputEntry>
                 <inputEntry id="inputEntry45" expressionLanguage="groovy">
                     <text>['SH', 'TAR_ES'].containsAll(requiredSkills)</text>
                 </inputEntry>
@@ -385,7 +388,7 @@
                 <conclusion>outputEntry95</conclusion>
             </rule>         
             <rule id="rule88">
-                <condition>inputEntry41</condition>
+                <condition>inputEntry47</condition>
                 <condition>inputEntry53</condition>
                 <conclusion>outputEntry96</conclusion>
             </rule>         
