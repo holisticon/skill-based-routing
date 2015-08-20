@@ -33,8 +33,12 @@ public class SkillBasedRoutingListener implements TaskListener {
     final CandidateResult candidateResult = decisionBean.evaluate(task, vars);
 
     if (candidateResult != null) {
-      delegateTask.addCandidateUser(Joiner.on(",").join(candidateResult.getCandidateUsers()));
-      delegateTask.addCandidateGroup(Joiner.on(",").join(candidateResult.getCandidateGroups()));
+      for (String user : candidateResult.getCandidateUsers()) {
+        delegateTask.addCandidateUser(user);
+      }
+      for (String group : candidateResult.getCandidateGroups()) {
+        delegateTask.addCandidateGroup(group);
+      }
     }
   }
 }

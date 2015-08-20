@@ -52,7 +52,7 @@
                 Activate this profile to add the extension. Note that this will cause the archive to have two .ear extensions, e.g. "xxx.ear.ear". -->
             <id>exploded</id>
             <build>
-                <finalName>${project.parent.artifactId}-${project.version}.ear</finalName>
+                <finalName>${project.parent.artifactId}.ear</finalName>
             </build>
         </profile>
     </profiles>
