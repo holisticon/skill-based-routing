@@ -1,8 +1,8 @@
 package de.holisticon.bpm.sbr.plugin;
 
 import api.CandidateResult;
-import api.SkillBasedRoutingService;
-import api.TaskHolder;
+import de.holisticon.bpm.sbr.plugin.api.SkillBasedRoutingService;
+import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
 import com.google.common.base.Optional;
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionOutput;

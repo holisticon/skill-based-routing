@@ -1,10 +1,6 @@
 package de.holisticon.bpm.sbr.plugin;
 
 import api.CandidateResult;
-import api.TaskHolder;
-import com.google.common.base.Joiner;
-import org.camunda.bpm.application.impl.event.ProcessApplicationEventParseListener;
-import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.TaskListener;
 import org.camunda.bpm.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.camunda.bpm.engine.impl.bpmn.parser.AbstractBpmnParseListener;
@@ -19,7 +15,6 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 

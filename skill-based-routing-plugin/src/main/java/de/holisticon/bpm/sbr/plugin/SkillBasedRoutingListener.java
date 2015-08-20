@@ -1,9 +1,8 @@
 package de.holisticon.bpm.sbr.plugin;
 
 import api.CandidateResult;
-import api.SkillBasedRoutingService;
-import api.TaskHolder;
-import com.google.common.base.Joiner;
+import de.holisticon.bpm.sbr.plugin.api.SkillBasedRoutingService;
+import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.TaskListener;
 import org.slf4j.Logger;

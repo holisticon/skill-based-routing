@@ -1,4 +1,4 @@
-package api;
+package de.holisticon.bpm.sbr.plugin.api;
 
 import org.camunda.bpm.engine.delegate.DelegateTask;
 

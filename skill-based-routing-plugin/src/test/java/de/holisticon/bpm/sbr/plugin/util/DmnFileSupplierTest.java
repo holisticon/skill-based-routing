@@ -1,4 +1,4 @@
-package de.holisticon.bpm.sbr.plugin;
+package de.holisticon.bpm.sbr.plugin.util;
 
 
 import org.junit.Test;

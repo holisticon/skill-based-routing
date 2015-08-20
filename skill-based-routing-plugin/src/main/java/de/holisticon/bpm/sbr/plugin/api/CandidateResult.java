@@ -1,4 +1,4 @@
-package api;
+package de.holisticon.bpm.sbr.plugin.api;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package de.holisticon.bpm.sbr.plugin;
+package de.holisticon.bpm.sbr.plugin.util;
 
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps;
