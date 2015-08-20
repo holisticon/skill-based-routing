@@ -18,7 +18,7 @@ public class DmnFileSupplierTest {
 
     assertThat(files).containsOnlyKeys("1.dmn", "2.dmn");
 
-    assertThat(files.get("1.dmn").getPath()).endsWith("test-classes/dmn/1.dmn");
+    assertThat(files.get("1.dmn").getPath()).endsWith("test-classes" + File.separator +"dmn" + File.separator +  "1.dmn");
   }
 
   private String getDmnDirPath() {
