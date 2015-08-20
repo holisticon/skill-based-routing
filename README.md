@@ -23,6 +23,7 @@ Holisticon hat auf Basis von DMN eine Lösung für camunda BPM entwickelt, mit d
 ## JBoss einrichten
 
 * (bis auf weiteres) Laden des aktuellesten Snapshot Bundles aus dem [camunda nexus](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-jboss/7.4.0-SNAPSHOT/)
+* Obacht: sowohl camunda als auch wir können aktuell noch refactoren, also ggf. überprüfen, ob jar- und Klassennamen noch stimmen
 
 ### Rules
 
@@ -36,11 +37,47 @@ Holisticon hat auf Basis von DMN eine Lösung für camunda BPM entwickelt, mit d
 
 Wir haben ein eigenes  Process Engine Plugin gebaut, dass das automatische Handling der CandidateUsers aus den dmn Files übernimmt.
 
-dazu muss unter $JBOSS_HOME/modules folgende Struktur existieren:
+* dazu muss unter $JBOSS_HOME/modules folgende Struktur existieren:
 
+<pre>
      modules/
        de/
-         
+         holisticon/
+           skill-based-routing/
+             main/
+               - module.xml                           // kopieren aus skill-based-routing-plugin/module.xml
+               - skill-based-routing-plugin-X.X.X.jar // kopieren aus skillbased-routing/target/
+</pre>
+
+* desweiteren muss das module in der camunda-jboss-subsystem/main/module.xml eingetragen werden
+
+<pre>
+     ...
+     &lt;module name="org.camunda.bpm.camunda-engine-plugin-spin" /&gt;
+     &lt;module name="org.camunda.bpm.camunda-engine-plugin-connect" /&gt;
+     &lt;module name="de.holisticon.skill-based-routing" /&gt;
+     ...
+</pre>
+
+* und unsere Plugin Klasse in der standalone.xml registriert werden
+
+<pre>
+    ...
+    &lt;plugins>
+      &lt;plugin>
+        &lt;class>org.camunda.bpm.application.impl.event.ProcessApplicationEventListenerPlugin&lt;/class>
+      &lt;/plugin>
+      &lt;plugin>
+        &lt;class>de.holisticon.bpm.sbr.plugin.SkillBasedRoutingProcessEnginePlugin&lt;/class>
+      &lt;/plugin>
+      ...
+</pre>
+
+
+Das wars. Camunda zieht beim Hochfahren unser plugin, das Plugin registriert TaskListener für jedes TaskCreate-Element und dieser 
+Listener liest aus $JBOSS_HOME/standalone/configuration/dmn die entsprechende *.dmn Datei ein und wertet sie aus
+
+
 
 
 ## Docs
