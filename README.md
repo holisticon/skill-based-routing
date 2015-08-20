@@ -10,9 +10,9 @@ Holisticon hat auf Basis von DMN eine Lösung für camunda BPM entwickelt, mit d
 
 ## Camunda DMN Web Modeller
 
-For editing DMN files, the web modeller can be used. 
+Für die Bearbeitung der DMN Dateien, kann der Web Modeler verwendet werden. 
 
-Checkout https://github.com/holisticon/dmn-js-examples.git and build it with `grunt auto-build` run from modeler
+Von [https://github.com/holisticon/dmn-js-examples.git](https://github.com/holisticon/dmn-js-examples.git) auschecken und den Build mit `grunt auto-build` starten, um den Modeller zu verwenden.
 
 
 ## JBoss einrichten
@@ -29,22 +29,16 @@ Das `/dmn` Verzeichnis aus `/docs` kopieren nach `$JBOSS_HOME/standalone/configu
     
 Das Process WAR `skill-based-routing-web-X.X.X.war` muss in `$JBOSS_HOME/standalone/deployments` liegen (symlink oder copy)    
 
-Eine vorkonfigurierte H2-Datenbank liegt im Verzeichnis `/docs`. Dann auch immer gleich die Camund Beispielanwendung aus den Deployments entfernen
+Eine vorkonfigurierte H2-Datenbank liegt im Verzeichnis `/docs`. Diese muss in `$JBOSS_HOME/bin/camunda-h2-dbs/`.
+
+Dann auch immer gleich die Camunda Beispielanwendung (invoice) aus den Deployments entfernen.
 
 
-#### Plugin Module
+#### Camunda Engine Plugin als JBoss Module
 
-Wir haben ein eigenes  Process Engine Plugin gebaut, dass das automatische Handling der CandidateUsers aus den dmn Files übernimmt.
+Wir haben ein eigenes  Process Engine Plugin gebaut, dass das automatische Handling der CandidateUsers aus den DMN Regeldateien übernimmt.
 
-Dazu muss unter `$JBOSS_HOME/modules` folgende Struktur existieren:
-
-    mkdir -p modules/de/holisticon/skill-based-routing/main/
-    
-In diesem Verichnis sind die folgenden Dateien aus dem Projekt `skill-based-routing-plugin` abzulegen:
-
-    skill-based-routing-plugin/module.xml
-    skill-based-routing-plugin/target/skill-based-routing-plugin-X.X.X.jar
-    
+Dazu muss der Inhalt des `jboss-module-de.holisticon.skill-based-routing-1.0-SNAPSHOT.zip` ins `$JBOSS_HOME/modules` ausgepackt werden.    
 
 Weiterhin muss das module in der `org/camunda/bpm/jboss/camunda-jboss-subsystem/main/module.xml` eingetragen werden:
 
@@ -58,7 +52,6 @@ Weiterhin muss das module in der `org/camunda/bpm/jboss/camunda-jboss-subsystem/
 
 Und unsere Plugin Klasse in der `standalone.xml` registriert werden
 
-
     ...
     <plugins>
       <plugin>
@@ -70,10 +63,8 @@ Und unsere Plugin Klasse in der `standalone.xml` registriert werden
       ...
 
 
-
-Das wars. Camunda zieht beim Hochfahren unser plugin, das Plugin registriert TaskListener für jedes TaskCreate-Element und dieser 
-Listener liest aus $JBOSS_HOME/standalone/configuration/dmn die entsprechende *.dmn Datei ein und wertet sie aus
-
+Das wars. Camunda zieht beim Hochfahren unser Plugin, das Plugin registriert TaskListener für jedes TaskCreate-Element und dieser 
+Listener liest aus `$JBOSS_HOME/standalone/configuration/dmn` die entsprechende *.dmn Datei ein und wertet sie aus. 
 
 
 
@@ -84,8 +75,8 @@ Listener liest aus $JBOSS_HOME/standalone/configuration/dmn die entsprechende *.
 
 ## Logins
 
-Simon -> holisticon   
-Jan -> holisticon   
-Jo -> holisticon 
+* Simon -> holisticon   
+* Jan -> holisticon   
+* Jo -> holisticon 
 
 
