@@ -27,6 +27,7 @@
         <!--module>skill-based-routing-setup</module-->
         <module>skill-based-routing-api</module>
         <module>skill-based-routing-web</module>
+        <module>skill-based-routing-module-assembly</module>
     </modules>
 
     <dependencyManagement>
