@@ -12,10 +12,10 @@ import org.needle4j.annotation.ObjectUnderTest;
 import org.needle4j.junit.NeedleRule;
 
 import de.holisticon.bpm.sbr.api.CustomerStatus;
-import de.holisticon.bpm.sbr.dmn.ApprovalSheet;
 import de.holisticon.bpm.sbr.dmn.SkillBasedRoutingServiceBean;
 import de.holisticon.bpm.sbr.dmn.api.CandidateResult;
 import de.holisticon.bpm.sbr.dmn.api.TaskHolder;
+import de.holisticon.bpm.sbr.dmn.approval.ApprovalSheet;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

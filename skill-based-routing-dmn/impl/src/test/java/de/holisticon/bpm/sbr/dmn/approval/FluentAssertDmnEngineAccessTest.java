@@ -1,4 +1,4 @@
-package de.holisticon.bpm.sbr.dmn.approver;
+package de.holisticon.bpm.sbr.dmn.approval;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 import de.holisticon.bpm.sbr.api.CustomerStatus;
-import de.holisticon.bpm.sbr.dmn.ApprovalSheet;
+import de.holisticon.bpm.sbr.dmn.approval.ApprovalSheet;
 import static org.camunda.bpm.dmn.engine.test.asserts.DmnAssertions.assertThat;
 
 /**

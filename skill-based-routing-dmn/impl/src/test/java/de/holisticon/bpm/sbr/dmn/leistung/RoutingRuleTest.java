@@ -1,4 +1,4 @@
-package de.holisticon.bpm.sbr.dmn;
+package de.holisticon.bpm.sbr.dmn.leistung;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,9 +11,9 @@ import org.junit.Test;
 
 import com.google.common.collect.Sets;
 
-import de.holisticon.bpm.sbr.dmn.api.VariableHolder;
-import de.holisticon.bpm.sbr.dmn.api.VariableHolder.RequiredAuthorizations;
-import de.holisticon.bpm.sbr.dmn.api.VariableHolder.RequiredSkills;
+import de.holisticon.bpm.sbr.dmn.leistung.VariableHolder;
+import de.holisticon.bpm.sbr.dmn.leistung.VariableHolder.RequiredAuthorizations;
+import de.holisticon.bpm.sbr.dmn.leistung.VariableHolder.RequiredSkills;
 import static org.camunda.bpm.dmn.engine.test.asserts.DmnAssertions.assertThat;
 
 import static org.junit.Assert.assertEquals;

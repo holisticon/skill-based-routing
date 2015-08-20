@@ -1,4 +1,4 @@
-package de.holisticon.bpm.sbr.dmn;
+package de.holisticon.bpm.sbr.dmn.approval;
 
 import de.holisticon.bpm.sbr.api.CustomerStatus;
 

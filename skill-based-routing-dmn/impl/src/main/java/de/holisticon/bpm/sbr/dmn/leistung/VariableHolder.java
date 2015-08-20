@@ -1,4 +1,4 @@
-package de.holisticon.bpm.sbr.dmn.api;
+package de.holisticon.bpm.sbr.dmn.leistung;
 
 import java.util.Set;
 

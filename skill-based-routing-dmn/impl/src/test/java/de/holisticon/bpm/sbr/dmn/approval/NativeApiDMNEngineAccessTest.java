@@ -1,4 +1,4 @@
-package de.holisticon.bpm.sbr.dmn.approver;
+package de.holisticon.bpm.sbr.dmn.approval;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.holisticon.bpm.sbr.api.CustomerStatus;
-import de.holisticon.bpm.sbr.dmn.ApprovalSheet;
+import de.holisticon.bpm.sbr.dmn.approval.ApprovalSheet;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

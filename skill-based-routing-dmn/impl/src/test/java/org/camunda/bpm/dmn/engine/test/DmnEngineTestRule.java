@@ -1,5 +1,7 @@
 package org.camunda.bpm.dmn.engine.test;
 
+import java.util.Map;
+
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
 import org.camunda.bpm.dmn.engine.DmnDecisionResult;
@@ -69,6 +71,13 @@ public class DmnEngineTestRule extends DmnEngineRule {
       for (final String key : dmnDecisionOutput.keySet()) {
         getLogger().info("|\t {} -> {}", key, dmnDecisionOutput.get(key));
       }
+    }
+  }
+
+  public void prettyPrint(Map<String, Object> context) {
+    getLogger().info("DMN Context:");
+    for (final String key : context.keySet()) {
+      getLogger().info("|\t {} -> {}", key, context.get(key));
     }
   }
 }

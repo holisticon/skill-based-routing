@@ -69,18 +69,25 @@ public class SkillBasedRoutingServiceBean implements SkillBasedRoutingService {
   }
 
   /**
-   * Retrieves the process definition key from the task delegate.
+   * Retrieves the process definition key from the task properties map.
    * 
    * @param task
-   *          delegate.
+   *          map with task properties.
    * @return process definition key.
    */
-  private String getProcessDefinitionKey(final Map<String, String> task) {
+  String getProcessDefinitionKey(final Map<String, String> task) {
     final String processDefinitionId = task.get("processDefinitionId");
     return processDefinitionId.split(":")[0];
   }
 
-  private String getProcessDefinitionKey(final TaskHolder task) {
+  /**
+   * Retrieves the process definition key from the task holder.
+   * 
+   * @param task
+   *          holder
+   * @return process definition key.
+   */
+  String getProcessDefinitionKey(final TaskHolder task) {
     final String processDefinitionId = task.getProcessDefinitionId();
     return processDefinitionId.split(":")[0];
   }

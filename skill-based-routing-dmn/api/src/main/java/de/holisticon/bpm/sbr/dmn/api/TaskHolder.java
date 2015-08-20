@@ -1,17 +1,33 @@
 package de.holisticon.bpm.sbr.dmn.api;
 
+import java.io.Serializable;
+
 import org.camunda.bpm.engine.delegate.DelegateTask;
 
-public final class TaskHolder {
+/**
+ * Holder for task properties.
+ * 
+ * @author Simon Zambrovski (Holisticon AG)
+ * 
+ */
+public final class TaskHolder implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   public static final String TASK = "task";
 
-  public static enum TASK_IDS {
-    task_erstattungsbetrag_berechnen, ;
-  }
-
   private String taskDefinitionKey;
   private String processDefinitionId;
+  private String caseDefinitionId;
+
+  public String getCaseDefinitionId() {
+    return caseDefinitionId;
+  }
+
+  public void setCaseDefinitionId(String caseDefinitionId) {
+    this.caseDefinitionId = caseDefinitionId;
+  }
+
 
   public String getTaskDefinitionKey() {
     return taskDefinitionKey;
