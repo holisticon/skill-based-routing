@@ -3,12 +3,12 @@
  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
  <modelVersion>4.0.0</modelVersion>
 
- <!-- <parent> <groupId>de.holisticon</groupId> <artifactId>skill-based-routing-root</artifactId> <version>0.2-SNAPSHOT</version> 
-  </parent> -->
-
- <groupId>de.holisticon</groupId>
- <artifactId>skill-based-routing-module-assembly</artifactId>
- <version>0.2-SNAPSHOT</version>
+ <parent>
+    <groupId>de.holisticon</groupId>
+    <artifactId>skill-based-routing-root</artifactId>
+    <version>0.2-SNAPSHOT</version> 
+ </parent>
+ <artifactId>skill-based-routing-assembly</artifactId>
  <packaging>pom</packaging>
 
  <properties>
@@ -18,7 +18,8 @@
  </properties>
 
  <modules>
-  <module>skill-based-routing-module</module>
+  <module>skill-based-routing-plugin</module>
+  <module>skill-based-routing-module</module> 
  </modules>
 
  <build>
@@ -48,7 +49,9 @@
   </profile>
   <profile>
    <id>snapshot</id>
-
+   <properties>
+    <version-postfix></version-postfix>
+   </properties>
   </profile>
   <profile>
    <id>module-build</id>
@@ -105,8 +108,6 @@
          <overWriteReleases>false</overWriteReleases>
          <overWriteSnapshots>false</overWriteSnapshots>
          <overWriteIfNewer>true</overWriteIfNewer>
-         <!-- <actTransitively>false</actTransitively> <excludeTransitive>true</excludeTransitive> <scope>compile</scope> 
-          <excludeScope>provided</excludeScope> -->
         </configuration>
        </execution>
       </executions>
@@ -148,7 +149,6 @@
         <phase>package</phase>
         <configuration>
          <target>
-
           <ant antfile="${basedir}/src/main/ant/build.xml" inheritrefs="true" />
           <zip destfile="${project.build.directory}/${jboss-module-zip-filename}" basedir="${project.build.directory}/module" />
           <delete dir="${project.build.directory}/module" />
@@ -166,12 +166,11 @@
        <dependency>
         <groupId>de.holisticon.toolbox</groupId>
         <artifactId>jboss-modules-ant-task</artifactId>
-        <version>1.1.1</version>
+        <version>1.2</version>
        </dependency>
       </dependencies>
      </plugin>
     </plugins>
-
    </build>
   </profile>
  </profiles>

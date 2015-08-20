@@ -5,20 +5,16 @@
 	
     <parent>
 		<groupId>de.holisticon</groupId>
-		<artifactId>skill-based-routing-module-assembly</artifactId>
+		<artifactId>skill-based-routing-assembly</artifactId>
 		<version>0.2-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>skill-based-routing-module</artifactId>
-    
-	<!--
-    <version>${jboss-module-version}-lht-2${version-postfix}</version>
-    -->
+	<artifactId>skill-based-routing-module</artifactId>    
 	<packaging>pom</packaging>
 
 	<properties>
 		<jboss-module-id>de.holisticon.skill-based-routing</jboss-module-id>
-		<jboss-module-version>0.1</jboss-module-version>
+		<jboss-module-version>1.0</jboss-module-version>
 	</properties>
 
 	<dependencies>
