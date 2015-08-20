@@ -4,14 +4,17 @@
         <module-alias name="skill-based-routing-dmn-ear"/>
         <dependencies>
             <module name="com.google.guava" export="true"/>
+            <module name="org.codehaus.groovy.groovy-all" export="true" services="export"/>
             <module name="org.camunda.bpm.camunda-engine" export="true"/>
             <module name="org.camunda.bpm.dmn.camunda-engine-dmn" export="true"/>
             <module name="org.camunda.bpm.dmn.camunda-scriptengine-dmn" export="true"/>
+            
         </dependencies>
     </deployment>
     <sub-deployment name="skill-based-routing-dmn-impl.jar">
         <dependencies>
             <module name="com.google.guava" export="true"/>
+            <module name="org.codehaus.groovy.groovy-all" export="true" services="export"/>
         </dependencies>
     </sub-deployment>
 </jboss-deployment-structure>

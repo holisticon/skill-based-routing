@@ -2,9 +2,13 @@ package de.holisticon.bpm.sbr.dmn.leistung;
 
 import java.util.Set;
 
-public final class VariableHolder {
+public final class Variables {
 
-  public static final String VARIABLES = "variables";
+  public static final String RECHNUNSART = "rechnungsart";
+  public static final String PRODUKT = "produkt";
+  public static final String KUNDENSTATUS = "kundenstatus";
+  public static final String ERSTATTUNG_GESAMT = "erstattungGesamt";
+  
   
   public static enum RequiredAuthorizations {
     INTERNA, KULANZ, EXKASSO_S, EXKASSO_M, EXKASSO_L;

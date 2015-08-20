@@ -18,6 +18,9 @@
       </bpmn2:lane>
     </bpmn2:laneSet>
     <bpmn2:startEvent id="start" camunda:formKey="embedded:app:start.html" name="Arztrechnung&#xD;&#xA;empfangen">
+      <bpmn2:extensionElements>
+        <camunda:executionListener delegateExpression="#{processStartVariableInitializationListener}" event="start"/>
+      </bpmn2:extensionElements>
       <bpmn2:outgoing>seq_1</bpmn2:outgoing>
     </bpmn2:startEvent>
     <bpmn2:sequenceFlow id="seq_1" name="" sourceRef="start" targetRef="task_leistungen_erfassen"/>

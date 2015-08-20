@@ -5,6 +5,7 @@
         <dependencies>
             <module name="com.google.guava" export="true"/>
             <module name="org.camunda.bpm.camunda-engine" export="true"/>
+            <module name="org.codehaus.groovy.groovy-all" export="true"/>
         </dependencies>
     </deployment>
 </jboss-deployment-structure>

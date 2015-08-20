@@ -28,7 +28,6 @@ public final class TaskHolder implements Serializable {
     this.caseDefinitionId = caseDefinitionId;
   }
 
-
   public String getTaskDefinitionKey() {
     return taskDefinitionKey;
   }
@@ -49,13 +48,14 @@ public final class TaskHolder implements Serializable {
    * Factory method.
    * 
    * @param task
-   *          Camunda BPM Task.
+   *          Camunda BPM delegate Task.
    * @return task holder
    */
   public static TaskHolder fromTask(final DelegateTask task) {
     final TaskHolder holder = new TaskHolder();
     holder.setProcessDefinitionId(task.getProcessDefinitionId());
     holder.setTaskDefinitionKey(task.getTaskDefinitionKey());
+    holder.setCaseDefinitionId(task.getCaseDefinitionId());
     return holder;
   }
 }

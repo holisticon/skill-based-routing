@@ -24,5 +24,12 @@ Holisticon hat auf Basis von DMN eine Lösung für camunda BPM entwickelt, mit d
 ## Docs
 
 * [ExpressionRequirements.pdf von Bernd](docs/ExpressionRequirements.pdf)
-* [JBoss 7.2.0-Final Camunda BPM 7.4.0-SNAPSHOT](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-jboss/7.4.0-SNAPSHOT/)
+* [JBoss 7.2.0-Final Camunda BPM EE 7.4.0-SNAPSHOT](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0-SNAPSHOT/)
+
+* Zugang
+
+Simon -> holisticon
+Jan -> holisticon
+Jo -> holisticon
+
 
