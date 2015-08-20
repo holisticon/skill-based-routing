@@ -23,9 +23,9 @@
     </properties>
 
     <modules>
-        <module>skill-based-routing-setup</module>
+        <module>skill-based-routing-plugin</module>
+        <!--module>skill-based-routing-setup</module-->
         <module>skill-based-routing-api</module>
-        <module>skill-based-routing-dmn</module>
         <module>skill-based-routing-web</module>
     </modules>
 

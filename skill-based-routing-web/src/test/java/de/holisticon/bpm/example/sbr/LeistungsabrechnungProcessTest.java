@@ -26,7 +26,6 @@ import org.mockito.Mockito;
 
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Activities;
 import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
-import de.holisticon.bpm.example.sbr.adapter.SkillBasedRoutingGroupSelector;
 import de.holisticon.bpm.example.sbr.adapter.VersicherungsschutzErmittelnDelegate;
 import de.holisticon.bpm.sbr.api.Leistung;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
@@ -47,9 +46,6 @@ public class LeistungsabrechnungProcessTest {
 
     @Inject
     TaskService taskService;
-
-    @Inject
-    SkillBasedRoutingGroupSelector selector;
 
 
     Driver driver;

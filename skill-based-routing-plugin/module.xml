@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.0" name="de.holisticon.skill-based-routing">
+  <resources>
+    <resource-root path="skill-based-routing-plugin-0.2-SNAPSHOT.jar" />
+  </resources>
+
+  <dependencies>
+
+  </dependencies>
+</module>

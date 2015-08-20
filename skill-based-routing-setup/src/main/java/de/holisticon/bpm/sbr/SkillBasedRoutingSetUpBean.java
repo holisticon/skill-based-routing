@@ -9,6 +9,7 @@ import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.impl.cfg.AbstractProcessEnginePlugin;
+import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.slf4j.Logger;
 
 import javax.annotation.PostConstruct;
@@ -29,12 +30,15 @@ public class SkillBasedRoutingSetUpBean {
   @Inject
   private IdentityService identityService;
 
+  @Inject
+  private ProcessEngine processEngine;
+
+  @Inject
+  private RuntimeService runtimeService;
+
   @PostConstruct
   public void init() {
-
-    final List<User> list = identityService.createUserQuery().list();
-    logger.error("=============================================================== " + Joiner.on(",").join(list));
-
+    // empty
   }
 
 }

@@ -14,3 +14,7 @@ target/
 tmp/
 */src/main/resources/*.png
 *.bak
+*.index
+/docker
+~*
+
