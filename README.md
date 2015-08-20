@@ -22,34 +22,33 @@ Holisticon hat auf Basis von DMN eine Lösung für camunda BPM entwickelt, mit d
 
 ## JBoss einrichten
 
-* (bis auf weiteres) Laden des aktuellesten Snapshot Bundles aus dem [camunda nexus](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-jboss/7.4.0-SNAPSHOT/)
-* Obacht: sowohl camunda als auch wir können aktuell noch refactoren, also ggf. überprüfen, ob jar- und Klassennamen noch stimmen
+(Bis auf weiteres) Laden des aktuellesten Snapshot Bundles aus dem [camunda nexus](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0-SNAPSHOT/)
+
+Obacht: sowohl camunda als auch wir können aktuell noch refactoren, also ggf. überprüfen, ob jar- und Klassennamen noch stimmen
 
 ### Rules
 
-* das /dmn Verzeichnis aus /docs kopieren nach $JBOSS_HOME/standalone/configuration
+Das `/dmn` Verzeichnis aus `/docs` kopieren nach `$JBOSS_HOME/standalone/configuration`
 
 ### Deployments
 
-* das Process WAR skill-based-routing-web-X.X.X.war muss in standalone/deployments liegen (symlink oder copy)
+Das Process WAR `skill-based-routing-web-X.X.X.war` muss in `$JBOSS_HOME/standalone/deployments` liegen (symlink oder copy)
 
 ### Plugin Module
 
 Wir haben ein eigenes  Process Engine Plugin gebaut, dass das automatische Handling der CandidateUsers aus den dmn Files übernimmt.
 
-* dazu muss unter $JBOSS_HOME/modules folgende Struktur existieren:
+Dazu muss unter `$JBOSS_HOME/modules` folgende Struktur existieren:
 
-<pre>
-     modules/
-       de/
-         holisticon/
-           skill-based-routing/
-             main/
-               - module.xml                           // kopieren aus skill-based-routing-plugin/module.xml
-               - skill-based-routing-plugin-X.X.X.jar // kopieren aus skillbased-routing/target/
-</pre>
+    mkdir -p modules/de/holisticon/skill-based-routing/main/
+    
+In diesem Verichnis sind die folgenden Dateien aus dem Projekt `skill-based-routing-plugin` abzulegen:
 
-* desweiteren muss das module in der camunda-jboss-subsystem/main/module.xml eingetragen werden
+    skill-based-routing-plugin/module.xml
+    skill-based-routing-plugin/target/skill-based-routing-plugin-X.X.X.jar
+    
+
+Weiterhin muss das module in der `org/camunda/bpm/jboss/camunda-jboss-subsystem/main/module.xml` eingetragen werden:
 
 <pre>
      ...
@@ -59,7 +58,7 @@ Wir haben ein eigenes  Process Engine Plugin gebaut, dass das automatische Handl
      ...
 </pre>
 
-* und unsere Plugin Klasse in der standalone.xml registriert werden
+Und unsere Plugin Klasse in der standalone.xml registriert werden
 
 <pre>
     ...
@@ -80,15 +79,15 @@ Listener liest aus $JBOSS_HOME/standalone/configuration/dmn die entsprechende *.
 
 
 
-## Docs
+## Resources
 
 * [ExpressionRequirements.pdf von Bernd](docs/ExpressionRequirements.pdf)
 * [JBoss 7.2.0-Final Camunda BPM EE 7.4.0-SNAPSHOT](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0-SNAPSHOT/)
 
-* Zugang
+## Zugang
 
-Simon -> holisticon
-Jan -> holisticon
-Jo -> holisticon
+Simon -> holisticon   
+Jan -> holisticon   
+Jo -> holisticon 
 
 
