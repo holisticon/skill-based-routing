@@ -1,9 +1,10 @@
 package de.holisticon.bpm.sbr.plugin;
 
-import api.CandidateResult;
+import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
 import de.holisticon.bpm.sbr.plugin.api.SkillBasedRoutingService;
 import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
 import com.google.common.base.Optional;
+import de.holisticon.bpm.sbr.plugin.util.DmnFileSupplier;
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
 import org.camunda.bpm.dmn.engine.DmnDecisionResult;

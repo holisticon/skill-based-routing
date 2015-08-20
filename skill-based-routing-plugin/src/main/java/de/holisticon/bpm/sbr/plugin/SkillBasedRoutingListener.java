@@ -1,6 +1,6 @@
 package de.holisticon.bpm.sbr.plugin;
 
-import api.CandidateResult;
+import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
 import de.holisticon.bpm.sbr.plugin.api.SkillBasedRoutingService;
 import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
 import org.camunda.bpm.engine.delegate.DelegateTask;

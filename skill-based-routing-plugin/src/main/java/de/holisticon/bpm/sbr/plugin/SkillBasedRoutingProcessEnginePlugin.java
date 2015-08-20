@@ -1,6 +1,5 @@
 package de.holisticon.bpm.sbr.plugin;
 
-import api.CandidateResult;
 import org.camunda.bpm.engine.delegate.TaskListener;
 import org.camunda.bpm.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.camunda.bpm.engine.impl.bpmn.parser.AbstractBpmnParseListener;
