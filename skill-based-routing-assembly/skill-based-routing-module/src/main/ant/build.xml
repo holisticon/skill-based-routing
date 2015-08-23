@@ -1,21 +1,21 @@
 <project name="jbossModule" default="module" basedir=".">
 
-	<target name="module">
-		<echo message="Creating JBoss Module: ${jboss-module-id}-${jboss-module-version} " />
-		<taskdef resource="de/holisticon/toolbox/ant/antlib.xml" classpathref="maven.plugin.classpath" />
-		<modules todir="${project.build.directory}/module" overwrite="true">
-			<module name="${jboss-module-id}" slot="${jboss-module-version}">
-				<resourceFileSet dir="${jboss-module-resources-dir}">
-					<include name="*.jar" />
-				</resourceFileSet>
-				<dependency name="com.google.guava" export="true" />
-				<dependency name="org.codehaus.groovy.groovy-all" services="export" export="true" />
-				<dependency name="org.camunda.bpm.camunda-engine" export="true" />
-				<dependency name="org.camunda.bpm.dmn.camunda-engine-dmn" export="true" />
-				<dependency name="org.camunda.bpm.dmn.camunda-scriptengine-dmn" export="true" />
-				<dependency name="org.slf4j" />
-			</module>
-		</modules>
-	</target>
+    <target name="module">
+        <echo message="Creating JBoss Module: ${jboss-module-id}-${jboss-module-version} "/>
+        <taskdef resource="de/holisticon/toolbox/ant/antlib.xml" classpathref="maven.plugin.classpath"/>
+        <modules todir="${project.build.directory}/module" overwrite="true">
+            <module name="${jboss-module-id}" slot="${jboss-module-version}">
+                <resourceFileSet dir="${jboss-module-resources-dir}">
+                    <include name="*.jar"/>
+                </resourceFileSet>
+                <dependency name="com.google.guava" export="true"/>
+                <dependency name="org.codehaus.groovy.groovy-all" services="export" export="true"/>
+                <dependency name="org.camunda.bpm.camunda-engine" export="true"/>
+                <dependency name="org.camunda.bpm.dmn.camunda-engine-dmn" export="true"/>
+                <dependency name="org.camunda.bpm.dmn.camunda-scriptengine-dmn" export="true"/>
+                <dependency name="org.slf4j"/>
+            </module>
+        </modules>
+    </target>
 
 </project>

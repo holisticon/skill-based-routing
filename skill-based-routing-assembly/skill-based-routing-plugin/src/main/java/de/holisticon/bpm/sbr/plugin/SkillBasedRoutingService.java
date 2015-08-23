@@ -72,10 +72,8 @@ public class SkillBasedRoutingService {
     /**
      * Delivers candidate rules and groups for task routing.
      *
-     * @param taskHolder
-     *          task information.
-     * @param variables
-     *          instance variables (payload).
+     * @param taskHolder task information.
+     * @param variables  instance variables (payload).
      * @return candidate result.
      */
     public CandidateResult evaluate(final TaskHolder taskHolder, final Map<String, Object> variables) {

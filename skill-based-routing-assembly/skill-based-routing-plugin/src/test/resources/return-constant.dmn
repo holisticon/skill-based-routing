@@ -267,10 +267,10 @@
 
     <Decision id="candidateUsersRouting" name="mögliche Benutzer">
 
-        <DecisionTable id="candidateUsersTable" name="mögliche Benutzer" isComplete="false" isConsistent="true" hitPolicy="RULE ORDER" >
+        <DecisionTable id="candidateUsersTable" name="mögliche Benutzer" isComplete="false" isConsistent="true" hitPolicy="RULE ORDER">
 
             <clause id="inputRequiredSkills" name="Required Skills">
-                <inputExpression id="requiredSkillsExpression" name="Required Skills" expressionLanguage="groovy" >
+                <inputExpression id="requiredSkillsExpression" name="Required Skills" expressionLanguage="groovy">
                     <text>requiredSkills</text>
                 </inputExpression>
                 <inputEntry id="inputEntry41" expressionLanguage="groovy">

@@ -1,11 +1,9 @@
 package de.holisticon.bpm.example.sbr;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-
+import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Activities;
+import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
+import de.holisticon.bpm.example.sbr.adapter.VersicherungsschutzErmittelnDelegate;
+import de.holisticon.bpm.sbr.api.Leistung;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -24,10 +22,11 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
-import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Activities;
-import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
-import de.holisticon.bpm.example.sbr.adapter.VersicherungsschutzErmittelnDelegate;
-import de.holisticon.bpm.sbr.api.Leistung;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.init;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.runtimeService;
@@ -55,7 +54,7 @@ public class LeistungsabrechnungProcessTest {
         init(rule.getProcessEngine());
         driver = new Driver();
 
-      DelegateExpressions.autoMock(LeistungsabrechnungProcess.RESOURCE);
+        DelegateExpressions.autoMock(LeistungsabrechnungProcess.RESOURCE);
     }
 
     @Test
@@ -135,15 +134,15 @@ public class LeistungsabrechnungProcessTest {
                     for (final Leistung leistung : leistungen) {
                         if (leistung.isGebuehrenrechtlichOk()) {
                             switch (leistung.getBezeichnung()) {
-                            case L1:
-                                leistung.setTarif("T1");
-                                break;
-                            case L2:
-                                leistung.setTarif("T2");
-                                break;
-                            case L3:
-                                leistung.setTarif("T3");
-                                break;
+                                case L1:
+                                    leistung.setTarif("T1");
+                                    break;
+                                case L2:
+                                    leistung.setTarif("T2");
+                                    break;
+                                case L3:
+                                    leistung.setTarif("T3");
+                                    break;
                             }
                         }
                     }

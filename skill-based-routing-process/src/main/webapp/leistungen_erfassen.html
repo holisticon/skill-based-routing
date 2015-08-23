@@ -1,6 +1,6 @@
 <form role="form" name="leistungen_erfassen">
- 	
-  <script cam-script type="text/form-script">
+
+    <script cam-script type="text/form-script">
 
     // angular form works on scope object
     var leistungen = $scope.leistungen = [];
@@ -54,78 +54,83 @@
       });
     });
 
-  </script>
-  
+
+    </script>
+
     <table width="100%">
-      <tr>
-        <td width="33%">
-          <div class="form-group">
-            <label>Versicherungsnummer</label> 
-            <div class="form-control">{{versicherungsnummer}}</div>
-          </div>
-        </td>
-        <td>&nbsp;</td>       
-        <td width="33%">
-          <div class="form-group">
-            <label for="produkt">Produkt</label>
-            <div class="controls">
-            <select name="produkt"
-                    class="form-control"
-                    required 
-                    cam-variable-name="produkt"
-                    cam-variable-type="String">
-                    <option selected value=''></option>
-                    <option value="Basis-Schutz">Basis-Schutz</option>
-                    <option value="Premium Komplett">Premium Komplett</option>
-                    <option value=Zahnzusatz>Zahnzusatz</option>
-                    <option value="Brille 2000">Brille 2000</option>
-                    <option value="Sonstiges">Sonstiges</option>
-             </select>
-             </div>
-          </div>
-        </td>
-        <td>&nbsp;</td>       
-        <td width="32%">
-          <div class="form-group">
-            <label for="kundenstatus">Kundenstatus</label>
-            <div class="controls">
-            <select name="kundenstatus"
-                    class="form-control"
-                    required 
-                    cam-variable-name="kundenstatus"
-                    cam-variable-type="String">
-                    <option selected value=''></option>
-                    <option value="Standard">Standard</option>
-                    <option value="VIP">VIP</option>
-                    <option value="Mitarbeiter">Mitarbeiter</option>
-             </select>
-             </div>
-          </div>
-        </td>
-      </tr>
+        <tr>
+            <td width="33%">
+                <div class="form-group">
+                    <label>Versicherungsnummer</label>
+
+                    <div class="form-control">{{versicherungsnummer}}</div>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+            <td width="33%">
+                <div class="form-group">
+                    <label for="produkt">Produkt</label>
+
+                    <div class="controls">
+                        <select name="produkt"
+                                class="form-control"
+                                required
+                                cam-variable-name="produkt"
+                                cam-variable-type="String">
+                            <option selected value=''></option>
+                            <option value="Basis-Schutz">Basis-Schutz</option>
+                            <option value="Premium Komplett">Premium Komplett</option>
+                            <option value=Zahnzusatz>Zahnzusatz</option>
+                            <option value="Brille 2000">Brille 2000</option>
+                            <option value="Sonstiges">Sonstiges</option>
+                        </select>
+                    </div>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+            <td width="32%">
+                <div class="form-group">
+                    <label for="kundenstatus">Kundenstatus</label>
+
+                    <div class="controls">
+                        <select name="kundenstatus"
+                                class="form-control"
+                                required
+                                cam-variable-name="kundenstatus"
+                                cam-variable-type="String">
+                            <option selected value=''></option>
+                            <option value="Standard">Standard</option>
+                            <option value="VIP">VIP</option>
+                            <option value="Mitarbeiter">Mitarbeiter</option>
+                        </select>
+                    </div>
+                </div>
+            </td>
+        </tr>
     </table>
-    
+
     <div class="form-group">
-      <label>Erstattungswunsch</label> 
-      <div class="form-control" style="height: 100%">{{erstattungswunsch}}</div>
-	</div>
+        <label>Erstattungswunsch</label>
+
+        <div class="form-control" style="height: 100%">{{erstattungswunsch}}</div>
+    </div>
 
     <div style="padding-bottom: 10px;">
-      <strong>Abzurechnende Leistungen</strong> 
-      <a href ng-click="leistungHinzufuegen()" class="btn"><span class="glyphicon glyphicon-plus-sign"></span> Hinzuf&uuml;gen</a> 
-      
-      <div ng-repeat="leistung in leistungen">     
-        
-        <div class="controls">
-          <input class="form-control"
-                 style="margin-bottom: -1px"
-                 required
-                 type="text"
-                 ng-model="leistung.bezeichnung" 
-                 placeholder="Ziffer/Schlüssel (+ ggf. Beschreibung)" />
+        <strong>Abzurechnende Leistungen</strong>
+        <a href ng-click="leistungHinzufuegen()" class="btn"><span class="glyphicon glyphicon-plus-sign"></span> Hinzuf&uuml;gen</a>
+
+        <div ng-repeat="leistung in leistungen">
+
+            <div class="controls">
+                <input class="form-control"
+                       style="margin-bottom: -1px"
+                       required
+                       type="text"
+                       ng-model="leistung.bezeichnung"
+                       placeholder="Ziffer/Schlüssel (+ ggf. Beschreibung)"/>
+            </div>
+
         </div>
-        
-      </div>
     </div>
 
 </form>

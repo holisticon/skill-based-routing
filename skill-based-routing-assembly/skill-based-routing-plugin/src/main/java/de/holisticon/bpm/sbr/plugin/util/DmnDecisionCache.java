@@ -17,7 +17,7 @@ public class DmnDecisionCache {
     public DmnDecisionCache(DmnEngine dmnEngine, File dmnDir) {
         this.dmnEngine = dmnEngine;
         this.dmnDir = dmnDir;
-        this.cache  = CacheBuilder.newBuilder().build(new DmnDecisionLoader(dmnEngine,dmnDir));
+        this.cache = CacheBuilder.newBuilder().build(new DmnDecisionLoader(dmnEngine, dmnDir));
     }
 
     public DmnDecision get(String processDefinitionKey, String decisionId) {

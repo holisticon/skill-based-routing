@@ -1,7 +1,5 @@
 package de.holisticon.bpm.sbr.plugin.util;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;

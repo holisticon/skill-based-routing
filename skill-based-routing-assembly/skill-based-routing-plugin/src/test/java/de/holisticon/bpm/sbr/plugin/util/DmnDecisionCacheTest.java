@@ -1,13 +1,11 @@
 package de.holisticon.bpm.sbr.plugin.util;
 
 
-import com.google.common.collect.Maps;
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionResult;
 import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.DmnExpressionException;
 import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

@@ -12,7 +12,7 @@ public class Leistung implements Serializable {
     private Double erstattungsbetrag;
 
     public Leistung() {
-      // Needed for JSON
+        // Needed for JSON
     }
 
     public Leistung(String bezeichung) {

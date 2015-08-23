@@ -1,7 +1,6 @@
 package de.holisticon.bpm.sbr.plugin;
 
 import de.holisticon.bpm.sbr.plugin.listener.SkillBasedRoutingListener;
-import org.camunda.bpm.engine.delegate.TaskListener;
 import org.camunda.bpm.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.camunda.bpm.engine.impl.bpmn.parser.AbstractBpmnParseListener;
 import org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseListener;
@@ -45,7 +44,6 @@ public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEngineP
             }
         });
     }
-
 
 
     private List<BpmnParseListener> getCustomPreBPMNParseListeners(ProcessEngineConfigurationImpl processEngineConfiguration) {

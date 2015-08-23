@@ -63,7 +63,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-        <!-- Needed for InMemoryH2Test -->
+            <!-- Needed for InMemoryH2Test -->
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
@@ -88,7 +88,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
     </dependencies>
 
     <build>
