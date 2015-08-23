@@ -1,7 +1,7 @@
-package de.holisticon.bpm.sbr.plugin;
+package de.holisticon.bpm.sbr.plugin.listener;
 
+import de.holisticon.bpm.sbr.plugin.SkillBasedRoutingService;
 import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
-import de.holisticon.bpm.sbr.plugin.api.SkillBasedRoutingService;
 import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.TaskListener;
@@ -14,7 +14,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class SkillBasedRoutingListener implements TaskListener {
 
   private final Logger logger = getLogger(this.getClass());
-
 
   private final SkillBasedRoutingService decisionBean;
 

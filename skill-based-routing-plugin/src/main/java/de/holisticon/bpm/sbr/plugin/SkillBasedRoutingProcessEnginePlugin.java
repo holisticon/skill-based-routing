@@ -1,5 +1,6 @@
 package de.holisticon.bpm.sbr.plugin;
 
+import de.holisticon.bpm.sbr.plugin.listener.SkillBasedRoutingListener;
 import org.camunda.bpm.engine.delegate.TaskListener;
 import org.camunda.bpm.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.camunda.bpm.engine.impl.bpmn.parser.AbstractBpmnParseListener;
@@ -19,25 +20,29 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEnginePlugin {
 
-  private final Logger logger = getLogger(this.getClass());
+    private final Logger logger = getLogger(this.getClass());
 
-  private final SkillBasedRoutingServiceBean skillBasedRoutingServiceBean = new SkillBasedRoutingServiceBean();
+    private final SkillBasedRoutingService skillBasedRoutingService = new SkillBasedRoutingService();
 
-  @Override
-  public void preInit(final ProcessEngineConfigurationImpl processEngineConfiguration) {
-    List<BpmnParseListener> preParseListeners = processEngineConfiguration.getCustomPreBPMNParseListeners();
-    if (preParseListeners == null) {
-      preParseListeners = new ArrayList();
-      processEngineConfiguration.setCustomPreBPMNParseListeners(preParseListeners);
+    public SkillBasedRoutingProcessEnginePlugin() {
+
     }
 
-    preParseListeners.add(new AbstractBpmnParseListener(){
-      @Override
-      public void parseUserTask(Element userTaskElement, ScopeImpl scope, ActivityImpl activity) {
-        UserTaskActivityBehavior activityBehavior = (UserTaskActivityBehavior)activity.getActivityBehavior();
-        TaskDefinition taskDefinition = activityBehavior.getTaskDefinition();
-        taskDefinition.addTaskListener(TaskListener.EVENTNAME_CREATE, new SkillBasedRoutingListener(skillBasedRoutingServiceBean));
-      }
-    });
-  }
+    @Override
+    public void preInit(final ProcessEngineConfigurationImpl processEngineConfiguration) {
+        List<BpmnParseListener> preParseListeners = processEngineConfiguration.getCustomPreBPMNParseListeners();
+        if (preParseListeners == null) {
+            preParseListeners = new ArrayList();
+            processEngineConfiguration.setCustomPreBPMNParseListeners(preParseListeners);
+        }
+
+        preParseListeners.add(new AbstractBpmnParseListener() {
+            @Override
+            public void parseUserTask(Element userTaskElement, ScopeImpl scope, ActivityImpl activity) {
+                UserTaskActivityBehavior activityBehavior = (UserTaskActivityBehavior) activity.getActivityBehavior();
+                TaskDefinition taskDefinition = activityBehavior.getTaskDefinition();
+                taskDefinition.addTaskListener(TaskListener.EVENTNAME_CREATE, new SkillBasedRoutingListener(skillBasedRoutingService));
+            }
+        });
+    }
 }
