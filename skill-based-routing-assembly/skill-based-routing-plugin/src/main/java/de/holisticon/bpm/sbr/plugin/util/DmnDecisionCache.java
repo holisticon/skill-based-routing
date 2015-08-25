@@ -44,14 +44,14 @@ public class DmnDecisionCache {
   /**
    * Retrieves the DMN decision.
    * 
-   * @param deicisionResourceName
+   * @param decisionResourceName
    *          file name with decision definition.
    * @param decisionId
    *          decision id.
    * @return Optional decision (null or decision).
    */
-  public Optional<DmnDecision> get(String deicisionResourceName, String decisionId) {
-    if (deicisionResourceName == null) {
+  public Optional<DmnDecision> get(String decisionResourceName, String decisionId) {
+    if (decisionResourceName == null) {
       logger.warn("Decision resource name must be not null");
       return Optional.absent();
     }
@@ -60,10 +60,10 @@ public class DmnDecisionCache {
       return Optional.absent();
     }
     try {
-      final DmnDecision decision = cache.getUnchecked(new DmnDecisionLoader.Key(deicisionResourceName, decisionId));
+      final DmnDecision decision = cache.getUnchecked(new DmnDecisionLoader.Key(decisionResourceName, decisionId));
       return Optional.of(decision);
     } catch (UncheckedExecutionException e) {
-      logger.error("Error loading decision {} from {}", decisionId, deicisionResourceName);
+      logger.error("Error loading decision {} from {}", decisionId, decisionResourceName);
     }
 
     return Optional.absent();

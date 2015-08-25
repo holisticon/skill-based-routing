@@ -27,11 +27,16 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
   public static class Key {
 
     private final String decisionResourceName;
-    private final String tableId;
+    private final String decisionId;
 
-    public Key(final String decisionResourceName, final String tableId) {
+    /**
+     * Constructs a key from decision resource name and decision id.
+     * @param decisionResourceName
+     * @param decisionId
+     */
+    public Key(final String decisionResourceName, final String decisionId) {
       this.decisionResourceName = decisionResourceName;
-      this.tableId = tableId;
+      this.decisionId = decisionId;
     }
 
     @Override
@@ -45,7 +50,7 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
     }
 
     public File getFile(final File dir) {
-      return Paths.get(dir.getPath(), decisionResourceName + "_" + tableId + ".dmn").toFile();
+      return Paths.get(dir.getPath(), decisionResourceName + "_" + decisionId + ".dmn").toFile();
     }
 
     @Override
@@ -66,6 +71,6 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
   @Override
   public DmnDecision load(final Key key) throws Exception {
     logger.info("Loading {}", key);
-    return dmnEngine.parseDecision(new FileInputStream(key.getFile(dmnDir)), key.tableId);
+    return dmnEngine.parseDecision(new FileInputStream(key.getFile(dmnDir)), key.decisionId);
   }
 }

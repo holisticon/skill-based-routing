@@ -1,9 +1,12 @@
 package de.holisticon.bpm.sbr.plugin;
 
-import com.google.common.base.Optional;
-import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
-import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
-import de.holisticon.bpm.sbr.plugin.util.DmnFileSupplier;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
 import org.camunda.bpm.dmn.engine.DmnDecisionResult;
@@ -11,16 +14,12 @@ import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
 import org.slf4j.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.google.common.base.Optional;
 
+import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
+import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionResourceNameRetriever;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SkillBasedRoutingService {
@@ -65,31 +64,31 @@ public class SkillBasedRoutingService {
 
   private final Logger logger = getLogger(this.getClass());
   private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-
-  private final Map<String, DmnDecision> decisions = new HashMap<String, DmnDecision>();
-  private final DmnFileSupplier dmnFileSupplier = new DmnFileSupplier();
+  private final File dmnPath = new File(System.getProperty("jboss.server.config.dir") + File.separator + "dmn");
+  private final DmnDecisionCache decisionCache = new DmnDecisionCache(dmnEngine, dmnPath);
+  private final DmnDecisionResourceNameRetriever fromTask = new DmnDecisionResourceNameRetriever();
 
   /**
    * Delivers candidate rules and groups for task routing.
    * 
-   * @param taskHolder
+   * @param task
    *          task information.
    * @param variables
    *          instance variables (payload).
    * @return candidate result.
    */
-  public CandidateResult evaluate(final TaskHolder taskHolder, final Map<String, Object> variables) {
+  public CandidateResult evaluate(final TaskHolder task, final Map<String, Object> variables) {
     final CandidateResult candidateResult = new CandidateResult();
 
     // prepare decision context for skills and authorizations
     Map<String, Object> context = new HashMap<String, Object>();
-    prepareEvaluationProcessContext(context, taskHolder, variables);
+    prepareEvaluationProcessContext(context, task, variables);
 
     // skills
-    final List<String> requiredSkills = evaluateResults(getProcessDefinitionKey(taskHolder), DECISION_REQUIRED_SKILLS, context, OUTPUT_REQUIRED_SKILLS);
+    final List<String> requiredSkills = evaluateResults(fromTask.apply(task), DECISION_REQUIRED_SKILLS, context, OUTPUT_REQUIRED_SKILLS);
     logger.info("Required skills {}", requiredSkills);
     // authorizations
-    final List<String> requiredAuthorizations = evaluateResults(getProcessDefinitionKey(taskHolder), DECISION_REQUIRED_AUTHORIZATIONS, context,
+    final List<String> requiredAuthorizations = evaluateResults(fromTask.apply(task), DECISION_REQUIRED_AUTHORIZATIONS, context,
         OUTPUT_REQUIRED_AUTHORIZATIONS);
     logger.info("Required authorizations {}", requiredAuthorizations);
 
@@ -98,7 +97,7 @@ public class SkillBasedRoutingService {
     prepareEvaluationRoutingContext(context, requiredSkills, requiredAuthorizations);
 
     // routing
-    final List<String> candidateUsers = evaluateResults(getProcessDefinitionKey(taskHolder), DECISION_CANDIDATE_USERS_ROUTING, context, OUTPUT_CANDIDATE_USERS);
+    final List<String> candidateUsers = evaluateResults(fromTask.apply(task), DECISION_CANDIDATE_USERS_ROUTING, context, OUTPUT_CANDIDATE_USERS);
 
     // users
     if (candidateUsers != null) {
@@ -112,7 +111,7 @@ public class SkillBasedRoutingService {
   @SuppressWarnings("unchecked")
   public <T> List<T> evaluateResults(final String decisionResourceName, final String decisionName, final Map<String, Object> context, final String resultName) {
 
-    final Optional<DmnDecision> decision = getDecision(decisionResourceName, decisionName);
+    final Optional<DmnDecision> decision = decisionCache.get(decisionResourceName, decisionName);
     if (!decision.isPresent()) {
       return Collections.EMPTY_LIST;
     }
@@ -127,48 +126,6 @@ public class SkillBasedRoutingService {
     return outputValues;
   }
 
-  /**
-   * Retrieves a decision by name.
-   * <p>
-   * This method will try to load a decision, if this is not loaded yet
-   * </p>
-   * 
-   * @param decisionName
-   *          name of the decision.
-   * @return decision.
-   */
-  public Optional<DmnDecision> getDecision(final String decisionResourceName, final String decisionName) {
-    if (!decisions.containsKey(decisionName)) {
-      final File decisionPath = constructDecisionPath(decisionResourceName, decisionName);
-
-      try {
-        final InputStream resourceAsStream = new FileInputStream(decisionPath);
-        logger.info("Loading decision {} from {}", decisionName, decisionPath);
-
-        final DmnDecision decision = dmnEngine.parseDecision(resourceAsStream, decisionName);
-        logger.info("Created decision {} from {}.", decisionName, decisionPath);
-        decisions.put(decisionName, decision);
-      } catch (FileNotFoundException e) {
-        logger.error("Cannot read from {}", decisionPath);
-      }
-
-    }
-    return Optional.fromNullable(decisions.get(decisionName));
-  }
-
-  /**
-   * Constructs path for decision resource from decision name.
-   * 
-   * @param decisionResourceName
-   *          name of the decision resource.
-   * @param decisionName
-   *          name of the decision.
-   * @return path to decision DMN resource.
-   */
-  private File constructDecisionPath(String decisionResourceName, String decisionName) {
-    final String path = decisionResourceName.concat("_").concat(decisionName).concat(".dmn");
-    return dmnFileSupplier.get().get(path);
-  }
 
   /**
    * Prepares decision context for evaluation of process relevant information.
@@ -203,29 +160,4 @@ public class SkillBasedRoutingService {
     context.put(OUTPUT_REQUIRED_AUTHORIZATIONS, requiredAuthorizations == null ? new ArrayList<String>() : requiredAuthorizations);
     context.put(OUTPUT_REQUIRED_SKILLS, requiredSkills == null ? new ArrayList<String>() : requiredSkills);
   }
-
-  /**
-   * Retrieves the process definition key from the task properties map.
-   * 
-   * @param task
-   *          map with task properties.
-   * @return process definition key.
-   */
-  public String getProcessDefinitionKey(final Map<String, String> task) {
-    final String processDefinitionId = task.get("processDefinitionId");
-    return processDefinitionId.split(":")[0];
-  }
-
-  /**
-   * Retrieves the process definition key from the task holder.
-   * 
-   * @param task
-   *          holder
-   * @return process definition key.
-   */
-  public static String getProcessDefinitionKey(final TaskHolder task) {
-    final String processDefinitionId = task.getProcessDefinitionId();
-    return processDefinitionId.split(":")[0];
-  }
-
 }

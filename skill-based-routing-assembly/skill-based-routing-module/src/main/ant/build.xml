@@ -9,6 +9,7 @@
                     <include name="*.jar"/>
                 </resourceFileSet>
                 <dependency name="com.google.guava" export="true"/>
+                <dependency name="org.apache.commons.lang" />
                 <dependency name="org.codehaus.groovy.groovy-all" services="export" export="true"/>
                 <dependency name="org.camunda.bpm.camunda-engine" export="true"/>
                 <dependency name="org.camunda.bpm.dmn.camunda-engine-dmn" export="true"/>
