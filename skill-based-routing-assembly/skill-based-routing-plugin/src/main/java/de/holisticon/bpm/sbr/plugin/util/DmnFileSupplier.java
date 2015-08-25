@@ -12,10 +12,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Supplier responsible for retrieving files from disk.
- * 
- * @author Simon Zambrovski (Holisticon AG)
- * 
  */
+@Deprecated
 public class DmnFileSupplier implements Supplier<Map<String, File>> {
 
   private final Logger logger = getLogger(this.getClass());

@@ -1,56 +1,45 @@
 package de.holisticon.bpm.sbr.plugin.util;
 
-import java.io.File;
-
-import org.camunda.bpm.dmn.engine.DmnDecision;
-import org.camunda.bpm.dmn.engine.DmnEngine;
-import org.slf4j.Logger;
-
 import com.google.common.base.Optional;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionLoader.Key;
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnEngine;
+import org.slf4j.Logger;
+
+import java.io.File;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * DMN Decision cache, capable to load decisions from the provided directory of
  * the file system.
- * 
- * @author Simon Zambrovski (Holisticon AG)
- * 
  */
 public class DmnDecisionCache {
 
-  private final LoadingCache<DmnDecisionLoader.Key, DmnDecision> cache;
-  private final DmnEngine dmnEngine;
-  private final File dmnDir;
+  private final LoadingCache<Key, DmnDecision> cache;
   private final Logger logger = getLogger(this.getClass());
 
-  /**
-   * Constructs the cache.
-   * 
-   * @param dmnEngine
-   *          engine to use for decision parsing.
-   * @param dmnDir
-   *          directory to load files from.
-   */
-  public DmnDecisionCache(final DmnEngine dmnEngine, final File dmnDir) {
-    this.dmnEngine = dmnEngine;
-    this.dmnDir = dmnDir;
-    this.cache = CacheBuilder.newBuilder().build(new DmnDecisionLoader(dmnEngine, dmnDir));
+
+  public DmnDecisionCache(DmnEngine dmnEngine, File dmnDir) {
+    this(new DmnDecisionLoader(dmnEngine, dmnDir));
+  }
+
+  public DmnDecisionCache(final DmnDecisionLoader dmnDecisionLoader) {
+    this.cache = CacheBuilder.newBuilder().build(dmnDecisionLoader);
   }
 
   /**
    * Retrieves the DMN decision.
-   * 
-   * @param decisionResourceName
-   *          file name with decision definition.
-   * @param decisionId
-   *          decision id.
+   *
+   * @param decisionResourceName file name with decision definition.
+   * @param decisionId           decision id.
    * @return Optional decision (null or decision).
    */
   public Optional<DmnDecision> get(String decisionResourceName, String decisionId) {
+    //return Optional.fromNullable(cache.getUnchecked(new Key(processDefinitionKey, decisionId)));
     if (decisionResourceName == null) {
       logger.warn("Decision resource name must be not null");
       return Optional.absent();
@@ -67,14 +56,6 @@ public class DmnDecisionCache {
     }
 
     return Optional.absent();
-  }
-
-  public DmnEngine getDmnEngine() {
-    return dmnEngine;
-  }
-
-  public File getDmnDir() {
-    return dmnDir;
   }
 
 }

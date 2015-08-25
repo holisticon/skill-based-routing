@@ -16,20 +16,20 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Singleton
 public class SkillBasedRoutingSetUpBean {
 
-    private final Logger logger = getLogger(this.getClass());
+  private final Logger logger = getLogger(this.getClass());
 
-    @Inject
-    private IdentityService identityService;
+  @Inject
+  private IdentityService identityService;
 
-    @Inject
-    private ProcessEngine processEngine;
+  @Inject
+  private ProcessEngine processEngine;
 
-    @Inject
-    private RuntimeService runtimeService;
+  @Inject
+  private RuntimeService runtimeService;
 
-    @PostConstruct
-    public void init() {
-        // empty
-    }
+  @PostConstruct
+  public void init() {
+    // empty
+  }
 
 }

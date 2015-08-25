@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>de.holisticon</groupId>
-        <artifactId>skill-based-routing-root</artifactId>
-        <version>0.2-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>de.holisticon</groupId>
+    <artifactId>skill-based-routing-root</artifactId>
+    <version>0.2-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>dmn-editor</artifactId>
-    <packaging>war</packaging>
+  <artifactId>dmn-editor</artifactId>
+  <packaging>war</packaging>
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <!-- A web.xml is no longer required. -->
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <!-- A web.xml is no longer required. -->
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-    <profiles>
-        <profile>
-            <!-- Profile to make war deployable as exploded artifact. JBoss expects the .war extension on an artifact to
-                properly deploy it. By default, the name of the directory where exploded output is written to does not have this extension.
-                Activate this profile to add the extension. Note that this will cause the archive to have two .war extensions, e.g. "xxx.war.war". -->
-            <id>exploded</id>
-            <build>
-                <finalName>${project.artifactId}-${project.version}.war</finalName>
-            </build>
-        </profile>
-    </profiles>
+  <profiles>
+    <profile>
+      <!-- Profile to make war deployable as exploded artifact. JBoss expects the .war extension on an artifact to
+          properly deploy it. By default, the name of the directory where exploded output is written to does not have this extension.
+          Activate this profile to add the extension. Note that this will cause the archive to have two .war extensions, e.g. "xxx.war.war". -->
+      <id>exploded</id>
+      <build>
+        <finalName>${project.artifactId}-${project.version}.war</finalName>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

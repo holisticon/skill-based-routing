@@ -1,7 +1,7 @@
 <h3>Leistungsabrechnung</h3>
 <form role="form" name="start">
 
-    <script cam-script type="text/form-script">
+  <script cam-script type="text/form-script">
 
    //var kundenstatus = $scope.kundenstatus = null;
 
@@ -20,73 +20,74 @@
 
 
 
-    </script>
 
-    <table width="100%">
-        <tr>
-            <td>
-                <!-- VSNR -->
-                <div class="form-group">
-                    <label for="vsnr">Versicherungsnummer</label>
+  </script>
 
-                    <div class="controls">
-                        <input class="form-control"
-                               required
-                               type="text"
-                               cam-variable-name="vsnr"
-                               cam-variable-type="String"
-                               ng-minlength="4"
-                               ng-maxlength="15"/>
-                    </div>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td>
-                <div class="form-group">
-                    <label for="rechnungsart">Rechnungsart</label>
+  <table width="100%">
+    <tr>
+      <td>
+        <!-- VSNR -->
+        <div class="form-group">
+          <label for="vsnr">Versicherungsnummer</label>
 
-                    <div class="controls">
-                        <select name="rechnungsart"
-                                class="form-control"
-                                required
-                                cam-variable-name="rechnungsart"
-                                cam-variable-type="String">
-                            <option selected value=''></option>
-                            <option value="Arzt">Arzt</option>
-                            <option value="Zahnarzt">Zahnarzt</option>
-                            <option value="Augenarzt">Augenarzt</option>
-                            <option value="Optiker">Optiker</option>
-                            <option value="Arzneimittel">Arzneimittel</option>
-                            <option value="Physiotherapie">Physiotherapie</option>
-                            <option value="Ergotherapie">Ergotherapie</option>
-                            <option value="Sonstiges">Sonstiges</option>
-                        </select>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
+          <div class="controls">
+            <input class="form-control"
+                   required
+                   type="text"
+                   cam-variable-name="vsnr"
+                   cam-variable-type="String"
+                   ng-minlength="4"
+                   ng-maxlength="15"/>
+          </div>
+        </div>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div class="form-group">
+          <label for="rechnungsart">Rechnungsart</label>
 
-    <!-- Erstattungsantrag -->
-    <div class="form-group">
-        <label for="erstattungsantrag">Erstattungswunsch</label>
+          <div class="controls">
+            <select name="rechnungsart"
+                    class="form-control"
+                    required
+                    cam-variable-name="rechnungsart"
+                    cam-variable-type="String">
+              <option selected value=''></option>
+              <option value="Arzt">Arzt</option>
+              <option value="Zahnarzt">Zahnarzt</option>
+              <option value="Augenarzt">Augenarzt</option>
+              <option value="Optiker">Optiker</option>
+              <option value="Arzneimittel">Arzneimittel</option>
+              <option value="Physiotherapie">Physiotherapie</option>
+              <option value="Ergotherapie">Ergotherapie</option>
+              <option value="Sonstiges">Sonstiges</option>
+            </select>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
 
-        <div class="controls">
+  <!-- Erstattungsantrag -->
+  <div class="form-group">
+    <label for="erstattungsantrag">Erstattungswunsch</label>
+
+    <div class="controls">
         <textarea class="form-control"
                   cam-variable-name="erstattungswunsch"
                   cam-variable-type="String"
                   placeholder="Leistungen und zu erstattende Beträge"
                   rows="4"></textarea>
-        </div>
     </div>
+  </div>
 
-    <div class="form-group">
-        <input type="checkbox" id="mitarbeiterCheckbox" ng-click="checkboxValue()"/>&nbsp; Leistungsempfänger ist Mitarbeiter des
-        Unternehmens
-        <input type="hidden"
-               ng-value="kundenstatus"
-               cam-variable-name="kundenstatus"
-               cam-variable-type="String"/>
-    </div>
+  <div class="form-group">
+    <input type="checkbox" id="mitarbeiterCheckbox" ng-click="checkboxValue()"/>&nbsp; Leistungsempfänger ist Mitarbeiter des
+    Unternehmens
+    <input type="hidden"
+           ng-value="kundenstatus"
+           cam-variable-name="kundenstatus"
+           cam-variable-type="String"/>
+  </div>
 
 </form>

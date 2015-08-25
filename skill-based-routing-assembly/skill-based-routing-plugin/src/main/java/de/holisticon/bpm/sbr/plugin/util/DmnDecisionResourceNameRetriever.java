@@ -1,17 +1,12 @@
 package de.holisticon.bpm.sbr.plugin.util;
 
-import java.util.Objects;
-
 import com.google.common.base.Function;
-
 import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
+
+import java.util.Objects;
 
 /**
  * Retrieves the process definition key from the task holder.
- * 
- * @param task
- *          holder
- * @return process definition key.
  */
 public class DmnDecisionResourceNameRetriever implements Function<TaskHolder, String> {
 

@@ -1,6 +1,7 @@
 package de.holisticon.bpm.sbr.plugin.util;
 
 import com.google.common.cache.CacheLoader;
+import de.holisticon.bpm.sbr.plugin.job.DmnDirectoryWatcher;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,9 +21,6 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
 
   /**
    * A key for decision cache.
-   * 
-   * @author Simon Zambrovski (Holisticon AG)
-   * 
    */
   public static class Key {
 
@@ -31,6 +29,7 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
 
     /**
      * Constructs a key from decision resource name and decision id.
+     *
      * @param decisionResourceName
      * @param decisionId
      */
@@ -50,7 +49,7 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
     }
 
     public File getFile(final File dir) {
-      return Paths.get(dir.getPath(), decisionResourceName + "_" + decisionId + ".dmn").toFile();
+      return Paths.get(dir.getPath(), decisionResourceName + "_" + decisionId + DmnDirectoryWatcher.DMN_SUFFIX).toFile();
     }
 
     @Override

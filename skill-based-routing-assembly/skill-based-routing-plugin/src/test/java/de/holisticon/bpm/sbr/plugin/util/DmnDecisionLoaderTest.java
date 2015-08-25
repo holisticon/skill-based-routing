@@ -1,8 +1,5 @@
 package de.holisticon.bpm.sbr.plugin.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
@@ -10,6 +7,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +43,7 @@ public class DmnDecisionLoaderTest {
 
   @Test
   public void load_missing_file() throws Exception {
-    
+
     expectedException.expect(FileNotFoundException.class);
     DmnDecisionLoader loader = new DmnDecisionLoader(dmnEngine, testResources());
     loader.load(new DmnDecisionLoader.Key("missing", "requiredSkills"));

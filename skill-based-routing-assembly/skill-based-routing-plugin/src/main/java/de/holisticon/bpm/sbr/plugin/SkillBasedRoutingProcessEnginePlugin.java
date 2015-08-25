@@ -1,8 +1,6 @@
 package de.holisticon.bpm.sbr.plugin;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import de.holisticon.bpm.sbr.plugin.listener.SkillBasedRoutingListener;
 import org.camunda.bpm.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.camunda.bpm.engine.impl.bpmn.parser.AbstractBpmnParseListener;
 import org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseListener;
@@ -13,14 +11,15 @@ import org.camunda.bpm.engine.impl.pvm.process.ScopeImpl;
 import org.camunda.bpm.engine.impl.task.TaskDefinition;
 import org.camunda.bpm.engine.impl.util.xml.Element;
 
-import de.holisticon.bpm.sbr.plugin.listener.SkillBasedRoutingListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.camunda.bpm.engine.delegate.TaskListener.EVENTNAME_CREATE;
 
 /**
  * Engine plugin, installing Skill-Based-Routing Listener to User Tasks.
- * 
+ *
  * @author Simon Zambrovski (Holisticon AG)
- * 
  */
 public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEnginePlugin {
 

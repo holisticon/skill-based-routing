@@ -54,7 +54,6 @@ a:link {
   display: none;
 }
 
-
 .content .table,
 .content.with-error .table {
   visibility: hidden;
@@ -78,6 +77,7 @@ a:link {
   display: inline-block;
   margin-right: 10px;
 }
+
 .buttons > li > a {
   background: #DDD;
   border: solid 1px #666;

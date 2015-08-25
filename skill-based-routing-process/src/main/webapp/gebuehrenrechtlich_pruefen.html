@@ -1,6 +1,6 @@
 <form role="form" name="gebuehrenrechtlich_pruefen">
 
-    <script cam-script type="text/form-script">
+  <script cam-script type="text/form-script">
 
 
     camForm.on('form-loaded', function() {
@@ -33,62 +33,63 @@
     });
 
 
-    </script>
 
-    <table width="100%">
-        <tr>
-            <td width="33%">
-                <div class="form-group">
-                    <label>Versicherungsnummer</label>
+  </script>
 
-                    <div class="form-control">{{versicherungsnummer}}</div>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td width="33%">
-                <div class="form-group">
-                    <label>Produkt</label>
+  <table width="100%">
+    <tr>
+      <td width="33%">
+        <div class="form-group">
+          <label>Versicherungsnummer</label>
 
-                    <div class="form-control">{{produkt}}</div>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td width="32%">
-                <div class="form-group">
-                    <label>Kundenstatus</label>
-
-                    <div class="form-control">{{kundenstatus}}</div>
-                </div>
-            </td>
-        </tr>
-    </table>
-
-    <div class="form-group">
-        <label>Erstattungswunsch</label>
-
-        <div class="form-control" style="height: 100%">{{erstattungswunsch}}</div>
-    </div>
-
-    <div style="padding-bottom: 10px;">
-
-        <label>Abzurechnende Leistungen</label>
-
-        <div ng-repeat="leistung in leistungen">
-            <table width="100%">
-                <tr>
-                    <td width="67%">
-                        <div class="form-control" style="margin-bottom: -1px">{{leistung.bezeichnung}}</div>
-                    </td>
-                    <td width="20px">&nbsp;</td>
-                    <td>
-                        <div>
-                            <input type="checkbox" ng-model="leistung.gebuehrenrechtlichOk"/>&nbsp; geb&uuml;hrenrechtlich OK
-                        </div>
-                    </td>
-                </tr>
-            </table>
-
+          <div class="form-control">{{versicherungsnummer}}</div>
         </div>
+      </td>
+      <td>&nbsp;</td>
+      <td width="33%">
+        <div class="form-group">
+          <label>Produkt</label>
+
+          <div class="form-control">{{produkt}}</div>
+        </div>
+      </td>
+      <td>&nbsp;</td>
+      <td width="32%">
+        <div class="form-group">
+          <label>Kundenstatus</label>
+
+          <div class="form-control">{{kundenstatus}}</div>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="form-group">
+    <label>Erstattungswunsch</label>
+
+    <div class="form-control" style="height: 100%">{{erstattungswunsch}}</div>
+  </div>
+
+  <div style="padding-bottom: 10px;">
+
+    <label>Abzurechnende Leistungen</label>
+
+    <div ng-repeat="leistung in leistungen">
+      <table width="100%">
+        <tr>
+          <td width="67%">
+            <div class="form-control" style="margin-bottom: -1px">{{leistung.bezeichnung}}</div>
+          </td>
+          <td width="20px">&nbsp;</td>
+          <td>
+            <div>
+              <input type="checkbox" ng-model="leistung.gebuehrenrechtlichOk"/>&nbsp; geb&uuml;hrenrechtlich OK
+            </div>
+          </td>
+        </tr>
+      </table>
+
     </div>
+  </div>
 
 </form>

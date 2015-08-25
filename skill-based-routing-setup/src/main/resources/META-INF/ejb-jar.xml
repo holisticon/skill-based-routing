@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
           http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
          version="3.1">
-    <module-name>skill-based-routing-setup</module-name>
-    <enterprise-beans>
-        <session>
-            <ejb-name>SkillBasedRoutingSetUpBean</ejb-name>
-            <ejb-class>de.holisticon.bpm.sbr.SkillBasedRoutingSetUpBean</ejb-class>
-            <session-type>Singleton</session-type>
-            <resource-ref>
-                <res-ref-name>processEngine/default</res-ref-name>
-                <res-type>org.camunda.bpm.engine.ProcessEngine</res-type>
-                <mapped-name>java:global/camunda-bpm-platform/process-engine/default</mapped-name>
-            </resource-ref>
-        </session>
-    </enterprise-beans>
+  <module-name>skill-based-routing-setup</module-name>
+  <enterprise-beans>
+    <session>
+      <ejb-name>SkillBasedRoutingSetUpBean</ejb-name>
+      <ejb-class>de.holisticon.bpm.sbr.SkillBasedRoutingSetUpBean</ejb-class>
+      <session-type>Singleton</session-type>
+      <resource-ref>
+        <res-ref-name>processEngine/default</res-ref-name>
+        <res-type>org.camunda.bpm.engine.ProcessEngine</res-type>
+        <mapped-name>java:global/camunda-bpm-platform/process-engine/default</mapped-name>
+      </resource-ref>
+    </session>
+  </enterprise-beans>
 </ejb-jar>
