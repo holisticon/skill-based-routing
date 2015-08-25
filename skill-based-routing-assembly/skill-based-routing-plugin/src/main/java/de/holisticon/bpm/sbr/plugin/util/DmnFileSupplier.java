@@ -10,33 +10,38 @@ import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-
+/**
+ * Supplier responsible for retrieving files from disk.
+ * 
+ * @author Simon Zambrovski (Holisticon AG)
+ * 
+ */
 public class DmnFileSupplier implements Supplier<Map<String, File>> {
 
-    private final Logger logger = getLogger(this.getClass());
-    private final String dmnDirPath;
+  private final Logger logger = getLogger(this.getClass());
+  private final String dmnDirPath;
 
-    public DmnFileSupplier() {
-        this(System.getProperty("jboss.server.config.dir") + File.separator + "dmn");
+  public DmnFileSupplier() {
+    this(System.getProperty("jboss.server.config.dir") + File.separator + "dmn");
+  }
+
+  public DmnFileSupplier(String dmnDirPath) {
+    this.dmnDirPath = dmnDirPath;
+    logger.info("creating dmnFileSupplier for {}", dmnDirPath);
+  }
+
+  @Override
+  public Map<String, File> get() {
+    Map<String, File> map = Maps.newHashMap();
+    for (File file : new File(dmnDirPath).listFiles(new FileFilter() {
+      @Override
+      public boolean accept(File pathname) {
+        return pathname.getPath().endsWith(".dmn");
+      }
+    })) {
+      map.put(file.getName(), file);
     }
 
-    public DmnFileSupplier(String dmnDirPath) {
-        this.dmnDirPath = dmnDirPath;
-        logger.info("creating dmnFileSupplier for {}", dmnDirPath);
-    }
-
-    @Override
-    public Map<String, File> get() {
-        Map<String, File> map = Maps.newHashMap();
-        for (File file : new File(dmnDirPath).listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File pathname) {
-                return pathname.getPath().endsWith(".dmn");
-            }
-        })) {
-            map.put(file.getName(), file);
-        }
-
-        return map;
-    }
+    return map;
+  }
 }

@@ -65,8 +65,8 @@ public class SkillBasedRoutingService {
 
   private final Logger logger = getLogger(this.getClass());
   private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-  private final Map<String, DmnDecision> decisions = new HashMap<String, DmnDecision>();
 
+  private final Map<String, DmnDecision> decisions = new HashMap<String, DmnDecision>();
   private final DmnFileSupplier dmnFileSupplier = new DmnFileSupplier();
 
   /**

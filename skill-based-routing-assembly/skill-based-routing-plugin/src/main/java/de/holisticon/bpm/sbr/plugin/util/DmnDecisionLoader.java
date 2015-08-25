@@ -18,48 +18,54 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
 
-    public static class Key {
+  /**
+   * A key for decision cache.
+   * 
+   * @author Simon Zambrovski (Holisticon AG)
+   * 
+   */
+  public static class Key {
 
-        private final String processDefinitionKey;
-        private final String tableId;
+    private final String decisionResourceName;
+    private final String tableId;
 
-        public Key(final String processDefinitionKey, final String tableId) {
-            this.processDefinitionKey = processDefinitionKey;
-            this.tableId = tableId;
-        }
-
-        @Override
-        public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-        }
-
-        @Override
-        public int hashCode() {
-            return HashCodeBuilder.reflectionHashCode(this);
-        }
-
-        public File getFile(final File dir) {
-            return Paths.get(dir.getPath(), processDefinitionKey + ".dmn").toFile();
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            return EqualsBuilder.reflectionEquals(this, other);
-        }
-    }
-
-    private final Logger logger = getLogger(this.getClass());
-    private final File dmnDir;
-    private final DmnEngine dmnEngine;
-
-    public DmnDecisionLoader(final DmnEngine dmnEngine, final File dmnDir) {
-        this.dmnEngine = dmnEngine;
-        this.dmnDir = dmnDir;
+    public Key(final String decisionResourceName, final String tableId) {
+      this.decisionResourceName = decisionResourceName;
+      this.tableId = tableId;
     }
 
     @Override
-    public DmnDecision load(final Key key) throws Exception {
-        logger.info("loading {}", key);
-        return dmnEngine.parseDecision(new FileInputStream(key.getFile(dmnDir)), key.tableId);
+    public String toString() {
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
+    @Override
+    public int hashCode() {
+      return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    public File getFile(final File dir) {
+      return Paths.get(dir.getPath(), decisionResourceName + "_" + tableId + ".dmn").toFile();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      return EqualsBuilder.reflectionEquals(this, other);
+    }
+  }
+
+  private final Logger logger = getLogger(this.getClass());
+  private final File dmnDir;
+  private final DmnEngine dmnEngine;
+
+  public DmnDecisionLoader(final DmnEngine dmnEngine, final File dmnDir) {
+    this.dmnEngine = dmnEngine;
+    this.dmnDir = dmnDir;
+  }
+
+  @Override
+  public DmnDecision load(final Key key) throws Exception {
+    logger.info("Loading {}", key);
+    return dmnEngine.parseDecision(new FileInputStream(key.getFile(dmnDir)), key.tableId);
+  }
 }
