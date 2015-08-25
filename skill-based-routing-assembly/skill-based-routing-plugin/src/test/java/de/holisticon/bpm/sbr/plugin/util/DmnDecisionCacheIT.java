@@ -14,13 +14,14 @@ import org.slf4j.Logger;
 
 import java.util.HashMap;
 
+import static de.holisticon.bpm.sbr.plugin.util.DmnDecisionLoaderTest.testResources;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class DmnDecisionCacheIT {
 
   private final Logger logger = getLogger(this.getClass());
   private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-  private final DmnDecisionCache dmnDecisionCache = new DmnDecisionCache(dmnEngine, DmnDecisionLoaderTest.testResources());
+  private final DmnDecisionCache dmnDecisionCache = new DmnDecisionCache(new DmnDecisionLoader(dmnEngine, new DmnDirectorySupplier(testResources())));
 
   @Rule
   public final ExpectedException thrown = ExpectedException.none();

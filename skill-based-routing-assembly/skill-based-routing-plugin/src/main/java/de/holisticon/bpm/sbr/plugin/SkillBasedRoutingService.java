@@ -5,6 +5,7 @@ import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
 import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
 import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
 import de.holisticon.bpm.sbr.plugin.util.DmnDecisionResourceNameRetriever;
+import de.holisticon.bpm.sbr.plugin.util.DmnDirectorySupplier;
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
 import org.camunda.bpm.dmn.engine.DmnDecisionResult;
@@ -62,10 +63,16 @@ public class SkillBasedRoutingService {
   public static final String DECISION_CANDIDATE_USERS_ROUTING = "candidateUsersRouting";
 
   private final Logger logger = getLogger(this.getClass());
-  private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-  private final File dmnPath = new File(System.getProperty("jboss.server.config.dir") + File.separator + "dmn");
-  private final DmnDecisionCache decisionCache = new DmnDecisionCache(dmnEngine, dmnPath);
+
+  private final DmnDecisionCache decisionCache;
   private final DmnDecisionResourceNameRetriever fromTask = new DmnDecisionResourceNameRetriever();
+  private final DmnEngine dmnEngine;
+
+
+  public SkillBasedRoutingService(final DmnEngine dmnEngine, final DmnDecisionCache decisionCache) {
+    this.dmnEngine = dmnEngine;
+    this.decisionCache = decisionCache;
+  }
 
   /**
    * Delivers candidate rules and groups for task routing.

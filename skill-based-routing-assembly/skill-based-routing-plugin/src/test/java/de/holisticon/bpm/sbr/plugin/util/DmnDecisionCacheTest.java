@@ -27,7 +27,7 @@ public class DmnDecisionCacheTest {
 
   private final Logger logger = getLogger(this.getClass());
   private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-  private final DmnDecisionCache dmnDecisionCache = new DmnDecisionCache(dmnEngine, DmnDecisionLoaderTest.testResources());
+  private final DmnDecisionCache dmnDecisionCache = new DmnDecisionCache(new DmnDecisionLoader(dmnEngine, new DmnDirectorySupplier(DmnDecisionLoaderTest.testResources())));
 
 
   @Rule
