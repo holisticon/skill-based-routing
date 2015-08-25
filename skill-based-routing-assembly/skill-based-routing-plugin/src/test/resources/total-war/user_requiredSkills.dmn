@@ -13,9 +13,11 @@
           <text>task.taskDefinitionKey == 'userTask'</text>
         </inputEntry>
       </clause>
+      
       <clause id="outputRequiredSkills" name="Benötigte Fähigkeiten" camunda:output="requiredSkills">
         <outputEntry expressionLanguage="groovy" id="outputEntry1">
           <text>'superSkill'</text>
+        </outputEntry>
       </clause>
 
       <rule id="rule1">

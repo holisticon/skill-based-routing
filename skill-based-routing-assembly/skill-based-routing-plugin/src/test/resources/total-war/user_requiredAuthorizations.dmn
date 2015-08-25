@@ -12,7 +12,7 @@
         <inputEntry id="inputEntry21" expressionLanguage="groovy">
           <text>task.taskDefinitionKey == 'userTask'</text>
         </inputEntry>
-
+      </clause>
 
       <clause id="outputRequiredAuthorizations" name="outputRequiredAuthorizations" camunda:output="requiredAuthorizations">
         <outputEntry expressionLanguage="groovy" id="outputEntry11">
@@ -24,6 +24,7 @@
         <condition>inputEntry21</condition>
         <conclusion>outputEntry11</conclusion>
       </rule>
+      
     </DecisionTable>
   </Decision>
 

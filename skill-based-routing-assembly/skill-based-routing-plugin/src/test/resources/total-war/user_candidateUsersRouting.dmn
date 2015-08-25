@@ -11,7 +11,7 @@
           <text>requiredSkills</text>
         </inputExpression>
         <inputEntry id="inputEntry41" expressionLanguage="groovy">
-          <text>requiredSkills.contains('superSkill')</text>
+          <text><![CDATA[['superSkill'].containsAll(requiredSkills) && requiredSkills.contains('superSkill')]]></text>
         </inputEntry>
       </clause>
 
@@ -20,7 +20,10 @@
           <text>requiredAuthorizations</text>
         </inputExpression>
         <inputEntry id="inputEntry51" expressionLanguage="groovy">
-          <text>requiredAuthorizations.contains('INTERNA')</text>
+          <text><![CDATA[['INTERNA'].containsAll(requiredAuthorizations) && requiredAuthorizations.contains('INTERNA')]]></text>
+        </inputEntry>
+        <inputEntry id="inputEntry52" expressionLanguage="groovy">
+          <text><![CDATA[['EXTERNA'].containsAll(requiredAuthorizations) && requiredAuthorizations.contains('EXTERNA')]]></text>
         </inputEntry>
       </clause>
 
@@ -28,12 +31,23 @@
         <outputEntry expressionLanguage="groovy" id="outputEntry90">
           <text>'Kermit'</text>
         </outputEntry>
+        <outputEntry expressionLanguage="groovy" id="outputEntry91">
+          <text>'Piggy'</text>
+        </outputEntry>
+
       </clause>
 
       <rule id="rule81">
+        <condition>inputEntry41</condition>
         <condition>inputEntry51</condition>
         <conclusion>outputEntry90</conclusion>
       </rule>
+      <rule id="rule82">
+        <condition>inputEntry41</condition>
+        <condition>inputEntry52</condition>
+        <conclusion>outputEntry91</conclusion>
+      </rule>
+
     </DecisionTable>
   </Decision>
 
