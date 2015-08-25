@@ -2,9 +2,11 @@ package de.holisticon.bpm.sbr.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 
-import org.camunda.bpm.engine.impl.jobexecutor.JobHandler;
+import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -17,9 +19,12 @@ import org.junit.rules.TemporaryFolder;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.io.Files;
+import com.google.common.io.OutputSupplier;
 
+import de.holisticon.bpm.sbr.plugin.job.DmnDirectoryWatcher;
 import de.holisticon.bpm.sbr.plugin.job.DmnDirectoryWatcherJobHandler;
 import de.holisticon.bpm.sbr.plugin.test.FluentProcessEngineConfiguration;
+import de.holisticon.bpm.sbr.plugin.util.DmnDirectorySupplier;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
 
 import static org.junit.Assert.assertEquals;
@@ -36,7 +41,8 @@ public class TotalWarIT {
   private SkillBasedRoutingProcessEnginePlugin plugin = new SkillBasedRoutingProcessEnginePlugin();
   private final EventBus eventBus = new EventBus();
   private DmnDirectoryWatcherJobHandler jobHandler = new DmnDirectoryWatcherJobHandler(eventBus);
-
+  private File authorizations;
+  
   @Rule
   public final TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -48,9 +54,16 @@ public class TotalWarIT {
   @Before
   public void initProperties() throws Exception {
 
+    System.setProperty("cache.eviction.timeout", "1");
+    
+    jobHandler.setDmnDirectoryWatcher(new DmnDirectoryWatcher(new DmnDirectorySupplier(temporaryFolder.getRoot())));
+    
     Files.copy(getFile("total-war/user_requiredSkills.dmn"), temporaryFolder.newFile("user_requiredSkills.dmn"));
-    Files.copy(getFile("total-war/user_requiredAuthorizations.dmn"), temporaryFolder.newFile("user_requiredAuthorizations.dmn"));
     Files.copy(getFile("total-war/user_candidateUsersRouting.dmn"), temporaryFolder.newFile("user_candidateUsersRouting.dmn"));
+    
+    authorizations = temporaryFolder.newFile("user_requiredAuthorizations.dmn");
+    Files.copy(getFile("total-war/user_requiredAuthorizations.dmn"), authorizations);
+    
 
     plugin.getDmnDirectorySupplier().setDmnDirectory(temporaryFolder.getRoot());
 
@@ -74,12 +87,17 @@ public class TotalWarIT {
   @Deployment(resources = "bpmn/user.bpmn")
   public void test_process_with_candidate_users_and_changing_authorizations() throws InterruptedException, IOException, URISyntaxException {
 
+    // start process and get Kermit as candidate user
     startProcessAssertCandidateUser("Kermit");
-
-    Files.copy(getFile("total-war/user_requiredAuthorizations.dmn"), temporaryFolder.newFile("user_requiredAuthorizations_2.dmn"));
-    Thread.sleep(1000);
+    
+    // change the authorization files, trugger job execution
+    Files.copy(getFile("total-war/user_requiredAuthorizations_2.dmn"), authorizations);
+    Calendar cal = Calendar.getInstance();
+    cal.add(Calendar.HOUR, 2);
+    ClockUtil.setCurrentTime(cal.getTime());
     processEngineRule.getManagementService().executeJob(findJob().getId());
 
+    // start process and get Poggy as candidate user
     startProcessAssertCandidateUser("Piggy");
 
   }

@@ -1,14 +1,8 @@
 package de.holisticon.bpm.sbr.plugin;
 
-import com.google.common.eventbus.EventBus;
+import java.util.ArrayList;
+import java.util.List;
 
-import de.holisticon.bpm.sbr.plugin.job.DmnDirectoryWatcherJobHandler;
-import de.holisticon.bpm.sbr.plugin.listener.SkillBasedRoutingListener;
-import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
-import de.holisticon.bpm.sbr.plugin.util.DmnDecisionLoader;
-import de.holisticon.bpm.sbr.plugin.util.DmnDirectorySupplier;
-
-import org.assertj.core.util.VisibleForTesting;
 import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
 import org.camunda.bpm.engine.ProcessEngine;
@@ -24,9 +18,14 @@ import org.camunda.bpm.engine.impl.pvm.process.ScopeImpl;
 import org.camunda.bpm.engine.impl.task.TaskDefinition;
 import org.camunda.bpm.engine.impl.util.xml.Element;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.eventbus.EventBus;
 
+import de.holisticon.bpm.sbr.plugin.job.DmnDirectoryWatcherJobHandler;
+import de.holisticon.bpm.sbr.plugin.listener.SkillBasedRoutingListener;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionLoader;
+import de.holisticon.bpm.sbr.plugin.util.DmnDirectorySupplier;
 import static org.camunda.bpm.engine.delegate.TaskListener.EVENTNAME_CREATE;
 
 /**
@@ -137,7 +136,6 @@ public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEngineP
     return activityBehavior.getTaskDefinition();
   }
 
-  @VisibleForTesting
   public DmnDirectorySupplier getDmnDirectorySupplier() {
     return dmnDirectorySupplier;
   }

@@ -1,22 +1,23 @@
 package de.holisticon.bpm.sbr.plugin.job;
 
-import com.google.common.eventbus.EventBus;
-import de.holisticon.bpm.sbr.plugin.util.DmnDirectorySupplier;
+import java.io.File;
+import java.util.Date;
+
 import org.camunda.bpm.engine.impl.interceptor.Command;
 import org.camunda.bpm.engine.impl.interceptor.CommandContext;
 import org.camunda.bpm.engine.impl.jobexecutor.JobHandler;
 import org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity;
 import org.camunda.bpm.engine.impl.persistence.entity.TimerEntity;
 
-import java.io.File;
-import java.util.Date;
+import com.google.common.eventbus.EventBus;
 
+import de.holisticon.bpm.sbr.plugin.util.DmnDirectorySupplier;
 import static java.lang.String.format;
 
 public class DmnDirectoryWatcherJobHandler implements JobHandler {
 
   public static final String TYPE = "DmnDirectoryWatcherJobHandler";
-  public static final int INTERVAL_SECONDS = 15;
+  public static final int INTERVAL_SECONDS = Integer.parseInt(System.getProperty("cache.eviction.timeout", "15"));
 
   /**
    * Creates a timerEntity that calls the jobHandler every INTERVAL_SECONDS.
@@ -46,10 +47,10 @@ public class DmnDirectoryWatcherJobHandler implements JobHandler {
 
   public DmnDirectoryWatcherJobHandler(final EventBus eventBus, final DmnDirectorySupplier dmnDirectorySupplier) {
     this(eventBus);
-    setDmnDirectoryWatcher(dmnDirectoryWatcher);
+    setDmnDirectoryWatcher(new DmnDirectoryWatcher(dmnDirectorySupplier));
   }
 
-  void setDmnDirectoryWatcher(DmnDirectoryWatcher dmnDirectoryWatcher) {
+  public void setDmnDirectoryWatcher(DmnDirectoryWatcher dmnDirectoryWatcher) {
     this.dmnDirectoryWatcher = dmnDirectoryWatcher;
   }
 
@@ -60,7 +61,9 @@ public class DmnDirectoryWatcherJobHandler implements JobHandler {
 
   @Override
   public void execute(String context, ExecutionEntity execution, CommandContext commandContext) {
-
+    if (dmnDirectoryWatcher == null) {
+      return;
+    }
     for (File changedFile : dmnDirectoryWatcher.detectChanges()) {
       eventBus.post(changedFile);
     }

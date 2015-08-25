@@ -1,25 +1,23 @@
 package de.holisticon.bpm.sbr.plugin;
 
-import com.google.common.base.Optional;
-import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
-import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
-import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
-import de.holisticon.bpm.sbr.plugin.util.DmnDecisionResourceNameRetriever;
-import de.holisticon.bpm.sbr.plugin.util.DmnDirectorySupplier;
-import org.camunda.bpm.dmn.engine.DmnDecision;
-import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
-import org.camunda.bpm.dmn.engine.DmnDecisionResult;
-import org.camunda.bpm.dmn.engine.DmnEngine;
-import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
-import org.slf4j.Logger;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
+import org.camunda.bpm.dmn.engine.DmnDecisionResult;
+import org.camunda.bpm.dmn.engine.DmnEngine;
+import org.slf4j.Logger;
+
+import com.google.common.base.Optional;
+
+import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
+import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionResourceNameRetriever;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SkillBasedRoutingService {
@@ -68,7 +66,6 @@ public class SkillBasedRoutingService {
   private final DmnDecisionResourceNameRetriever fromTask = new DmnDecisionResourceNameRetriever();
   private final DmnEngine dmnEngine;
 
-
   public SkillBasedRoutingService(final DmnEngine dmnEngine, final DmnDecisionCache decisionCache) {
     this.dmnEngine = dmnEngine;
     this.decisionCache = decisionCache;
@@ -76,9 +73,11 @@ public class SkillBasedRoutingService {
 
   /**
    * Delivers candidate rules and groups for task routing.
-   *
-   * @param task      task information.
-   * @param variables instance variables (payload).
+   * 
+   * @param task
+   *          task information.
+   * @param variables
+   *          instance variables (payload).
    * @return candidate result.
    */
   public CandidateResult evaluate(final TaskHolder task, final Map<String, Object> variables) {
@@ -92,8 +91,7 @@ public class SkillBasedRoutingService {
     final List<String> requiredSkills = evaluateResults(fromTask.apply(task), DECISION_REQUIRED_SKILLS, context, OUTPUT_REQUIRED_SKILLS);
     logger.info("Required skills {}", requiredSkills);
     // authorizations
-    final List<String> requiredAuthorizations = evaluateResults(fromTask.apply(task), DECISION_REQUIRED_AUTHORIZATIONS, context,
-      OUTPUT_REQUIRED_AUTHORIZATIONS);
+    final List<String> requiredAuthorizations = evaluateResults(fromTask.apply(task), DECISION_REQUIRED_AUTHORIZATIONS, context, OUTPUT_REQUIRED_AUTHORIZATIONS);
     logger.info("Required authorizations {}", requiredAuthorizations);
 
     // prepare decision context for routing
@@ -130,13 +128,15 @@ public class SkillBasedRoutingService {
     return outputValues;
   }
 
-
   /**
    * Prepares decision context for evaluation of process relevant information.
-   *
-   * @param context   context to use.
-   * @param task      task information.
-   * @param variables process/case execution variables.
+   * 
+   * @param context
+   *          context to use.
+   * @param task
+   *          task information.
+   * @param variables
+   *          process/case execution variables.
    */
   public static void prepareEvaluationProcessContext(final Map<String, Object> context, final TaskHolder task, final Map<String, Object> variables) {
     context.put(INPUT_TASK, task);
@@ -147,13 +147,16 @@ public class SkillBasedRoutingService {
 
   /**
    * Prepares evaluation context for evaluation of routing information.
-   *
-   * @param context                context to use.
-   * @param requiredSkills         required skills.
-   * @param requiredAuthorizations required authorizations.
+   * 
+   * @param context
+   *          context to use.
+   * @param requiredSkills
+   *          required skills.
+   * @param requiredAuthorizations
+   *          required authorizations.
    */
   public static void prepareEvaluationRoutingContext(final Map<String, Object> context, final List<String> requiredSkills,
-                                                     final List<String> requiredAuthorizations) {
+      final List<String> requiredAuthorizations) {
 
     context.put(OUTPUT_REQUIRED_AUTHORIZATIONS, requiredAuthorizations == null ? new ArrayList<String>() : requiredAuthorizations);
     context.put(OUTPUT_REQUIRED_SKILLS, requiredSkills == null ? new ArrayList<String>() : requiredSkills);
