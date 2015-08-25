@@ -17,7 +17,7 @@ public class SkillBasedRoutingListener implements TaskListener {
 
   private final SkillBasedRoutingService skillBasedRoutingService;
 
-  public SkillBasedRoutingListener(SkillBasedRoutingService skillBasedRoutingService) {
+  public SkillBasedRoutingListener(final SkillBasedRoutingService skillBasedRoutingService) {
     this.skillBasedRoutingService = skillBasedRoutingService;
   }
 

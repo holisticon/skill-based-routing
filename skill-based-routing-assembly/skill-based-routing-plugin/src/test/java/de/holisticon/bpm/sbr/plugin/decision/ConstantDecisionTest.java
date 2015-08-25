@@ -16,18 +16,18 @@ public class ConstantDecisionTest {
   @Rule
   public DmnEngineTestRule rule = new DmnEngineTestRule();
 
+  private final Map<String, Object> emptyVariables = Maps.newHashMap();
+
   @Test
   @DecisionResource(resource = "dmn/1.dmn", decisionKey = "constant")
   public void test_constant_value_foo() {
-    Map<String, Object> variables = Maps.newHashMap();
-    assertThat(rule.getEngine()).evaluates(rule.getDecision(), variables).hasResult().hasSingleOutput().hasSingleEntry("value", "foo");
+    assertThat(rule.getEngine()).evaluates(rule.getDecision(), emptyVariables).hasResult().hasSingleOutput().hasSingleEntry("value", "foo");
   }
 
   @Test
   @DecisionResource(resource = "dmn/2.dmn", decisionKey = "constant")
   public void test_constant_value_bar() {
-    Map<String, Object> variables = Maps.newHashMap();
-    assertThat(rule.getEngine()).evaluates(rule.getDecision(), variables).hasResult().hasSingleOutput().hasSingleEntry("value", "bar");
+    assertThat(rule.getEngine()).evaluates(rule.getDecision(), emptyVariables).hasResult().hasSingleOutput().hasSingleEntry("value", "bar");
   }
 
 }

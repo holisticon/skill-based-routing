@@ -35,7 +35,7 @@ public class DmnDecisionLoaderTest {
 
   @Test
   public void load_existing_dmn_file() throws Exception {
-    DmnDecisionLoader loader = new DmnDecisionLoader(dmnEngine, testResources());
+    DmnDecisionLoader loader = new DmnDecisionLoader(dmnEngine, new DmnDirectorySupplier(testResources()));
     final DmnDecision dmnDecision = loader.load(new DmnDecisionLoader.Key("return-constant", "requiredSkills"));
     assertThat(dmnDecision).isNotNull();
     assertThat(dmnDecision.getKey()).isEqualTo("requiredSkills");
@@ -45,7 +45,7 @@ public class DmnDecisionLoaderTest {
   public void load_missing_file() throws Exception {
 
     expectedException.expect(FileNotFoundException.class);
-    DmnDecisionLoader loader = new DmnDecisionLoader(dmnEngine, testResources());
+    DmnDecisionLoader loader = new DmnDecisionLoader(dmnEngine, new DmnDirectorySupplier(testResources()));
     loader.load(new DmnDecisionLoader.Key("missing", "requiredSkills"));
 
   }

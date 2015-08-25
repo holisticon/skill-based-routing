@@ -2,6 +2,7 @@ package de.holisticon.bpm.sbr.plugin.util;
 
 import com.google.common.cache.CacheLoader;
 import de.holisticon.bpm.sbr.plugin.job.DmnDirectoryWatcher;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Paths;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static de.holisticon.bpm.sbr.plugin.job.DmnDirectoryWatcher.DMN_SUFFIX;
 import static de.holisticon.bpm.sbr.plugin.util.DmnDecisionLoader.Key;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -23,6 +26,19 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
    * A key for decision cache.
    */
   public static class Key {
+
+    public static Key fromFile(final File file) {
+      checkArgument(file != null, "file is null.");
+      String name = file.getName();
+      checkArgument(name.endsWith(DMN_SUFFIX), "file is no dmn file.");
+
+      name = StringUtils.removeEnd(name, DMN_SUFFIX);
+
+      final String[] split = name.split("_");
+      checkArgument(split.length == 2, "file must match 'decisionResourceName_decisionId.dmn'.");
+
+      return new Key(split[0], split[1]);
+    }
 
     private final String decisionResourceName;
     private final String decisionId;
@@ -59,10 +75,10 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
   }
 
   private final Logger logger = getLogger(this.getClass());
-  private final File dmnDir;
+  private final DmnDirectorySupplier dmnDir;
   private final DmnEngine dmnEngine;
 
-  public DmnDecisionLoader(final DmnEngine dmnEngine, final File dmnDir) {
+  public DmnDecisionLoader(final DmnEngine dmnEngine, final DmnDirectorySupplier dmnDir) {
     this.dmnEngine = dmnEngine;
     this.dmnDir = dmnDir;
   }
@@ -70,6 +86,6 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
   @Override
   public DmnDecision load(final Key key) throws Exception {
     logger.info("Loading {}", key);
-    return dmnEngine.parseDecision(new FileInputStream(key.getFile(dmnDir)), key.decisionId);
+    return dmnEngine.parseDecision(new FileInputStream(key.getFile(dmnDir.get())), key.decisionId);
   }
 }

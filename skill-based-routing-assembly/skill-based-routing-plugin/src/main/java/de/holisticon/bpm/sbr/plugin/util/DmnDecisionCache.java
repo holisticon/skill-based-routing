@@ -3,6 +3,7 @@ package de.holisticon.bpm.sbr.plugin.util;
 import com.google.common.base.Optional;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
+import com.google.common.eventbus.Subscribe;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import de.holisticon.bpm.sbr.plugin.util.DmnDecisionLoader.Key;
 import org.camunda.bpm.dmn.engine.DmnDecision;
@@ -21,11 +22,6 @@ public class DmnDecisionCache {
 
   private final LoadingCache<Key, DmnDecision> cache;
   private final Logger logger = getLogger(this.getClass());
-
-
-  public DmnDecisionCache(DmnEngine dmnEngine, File dmnDir) {
-    this(new DmnDecisionLoader(dmnEngine, dmnDir));
-  }
 
   public DmnDecisionCache(final DmnDecisionLoader dmnDecisionLoader) {
     this.cache = CacheBuilder.newBuilder().build(dmnDecisionLoader);
@@ -58,4 +54,12 @@ public class DmnDecisionCache {
     return Optional.absent();
   }
 
+  @Subscribe
+  public void fileChanged(final File file) {
+    try {
+      cache.invalidate(Key.fromFile(file));
+    } catch (RuntimeException e) {
+      logger.warn("could not invalidate {}", file);
+    }
+  }
 }
