@@ -1,65 +1,54 @@
 package de.holisticon.bpm.sbr.plugin.util;
 
+import com.google.common.eventbus.EventBus;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionLoader.Key;
 import org.camunda.bpm.dmn.engine.DmnDecision;
-import org.camunda.bpm.dmn.engine.DmnDecisionResult;
-import org.camunda.bpm.dmn.engine.DmnEngine;
-import org.camunda.bpm.dmn.engine.DmnExpressionException;
-import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.slf4j.Logger;
 
-import java.util.HashMap;
+import java.io.File;
 
-import static org.junit.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.slf4j.LoggerFactory.getLogger;
+import static org.mockito.Mockito.when;
 
 public class DmnDecisionCacheTest {
 
-  private final DmnDecision d1 = mock(DmnDecision.class);
-  private final DmnDecision d2 = mock(DmnDecision.class);
+  private final static Key KEY = new Key("foo", "bar");
+
+  private final static DmnDecision DECISION_1 = mock(DmnDecision.class);
+  private final static DmnDecision DECISION_2 = mock(DmnDecision.class);
 
   private final DmnDecisionLoader loader = mock(DmnDecisionLoader.class);
 
-  private final DmnDecisionCache cache = new DmnDecisionCache(loader);
+  private final EventBus eventBus = new EventBus(this.getClass().getCanonicalName());
 
-  private final Logger logger = getLogger(this.getClass());
-  private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-  private final DmnDecisionCache dmnDecisionCache = new DmnDecisionCache(new DmnDecisionLoader(dmnEngine, new DmnDirectorySupplier(DmnDecisionLoaderTest.testResources())));
-
+  private final DmnDecisionCache dmnDecisionCache = new DmnDecisionCache(loader);
 
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
 
-  @Test
-  public void returns_empty_optional_if_key_is_not_found() {
-
-  }
-
-
-  @Test
-  public void evaluate_existing_file_and_decision() {
-    // will fail because of missing context
-    thrown.expect(DmnExpressionException.class);
-    logger.info(evaluate(dmnDecisionCache.get("return-constant", "requiredSkills").get()));
+  @Before
+  public void setUp() throws Exception {
+    eventBus.register(dmnDecisionCache);
+    when(loader.load(KEY)).thenReturn(DECISION_1, DECISION_2);
   }
 
   @Test
-  public void evaluate_existing_file_and_missing_decision() {
-    assertFalse(dmnDecisionCache.get("return-constant", "missing").isPresent());
+  public void returns_always_the_same_decision_if_no_invalidation() {
+    assertThat(dmnDecisionCache.get("foo", "bar").get()).isEqualTo(DECISION_1);
+    assertThat(dmnDecisionCache.get("foo", "bar").get()).isEqualTo(DECISION_1);
   }
-
 
   @Test
-  public void evaluate_missing_file() {
-    assertFalse(dmnDecisionCache.get("missing", "requiredSkills").isPresent());
+  public void returns_next_decision_when_file_is_changed() {
+    assertThat(dmnDecisionCache.get("foo", "bar").get()).isEqualTo(DECISION_1);
+
+    eventBus.post(KEY.getFile(new File("")));
+    assertThat(dmnDecisionCache.get("foo", "bar").get()).isEqualTo(DECISION_2);
   }
 
-  private String evaluate(DmnDecision dmnDecision) {
-    final DmnDecisionResult result = dmnEngine.evaluate(dmnDecision, new HashMap<String, Object>());
-    return result.toString();
-  }
 
 }
