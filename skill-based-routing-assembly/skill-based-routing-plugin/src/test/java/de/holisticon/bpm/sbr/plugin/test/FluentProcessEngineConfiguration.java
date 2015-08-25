@@ -30,10 +30,9 @@ public class FluentProcessEngineConfiguration implements Supplier<ProcessEngineC
 
   public FluentProcessEngineConfiguration addCustomJobHandler(JobHandler jobHandler) {
     processEngineConfiguration.getCustomJobHandlers().add(jobHandler);
-
     return this;
   }
-
+  
   @Override
   public ProcessEngineConfigurationImpl get() {
     return processEngineConfiguration;
