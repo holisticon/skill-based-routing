@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <jboss-module-resources-dir>${project.build.directory}/module-resources</jboss-module-resources-dir>
+        <jboss-module-resources-dir>${project.build.directorySupplier}/module-resources</jboss-module-resources-dir>
         <jboss-module-zip-filename>jboss-module-${jboss-module-id}-${jboss-module-version}${version-postfix}.zip</jboss-module-zip-filename>
         <version-postfix>-SNAPSHOT</version-postfix>
     </properties>
@@ -25,7 +25,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directorySupplier>src/main/resources</directorySupplier>
                 <filtering>true</filtering>
             </resource>
         </resources>
@@ -84,7 +84,7 @@
                                     <outputDirectory>${jboss-module-resources-dir}</outputDirectory>
                                     <resources>
                                         <resource>
-                                            <directory>${basedir}/src/main/module</directory>
+                                            <directorySupplier>${basedir}/src/main/module</directorySupplier>
                                             <filtering>false</filtering>
                                         </resource>
                                     </resources>
@@ -126,7 +126,7 @@
                                 <configuration>
                                     <artifacts>
                                         <artifact>
-                                            <file>${project.build.directory}/${jboss-module-zip-filename}</file>
+                                            <file>${project.build.directorySupplier}/${jboss-module-zip-filename}</file>
                                             <type>zip</type>
                                             <classifier>module</classifier>
                                         </artifact>
@@ -150,10 +150,10 @@
                                 <configuration>
                                     <target>
                                         <ant antfile="${basedir}/src/main/ant/build.xml" inheritrefs="true"/>
-                                        <zip destfile="${project.build.directory}/${jboss-module-zip-filename}"
-                                             basedir="${project.build.directory}/module"/>
-                                        <delete dir="${project.build.directory}/module"/>
-                                        <echo message="Created JBoss Module: ${project.build.directory}/${jboss-module-zip-filename}"/>
+                                        <zip destfile="${project.build.directorySupplier}/${jboss-module-zip-filename}"
+                                             basedir="${project.build.directorySupplier}/module"/>
+                                        <delete dir="${project.build.directorySupplier}/module"/>
+                                        <echo message="Created JBoss Module: ${project.build.directorySupplier}/${jboss-module-zip-filename}"/>
                                     </target>
                                 </configuration>
                             </execution>

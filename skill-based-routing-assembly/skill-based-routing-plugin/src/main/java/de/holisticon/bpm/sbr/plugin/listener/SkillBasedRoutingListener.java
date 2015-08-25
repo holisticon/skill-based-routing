@@ -15,10 +15,10 @@ public class SkillBasedRoutingListener implements TaskListener {
 
     private final Logger logger = getLogger(this.getClass());
 
-    private final SkillBasedRoutingService decisionBean;
+    private final SkillBasedRoutingService skillBasedRoutingService;
 
-    public SkillBasedRoutingListener(SkillBasedRoutingService decisionBean) {
-        this.decisionBean = decisionBean;
+    public SkillBasedRoutingListener(SkillBasedRoutingService skillBasedRoutingService) {
+        this.skillBasedRoutingService = skillBasedRoutingService;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class SkillBasedRoutingListener implements TaskListener {
 
         final Map<String, Object> vars = delegateTask.getVariables();
         final TaskHolder task = TaskHolder.fromTask(delegateTask);
-        final CandidateResult candidateResult = decisionBean.evaluate(task, vars);
+        final CandidateResult candidateResult = skillBasedRoutingService.evaluate(task, vars);
 
         if (candidateResult != null) {
             delegateTask.addCandidateUsers(candidateResult.getCandidateUsers());

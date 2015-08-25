@@ -3,7 +3,6 @@ package de.holisticon.bpm.sbr.plugin;
 import com.google.common.base.Optional;
 import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
 import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
-import de.holisticon.bpm.sbr.plugin.util.DmnFileSupplier;
 import org.camunda.bpm.dmn.engine.DmnDecision;
 import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
 import org.camunda.bpm.dmn.engine.DmnDecisionResult;
@@ -66,8 +65,6 @@ public class SkillBasedRoutingService {
     private final Logger logger = getLogger(this.getClass());
     private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
     private final Map<String, DmnDecision> decisions = new HashMap<String, DmnDecision>();
-
-    private final DmnFileSupplier dmnFileSupplier = new DmnFileSupplier();
 
     /**
      * Delivers candidate rules and groups for task routing.
@@ -162,7 +159,8 @@ public class SkillBasedRoutingService {
     private File constructDecisionPath(String decisionName) {
         String path = decisionName.concat(".dmn");
 
-        return dmnFileSupplier.get().get(path);
+        //return dmnFileSupplier.get().get(path);
+        return null;
     }
 
     /**

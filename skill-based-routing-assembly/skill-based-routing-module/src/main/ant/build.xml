@@ -3,7 +3,7 @@
     <target name="module">
         <echo message="Creating JBoss Module: ${jboss-module-id}-${jboss-module-version} "/>
         <taskdef resource="de/holisticon/toolbox/ant/antlib.xml" classpathref="maven.plugin.classpath"/>
-        <modules todir="${project.build.directory}/module" overwrite="true">
+        <modules todir="${project.build.directorySupplier}/module" overwrite="true">
             <module name="${jboss-module-id}" slot="${jboss-module-version}">
                 <resourceFileSet dir="${jboss-module-resources-dir}">
                     <include name="*.jar"/>

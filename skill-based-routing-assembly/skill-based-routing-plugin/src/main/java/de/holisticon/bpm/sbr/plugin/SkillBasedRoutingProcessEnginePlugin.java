@@ -1,6 +1,7 @@
 package de.holisticon.bpm.sbr.plugin;
 
 import de.holisticon.bpm.sbr.plugin.listener.SkillBasedRoutingListener;
+import de.holisticon.bpm.sbr.plugin.util.DmnDirectorySupplier;
 import org.camunda.bpm.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.camunda.bpm.engine.impl.bpmn.parser.AbstractBpmnParseListener;
 import org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseListener;
@@ -25,11 +26,17 @@ public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEngineP
     private final SkillBasedRoutingService skillBasedRoutingService = new SkillBasedRoutingService();
 
     public SkillBasedRoutingProcessEnginePlugin() {
+        this(new DmnDirectorySupplier());
+    }
+
+    public SkillBasedRoutingProcessEnginePlugin(DmnDirectorySupplier dmnDirectorySupplier) {
 
     }
 
     @Override
     public void preInit(final ProcessEngineConfigurationImpl processEngineConfiguration) {
+
+
         List<BpmnParseListener> preParseListeners = getCustomPreBPMNParseListeners(processEngineConfiguration);
 
         preParseListeners.add(new AbstractBpmnParseListener() {

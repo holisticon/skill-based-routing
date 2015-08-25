@@ -1,39 +1,23 @@
 package de.holisticon.bpm.sbr.plugin.util;
 
-
 import org.camunda.bpm.dmn.engine.DmnDecision;
-import org.camunda.bpm.dmn.engine.DmnDecisionResult;
-import org.camunda.bpm.dmn.engine.DmnEngine;
-import org.camunda.bpm.dmn.engine.DmnExpressionException;
-import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
-import org.junit.Rule;
+import org.camunda.bpm.model.dmn.Dmn;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.slf4j.Logger;
 
-import java.util.HashMap;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class DmnDecisionCacheTest {
 
-    private final Logger logger = getLogger(this.getClass());
-    private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-    private final DmnDecisionCache dmnDecisionCache = new DmnDecisionCache(dmnEngine, DmnDecisionLoaderTest.testResources());
+    private final DmnDecision d1 = mock(DmnDecision.class);
+    private final DmnDecision d2 = mock(DmnDecision.class);
 
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
+    private final DmnDecisionLoader loader = mock(DmnDecisionLoader.class);
+
+    private final DmnDecisionCache cache = new DmnDecisionCache(loader);
 
     @Test
-    public void evaluate() {
-        // will fail because of missing context
-        thrown.expect(DmnExpressionException.class);
-        logger.info(evaluate(dmnDecisionCache.get("return-constant", "requiredSkills")));
-    }
-
-
-    private String evaluate(DmnDecision dmnDecision) {
-        final DmnDecisionResult result = dmnEngine.evaluate(dmnDecision, new HashMap<String, Object>());
-        return result.toString();
+    public void returns_empty_optional_if_key_is_not_found() {
+       
     }
 }

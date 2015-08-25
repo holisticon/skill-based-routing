@@ -1,5 +1,7 @@
 package de.holisticon.bpm.sbr.api;
 
+import sun.net.ftp.FtpDirEntry;
+
 import java.io.Serializable;
 
 public class Leistung implements Serializable {
