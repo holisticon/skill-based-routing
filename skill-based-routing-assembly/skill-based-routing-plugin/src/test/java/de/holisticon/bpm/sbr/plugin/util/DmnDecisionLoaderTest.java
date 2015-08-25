@@ -27,9 +27,9 @@ public class DmnDecisionLoaderTest {
     File file = new DmnDecisionLoader.Key("bar" + File.separator + "foo", "key").getFile(new File(File.separator));
     // fix for Windows UNC paths
     if (((String) System.getProperties().get("os.name")).contains("Windows")) {
-      assertThat(file.getAbsolutePath()).isEqualTo("\\\\bar" + File.separator + "foo_key.dmn");
+      assertThat(file.getAbsolutePath()).isEqualTo(File.separator + File.separator + "bar" + File.separator + "foo_key.dmn");
     } else {
-      assertThat(file.getAbsolutePath()).isEqualTo("bar" + File.separator + "foo_key.dmn");
+      assertThat(file.getAbsolutePath()).isEqualTo(File.separator + "bar" + File.separator + "foo_key.dmn");
     }
   }
 
