@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Definitions xmlns="http://www.omg.org/spec/DMN/20130901" id="definitions" name="camunda" 
+  namespace="http://camunda.org/dmn" xmlns:camunda="http://camunda.org/schema/1.0/dmn">
+    
+    <Decision id="requiredSkills" name="benötigte Fähigkeit">    
+        <DecisionTable id="requiredSkillsTable" name="benötigte Fähigkeit" isComplete="true" isConsistent="true">
+
+            <clause id="inputTaskDefinitionKeySkill" name="Task Definition Key">
+                <inputExpression id="taskDefinitionKeySkill" name="Task Definition Key" expressionLanguage="groovy">
+                    <text>task.taskDefinitionKey</text>
+                </inputExpression>
+                <inputEntry id="inputEntry1" expressionLanguage="groovy">
+                    <text>task.taskDefinitionKey == 'task_gebuehrenrechtlich_pruefen'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry2" expressionLanguage="groovy">
+                    <text>task.taskDefinitionKey == 'task_erstattungsbetrag_berechnen'</text>
+                </inputEntry>
+            </clause>
+            
+            <clause id="inputRechnungsartSkill" name="Rechnungsart">
+                <inputExpression id="rechnungsartSkill" name="Rechnungsart" expressionLanguage="groovy">
+                    <text>rechnungsart</text>
+                </inputExpression>
+                <inputEntry id="inputEntry3" expressionLanguage="groovy">
+                    <text>rechnungsart == 'Arzt'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry4" expressionLanguage="groovy">
+                    <text>rechnungsart == 'Zahnarzt'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry5" expressionLanguage="groovy">
+                    <text>rechnungsart == 'Augenarzt'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry6" expressionLanguage="groovy">
+                    <text>rechnungsart == 'Optiker'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry7" expressionLanguage="groovy">
+                    <text>rechnungsart == 'Arzneimittel'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry8" expressionLanguage="groovy">
+                    <text>rechnungsart == 'Physiotherapie'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry9" expressionLanguage="groovy">
+                    <text>rechnungsart == 'Ergotherapie'</text>
+                </inputEntry>
+            </clause>
+
+            <clause id="inputProdukt" name="Produkt">
+                <inputExpression id="produkt" name="Produkt" expressionLanguage="groovy">
+                    <text>produkt</text>
+                </inputExpression>
+                <inputEntry id="inputEntry10" expressionLanguage="groovy">
+                    <text>produkt == 'Basis-Schutz'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry11" expressionLanguage="groovy">
+                    <text>produkt == 'Premium Komplett'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry12" expressionLanguage="groovy">
+                    <text>produkt == 'Zahnzusatz'</text>
+                </inputEntry>
+                <inputEntry id="inputEntry13" expressionLanguage="groovy">
+                    <text>produkt == 'Brille 2000'</text>
+                </inputEntry>
+            </clause>
+
+            <clause id="outputRequiredSkills" name="Benötigte Fähigkeiten" camunda:output="requiredSkills">
+                <outputEntry expressionLanguage="groovy" id="outputEntry1">
+                    <text>'GOÄ'</text>
+                </outputEntry>
+                <outputEntry expressionLanguage="groovy" id="outputEntry2">
+                    <text>'GOZ'</text>
+                </outputEntry>
+                <outputEntry expressionLanguage="groovy" id="outputEntry3">
+                    <text>'SH'</text>
+                </outputEntry>
+                <outputEntry expressionLanguage="groovy" id="outputEntry4">
+                    <text>'AMNOG'</text>
+                </outputEntry>
+                <outputEntry expressionLanguage="groovy" id="outputEntry5">
+                    <text>'HeilM-RL'</text>
+                </outputEntry>
+                <outputEntry expressionLanguage="groovy" id="outputEntry6">
+                    <text>'TAR_AB'</text>
+                </outputEntry>
+                <outputEntry expressionLanguage="groovy" id="outputEntry7">
+                    <text>'TAR_EZ'</text>
+                </outputEntry>
+                <outputEntry expressionLanguage="groovy" id="outputEntry8">
+                    <text>'TAR_ES'</text>
+                </outputEntry>
+            </clause>
+
+            <rule id="rule1">
+                <condition>inputEntry1</condition>
+                <condition>inputEntry3</condition>
+                <conclusion>outputEntry1</conclusion>
+            </rule>
+            <rule id="rule2">
+                <condition>inputEntry1</condition>
+                <condition>inputEntry4</condition>
+                <conclusion>outputEntry2</conclusion>
+            </rule>
+            <rule id="rule3">
+                <condition>inputEntry1</condition>
+                <condition>inputEntry5</condition>
+                <conclusion>outputEntry1</conclusion>
+            </rule>
+            <rule id="rule4">
+                <condition>inputEntry1</condition>
+                <condition>inputEntry6</condition>
+                <conclusion>outputEntry3</conclusion>
+            </rule>
+            <rule id="rule5">
+                <condition>inputEntry1</condition>
+                <condition>inputEntry7</condition>
+                <conclusion>outputEntry4</conclusion>
+            </rule>
+            <rule id="rule6">
+                <condition>inputEntry1</condition>
+                <condition>inputEntry8</condition>
+                <conclusion>outputEntry5</conclusion>
+            </rule>
+            <rule id="rule7">
+                <condition>inputEntry1</condition>
+                <condition>inputEntry9</condition>
+                <conclusion>outputEntry5</conclusion>
+            </rule>            
+            <rule id="rule8">
+                <condition>inputEntry2</condition>
+                <condition>inputEntry10</condition>
+                <conclusion>outputEntry6</conclusion>
+            </rule>
+            <rule id="rule9">
+                <condition>inputEntry2</condition>
+                <condition>inputEntry11</condition>
+                <conclusion>outputEntry7</conclusion>
+            </rule>
+            <rule id="rule10">
+                <condition>inputEntry2</condition>
+                <condition>inputEntry12</condition>
+                <conclusion>outputEntry7</conclusion>
+            </rule>
+            <rule id="rule11">
+                <condition>inputEntry2</condition>
+                <condition>inputEntry13</condition>
+                <conclusion>outputEntry8</conclusion>
+            </rule>
+        </DecisionTable>
+    </Decision>
+</Definitions>
