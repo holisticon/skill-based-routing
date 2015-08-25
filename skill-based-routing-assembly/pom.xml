@@ -13,7 +13,6 @@
 
     <properties>
         <jboss-module-resources-dir>${project.build.directory}/module-resources</jboss-module-resources-dir>
-        <jboss-module-zip-filename>jboss-module-${jboss-module-id}-${jboss-module-version}${version-postfix}.zip</jboss-module-zip-filename>
         <version-postfix>-SNAPSHOT</version-postfix>
     </properties>
 
@@ -33,7 +32,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.4</version>
+                <!--  version>2.4</version -->
                 <configuration>
                     <skip>true</skip>
                 </configuration>
