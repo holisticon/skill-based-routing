@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Definitions xmlns="http://www.omg.org/spec/DMN/20130901" id="definitions" name="camunda"
+             namespace="http://camunda.org/dmn" xmlns:camunda="http://camunda.org/schema/1.0/dmn">
+
+  <Decision id="requiredAuthorizations" name="benötigte Berechtigung">
+    <DecisionTable id="requiredAuthorizationsTable" name="benötigte Berechtigung" isComplete="true" isConsistent="true">
+
+      <clause id="inputTaskDefinitionKeyAuth" name="Task Definition Key">
+        <inputExpression id="taskDefinitionKeyAuth" name="Task Definition Key" expressionLanguage="groovy">
+          <text>task.taskDefinitionKey</text>
+        </inputExpression>
+        <inputEntry id="inputEntry21" expressionLanguage="groovy">
+          <text>task.taskDefinitionKey == 'task_gebuehrenrechtlich_pruefen'</text>
+        </inputEntry>
+        <inputEntry id="inputEntry22" expressionLanguage="groovy">
+          <text>task.taskDefinitionKey == 'task_erstattungsbetrag_berechnen'</text>
+        </inputEntry>
+        <inputEntry id="inputEntry23" expressionLanguage="groovy">
+          <text>task.taskDefinitionKey == 'task_zahlung_freigeben'</text>
+        </inputEntry>
+      </clause>
+
+      <clause id="inputRechnungsartAuth" name="Rechnungsart">
+        <inputExpression id="rechnungsartAuth" name="Rechnungsart" expressionLanguage="groovy">
+          <text>rechnungsart</text>
+        </inputExpression>
+        <inputEntry id="inputEntry20" expressionLanguage="groovy">
+          <text>rechnungsart == 'Sonstiges'</text>
+        </inputEntry>
+      </clause>
+
+      <clause id="inputKundenstatus" name="Kundenstatus">
+        <inputExpression id="kundenstatus" name="Kundenstatus" expressionLanguage="groovy">
+          <text>kundenstatus</text>
+        </inputExpression>
+        <inputEntry id="inputEntry31" expressionLanguage="groovy">
+          <text>kundenstatus == 'Mitarbeiter'</text>
+        </inputEntry>
+        <inputEntry id="inputEntry32" expressionLanguage="groovy">
+          <text>kundenstatus == 'VIP'</text>
+        </inputEntry>
+        <inputEntry id="inputEntry33" expressionLanguage="groovy">
+          <text>kundenstatus != 'VIP'</text>
+        </inputEntry>
+      </clause>
+
+      <clause id="inputErstattungGesamt" name="Approval Sum">
+        <inputExpression id="erstattungGesamt" name="Sum" expressionLanguage="groovy">
+          <text>erstattungGesamt</text>
+        </inputExpression>
+        <inputEntry id="inputEntry14" expressionLanguage="groovy">
+          <text><![CDATA[erstattungGesamt <= 500 && erstattungGesamt >= 0]]></text>
+        </inputEntry>
+        <inputEntry id="inputEntry15" expressionLanguage="groovy">
+          <text><![CDATA[erstattungGesamt < 100 && erstattungGesamt >= 0]]></text>
+        </inputEntry>
+        <inputEntry id="inputEntry16" expressionLanguage="groovy">
+          <text><![CDATA[erstattungGesamt <= 500 && erstattungGesamt >= 100]]></text>
+        </inputEntry>
+        <inputEntry id="inputEntry17" expressionLanguage="groovy">
+          <text><![CDATA[erstattungGesamt > 500 ]]></text>
+        </inputEntry>
+      </clause>
+
+      <clause id="outputRequiredAuthorizations" name="outputRequiredAuthorizations" camunda:output="requiredAuthorizations">
+        <outputEntry expressionLanguage="groovy" id="outputEntry11">
+          <text>'INTERNA'</text>
+        </outputEntry>
+        <outputEntry expressionLanguage="groovy" id="outputEntry12">
+          <text>'KULANZ'</text>
+        </outputEntry>
+        <outputEntry expressionLanguage="groovy" id="outputEntry13">
+          <text>'EXKASSO_S'</text>
+        </outputEntry>
+        <outputEntry expressionLanguage="groovy" id="outputEntry14">
+          <text>'EXKASSO_M'</text>
+        </outputEntry>
+        <outputEntry expressionLanguage="groovy" id="outputEntry15">
+          <text>'EXKASSO_L'</text>
+        </outputEntry>
+      </clause>
+
+      <rule id="rule12">
+        <condition>inputEntry31</condition>
+        <conclusion>outputEntry11</conclusion>
+      </rule>
+      <rule id="rule13">
+        <condition>inputEntry21</condition>
+        <condition>inputEntry20</condition>
+        <conclusion>outputEntry12</conclusion>
+      </rule>
+      <rule id="rule14">
+        <condition>inputEntry22</condition>
+        <condition>inputEntry32</condition>
+        <conclusion>outputEntry12</conclusion>
+      </rule>
+      <rule id="rule15">
+        <condition>inputEntry23</condition>
+        <condition>inputEntry32</condition>
+        <condition>inputEntry15</condition>
+        <conclusion>outputEntry13</conclusion>
+      </rule>
+      <rule id="rule16">
+        <condition>inputEntry23</condition>
+        <condition>inputEntry33</condition>
+        <condition>inputEntry15</condition>
+        <conclusion>outputEntry13</conclusion>
+      </rule>
+      <rule id="rule17">
+        <condition>inputEntry23</condition>
+        <condition>inputEntry33</condition>
+        <condition>inputEntry16</condition>
+        <conclusion>outputEntry13</conclusion>
+      </rule>
+      <rule id="rule18">
+        <condition>inputEntry23</condition>
+        <condition>inputEntry17</condition>
+        <conclusion>outputEntry13</conclusion>
+      </rule>
+    </DecisionTable>
+  </Decision>
+
+</Definitions>

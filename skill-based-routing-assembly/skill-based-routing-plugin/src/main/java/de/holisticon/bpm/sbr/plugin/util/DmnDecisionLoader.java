@@ -1,6 +1,7 @@
 package de.holisticon.bpm.sbr.plugin.util;
 
 import com.google.common.cache.CacheLoader;
+import de.holisticon.bpm.sbr.plugin.job.DmnDirectoryWatcher;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,48 +19,57 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
 
-    public static class Key {
+  /**
+   * A key for decision cache.
+   */
+  public static class Key {
 
-        private final String processDefinitionKey;
-        private final String tableId;
+    private final String decisionResourceName;
+    private final String decisionId;
 
-        public Key(final String processDefinitionKey, final String tableId) {
-            this.processDefinitionKey = processDefinitionKey;
-            this.tableId = tableId;
-        }
-
-        @Override
-        public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-        }
-
-        @Override
-        public int hashCode() {
-            return HashCodeBuilder.reflectionHashCode(this);
-        }
-
-        public File getFile(final File dir) {
-            return Paths.get(dir.getPath(), processDefinitionKey + ".dmn").toFile();
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            return EqualsBuilder.reflectionEquals(this, other);
-        }
-    }
-
-    private final Logger logger = getLogger(this.getClass());
-    private final File dmnDir;
-    private final DmnEngine dmnEngine;
-
-    public DmnDecisionLoader(final DmnEngine dmnEngine, final File dmnDir) {
-        this.dmnEngine = dmnEngine;
-        this.dmnDir = dmnDir;
+    /**
+     * Constructs a key from decision resource name and decision id.
+     *
+     * @param decisionResourceName
+     * @param decisionId
+     */
+    public Key(final String decisionResourceName, final String decisionId) {
+      this.decisionResourceName = decisionResourceName;
+      this.decisionId = decisionId;
     }
 
     @Override
-    public DmnDecision load(final Key key) throws Exception {
-        logger.info("loading {}", key);
-        return dmnEngine.parseDecision(new FileInputStream(key.getFile(dmnDir)), key.tableId);
+    public String toString() {
+      return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
+    @Override
+    public int hashCode() {
+      return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    public File getFile(final File dir) {
+      return Paths.get(dir.getPath(), decisionResourceName + "_" + decisionId + DmnDirectoryWatcher.DMN_SUFFIX).toFile();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      return EqualsBuilder.reflectionEquals(this, other);
+    }
+  }
+
+  private final Logger logger = getLogger(this.getClass());
+  private final File dmnDir;
+  private final DmnEngine dmnEngine;
+
+  public DmnDecisionLoader(final DmnEngine dmnEngine, final File dmnDir) {
+    this.dmnEngine = dmnEngine;
+    this.dmnDir = dmnDir;
+  }
+
+  @Override
+  public DmnDecision load(final Key key) throws Exception {
+    logger.info("Loading {}", key);
+    return dmnEngine.parseDecision(new FileInputStream(key.getFile(dmnDir)), key.decisionId);
+  }
 }

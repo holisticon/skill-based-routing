@@ -18,24 +18,24 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class DmnDecisionCacheIT {
 
-    private final Logger logger = getLogger(this.getClass());
-    private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
-    private final DmnDecisionCache dmnDecisionCache = new DmnDecisionCache(dmnEngine, DmnDecisionLoaderTest.testResources());
+  private final Logger logger = getLogger(this.getClass());
+  private final DmnEngine dmnEngine = new DmnEngineConfigurationImpl().buildEngine();
+  private final DmnDecisionCache dmnDecisionCache = new DmnDecisionCache(dmnEngine, DmnDecisionLoaderTest.testResources());
 
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
+  @Rule
+  public final ExpectedException thrown = ExpectedException.none();
 
-    @Test
-    public void evaluate() {
-        // will fail because of missing context
-        thrown.expect(DmnExpressionException.class);
-        final Optional<DmnDecision> requiredSkills = dmnDecisionCache.get("return-constant", "requiredSkills");
-        logger.info(evaluate(requiredSkills.orNull()));
-    }
+  @Test
+  public void evaluate() {
+    // will fail because of missing context
+    thrown.expect(DmnExpressionException.class);
+    final Optional<DmnDecision> requiredSkills = dmnDecisionCache.get("return-constant", "requiredSkills");
+    logger.info(evaluate(requiredSkills.orNull()));
+  }
 
 
-    private String evaluate(DmnDecision dmnDecision) {
-        final DmnDecisionResult result = dmnEngine.evaluate(dmnDecision, new HashMap<String, Object>());
-        return result.toString();
-    }
+  private String evaluate(DmnDecision dmnDecision) {
+    final DmnDecisionResult result = dmnEngine.evaluate(dmnDecision, new HashMap<String, Object>());
+    return result.toString();
+  }
 }

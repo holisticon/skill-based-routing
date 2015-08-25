@@ -13,33 +13,33 @@ import java.util.ArrayList;
 
 public class FluentProcessEngineConfiguration implements Supplier<ProcessEngineConfigurationImpl> {
 
-    private final StandaloneInMemProcessEngineConfiguration processEngineConfiguration = new StandaloneInMemProcessEngineConfiguration() {{
-        this.history = HISTORY_FULL;
-        this.databaseSchemaUpdate = DB_SCHEMA_UPDATE_DROP_CREATE;
-        this.jobExecutorActivate = false;
-        this.expressionManager = new MockExpressionManager();
-        this.setProcessEnginePlugins(new ArrayList<ProcessEnginePlugin>());
-        this.setCustomPostBPMNParseListeners(new ArrayList<BpmnParseListener>());
-        this.setCustomJobHandlers(new ArrayList<JobHandler>());
-    }};
+  private final StandaloneInMemProcessEngineConfiguration processEngineConfiguration = new StandaloneInMemProcessEngineConfiguration() {{
+    this.history = HISTORY_FULL;
+    this.databaseSchemaUpdate = DB_SCHEMA_UPDATE_DROP_CREATE;
+    this.jobExecutorActivate = false;
+    this.expressionManager = new MockExpressionManager();
+    this.setProcessEnginePlugins(new ArrayList<ProcessEnginePlugin>());
+    this.setCustomPostBPMNParseListeners(new ArrayList<BpmnParseListener>());
+    this.setCustomJobHandlers(new ArrayList<JobHandler>());
+  }};
 
-    public FluentProcessEngineConfiguration addProcessEnginePlugin(ProcessEnginePlugin plugin) {
-        processEngineConfiguration.getProcessEnginePlugins().add(plugin);
-        return this;
-    }
+  public FluentProcessEngineConfiguration addProcessEnginePlugin(ProcessEnginePlugin plugin) {
+    processEngineConfiguration.getProcessEnginePlugins().add(plugin);
+    return this;
+  }
 
-    public FluentProcessEngineConfiguration addCustomJobHandler(JobHandler jobHandler) {
-        processEngineConfiguration.getCustomJobHandlers().add(jobHandler);
+  public FluentProcessEngineConfiguration addCustomJobHandler(JobHandler jobHandler) {
+    processEngineConfiguration.getCustomJobHandlers().add(jobHandler);
 
-        return this;
-    }
+    return this;
+  }
 
-    @Override
-    public ProcessEngineConfigurationImpl get() {
-        return processEngineConfiguration;
-    }
+  @Override
+  public ProcessEngineConfigurationImpl get() {
+    return processEngineConfiguration;
+  }
 
-    public ProcessEngine buildProcessEngine() {
-        return processEngineConfiguration.buildProcessEngine();
-    }
+  public ProcessEngine buildProcessEngine() {
+    return processEngineConfiguration.buildProcessEngine();
+  }
 }
