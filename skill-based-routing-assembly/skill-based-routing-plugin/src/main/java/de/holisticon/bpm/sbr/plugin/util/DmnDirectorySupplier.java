@@ -26,7 +26,7 @@ public class DmnDirectorySupplier implements Supplier<File> {
   }
 
   @VisibleForTesting
-  void setDmnDirectory(File dmnDirectory) {
+  public void setDmnDirectory(File dmnDirectory) {
     this.dmnDirectory = dmnDirectory;
   }
 }
