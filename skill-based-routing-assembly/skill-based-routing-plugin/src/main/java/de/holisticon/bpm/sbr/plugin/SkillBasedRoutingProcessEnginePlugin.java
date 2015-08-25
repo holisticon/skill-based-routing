@@ -1,11 +1,14 @@
 package de.holisticon.bpm.sbr.plugin;
 
 import com.google.common.eventbus.EventBus;
+
 import de.holisticon.bpm.sbr.plugin.job.DmnDirectoryWatcherJobHandler;
 import de.holisticon.bpm.sbr.plugin.listener.SkillBasedRoutingListener;
 import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
 import de.holisticon.bpm.sbr.plugin.util.DmnDecisionLoader;
 import de.holisticon.bpm.sbr.plugin.util.DmnDirectorySupplier;
+
+import org.assertj.core.util.VisibleForTesting;
 import org.camunda.bpm.dmn.engine.DmnEngine;
 import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
 import org.camunda.bpm.engine.ProcessEngine;
@@ -40,37 +43,33 @@ public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEngineP
   private final DmnEngine dmnEngine;
   private final DmnDirectorySupplier dmnDirectorySupplier;
 
-
   private final DmnDirectoryWatcherJobHandler jobHandler;
 
-  private final SkillBasedRoutingService skillBasedRoutingService;
+  private SkillBasedRoutingService skillBasedRoutingService;
 
   public SkillBasedRoutingProcessEnginePlugin() {
     this(new DmnEngineConfigurationImpl().buildEngine(), //
-      new EventBus("SkillBasedRoutingProcessEnginePlugin"), //
-      new DmnDirectorySupplier());
+        new EventBus("SkillBasedRoutingProcessEnginePlugin"), //
+        new DmnDirectorySupplier());
   }
 
   public SkillBasedRoutingProcessEnginePlugin(final DmnEngine dmnEngine, //
-                                              final EventBus eventBus, //
-                                              final DmnDirectorySupplier dmnDirectorySupplier) {
+      final EventBus eventBus, //
+      final DmnDirectorySupplier dmnDirectorySupplier) {
     this.dmnEngine = dmnEngine;
     this.eventBus = eventBus;
     this.dmnDirectorySupplier = dmnDirectorySupplier;
-
     this.jobHandler = new DmnDirectoryWatcherJobHandler(eventBus, dmnDirectorySupplier);
-
-    final DmnDecisionLoader decisionLoader = new DmnDecisionLoader(dmnEngine, dmnDirectorySupplier);
-
-    final DmnDecisionCache cache = new DmnDecisionCache(decisionLoader);
-
-    eventBus.register(cache);
-
-    this.skillBasedRoutingService = new SkillBasedRoutingService(dmnEngine, cache);
   }
 
   @Override
   public void preInit(final ProcessEngineConfigurationImpl configuration) {
+
+    final DmnDecisionLoader decisionLoader = new DmnDecisionLoader(dmnEngine, dmnDirectorySupplier);
+    final DmnDecisionCache cache = new DmnDecisionCache(decisionLoader);
+    eventBus.register(cache);
+
+    this.skillBasedRoutingService = new SkillBasedRoutingService(dmnEngine, cache);
     customJobHandlers(configuration).add(jobHandler);
 
     customPreBPMNParseListeners(configuration).add(new AbstractBpmnParseListener() {
@@ -89,11 +88,11 @@ public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEngineP
     commandExecutor.execute(DmnDirectoryWatcherJobHandler.CREATE_TIMER_ENTITY);
   }
 
-
   // static helpers
 
   /**
-   * @param processEngine the engine
+   * @param processEngine
+   *          the engine
    * @return commandExecutor for given engine
    */
   private static CommandExecutor commandExecutor(ProcessEngine processEngine) {
@@ -101,7 +100,8 @@ public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEngineP
   }
 
   /**
-   * @param processEngineConfiguration the configuration
+   * @param processEngineConfiguration
+   *          the configuration
    * @return null-safe list of custom parseListeners
    */
   private static List<BpmnParseListener> customPreBPMNParseListeners(ProcessEngineConfigurationImpl processEngineConfiguration) {
@@ -114,7 +114,8 @@ public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEngineP
   }
 
   /**
-   * @param processEngineConfiguration the configuration
+   * @param processEngineConfiguration
+   *          the configuration
    * @return null-safe list of custom job handlers
    */
   private static List<JobHandler> customJobHandlers(ProcessEngineConfigurationImpl processEngineConfiguration) {
@@ -127,11 +128,18 @@ public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEngineP
   }
 
   /**
-   * @param activity the taskActivity
+   * @param activity
+   *          the taskActivity
    * @return taskDefinition for activity
    */
   private static TaskDefinition taskDefinition(final ActivityImpl activity) {
     final UserTaskActivityBehavior activityBehavior = (UserTaskActivityBehavior) activity.getActivityBehavior();
     return activityBehavior.getTaskDefinition();
   }
+
+  @VisibleForTesting
+  public DmnDirectorySupplier getDmnDirectorySupplier() {
+    return dmnDirectorySupplier;
+  }
+
 }
