@@ -39,7 +39,11 @@ import static org.junit.Assert.assertEquals;
 public class TotalWarIT {
 
   private SkillBasedRoutingProcessEnginePlugin plugin = new SkillBasedRoutingProcessEnginePlugin();
+  
+  // unsauber ... um seiteneffekte zu vermeiden, benutzt das plugin einen eigenen, named-eventBus. besser: getter ins plugin
   private final EventBus eventBus = new EventBus();
+  
+  // unsauber ... das plugin registriert einen anderen handler als diesen ... besser getter ins plugin
   private DmnDirectoryWatcherJobHandler jobHandler = new DmnDirectoryWatcherJobHandler(eventBus);
   private File authorizations;
   
@@ -54,6 +58,7 @@ public class TotalWarIT {
   @Before
   public void initProperties() throws Exception {
 
+    // wenn das die poll frequenz steuert, ist es ja keine eviction time ... nur eine "check for changes" time
     System.setProperty("cache.eviction.timeout", "1");
     
     jobHandler.setDmnDirectoryWatcher(new DmnDirectoryWatcher(new DmnDirectorySupplier(temporaryFolder.getRoot())));
@@ -90,7 +95,7 @@ public class TotalWarIT {
     // start process and get Kermit as candidate user
     startProcessAssertCandidateUser("Kermit");
     
-    // change the authorization files, trugger job execution
+    // change the authorization files, trigger job execution
     Files.copy(getFile("total-war/user_requiredAuthorizations_2.dmn"), authorizations);
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.HOUR, 2);
