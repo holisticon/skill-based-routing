@@ -5,11 +5,11 @@
 
     <parent>
         <groupId>de.holisticon</groupId>
-        <artifactId>skill-based-routing-assembly</artifactId>
+        <artifactId>skill-based-routing-plugin</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
 
-    <artifactId>skill-based-routing-module</artifactId>
+    <artifactId>skill-based-routing-jboss-module</artifactId>
     <packaging>pom</packaging>
 
     <properties>
@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>de.holisticon</groupId>
-            <artifactId>skill-based-routing-plugin</artifactId>
+            <artifactId>skill-based-routing-plugin-impl</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

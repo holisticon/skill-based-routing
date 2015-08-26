@@ -5,11 +5,11 @@
 
   <parent>
     <groupId>de.holisticon</groupId>
-    <artifactId>skill-based-routing-assembly</artifactId>
+    <artifactId>skill-based-routing-plugin</artifactId>
     <version>0.2-SNAPSHOT</version>
   </parent>
 
-  <artifactId>skill-based-routing-plugin</artifactId>
+  <artifactId>skill-based-routing-plugin-impl</artifactId>
 
   <dependencies>
     <dependency>

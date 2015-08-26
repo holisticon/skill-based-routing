@@ -8,7 +8,7 @@
         <artifactId>skill-based-routing-root</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
-    <artifactId>skill-based-routing-assembly</artifactId>
+    <artifactId>skill-based-routing-plugin</artifactId>
     <packaging>pom</packaging>
 
     <properties>
@@ -17,8 +17,8 @@
     </properties>
 
     <modules>
-        <module>skill-based-routing-plugin</module>
-        <module>skill-based-routing-module</module>
+        <module>skill-based-routing-plugin-impl</module>
+        <module>skill-based-routing-jboss-module</module>
     </modules>
 
     <build>
