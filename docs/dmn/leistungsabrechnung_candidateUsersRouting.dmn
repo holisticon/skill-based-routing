@@ -4,7 +4,7 @@
 
   <Decision id="candidateUsersRouting" name="mögliche Benutzer">
 
-    <DecisionTable id="candidateUsersTable" name="mögliche Benutzer" isComplete="false" isConsistent="true" hitPolicy="RULE ORDER">
+    <DecisionTable id="candidateUsersTable" name="Candidate User Routing" isComplete="false" isConsistent="true" hitPolicy="RULE ORDER">
 
       <clause id="inputRequiredSkills" name="Required Skills">
         <inputExpression id="requiredSkillsExpression" name="Required Skills" expressionLanguage="groovy">
@@ -61,7 +61,7 @@
         </inputEntry>
       </clause>
 
-      <clause id="candidateUsers" name="candidateUsers" camunda:output="candidateUsers">
+      <clause id="candidateUsers" name="Candidate User" camunda:output="candidateUsers">
         <outputEntry expressionLanguage="groovy" id="outputEntry90">
           <text>'Ines'</text>
         </outputEntry>

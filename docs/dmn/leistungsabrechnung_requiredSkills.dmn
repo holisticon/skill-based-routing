@@ -3,7 +3,7 @@
              namespace="http://camunda.org/dmn" xmlns:camunda="http://camunda.org/schema/1.0/dmn">
 
   <Decision id="requiredSkills" name="benötigte Fähigkeit">
-    <DecisionTable id="requiredSkillsTable" name="benötigte Fähigkeit" isComplete="true" isConsistent="true">
+    <DecisionTable id="requiredSkillsTable" name="Required Skills" isComplete="true" isConsistent="true">
 
       <clause id="inputTaskDefinitionKeySkill" name="Task Definition Key">
         <inputExpression id="taskDefinitionKeySkill" name="Task Definition Key" expressionLanguage="groovy">
@@ -132,14 +132,19 @@
       <rule id="rule9">
         <condition>inputEntry2</condition>
         <condition>inputEntry11</condition>
-        <conclusion>outputEntry7</conclusion>
+        <conclusion>outputEntry6</conclusion>
       </rule>
       <rule id="rule10">
+        <condition>inputEntry2</condition>
+        <condition>inputEntry11</condition>
+        <conclusion>outputEntry7</conclusion>
+      </rule>
+      <rule id="rule11">
         <condition>inputEntry2</condition>
         <condition>inputEntry12</condition>
         <conclusion>outputEntry7</conclusion>
       </rule>
-      <rule id="rule11">
+      <rule id="rule12">
         <condition>inputEntry2</condition>
         <condition>inputEntry13</condition>
         <conclusion>outputEntry8</conclusion>

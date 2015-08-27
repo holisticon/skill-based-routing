@@ -3,7 +3,7 @@
              namespace="http://camunda.org/dmn" xmlns:camunda="http://camunda.org/schema/1.0/dmn">
 
   <Decision id="requiredAuthorizations" name="benötigte Berechtigung">
-    <DecisionTable id="requiredAuthorizationsTable" name="benötigte Berechtigung" isComplete="true" isConsistent="true">
+    <DecisionTable id="requiredAuthorizationsTable" name="Required Authorizations" isComplete="true" isConsistent="true">
 
       <clause id="inputTaskDefinitionKeyAuth" name="Task Definition Key">
         <inputExpression id="taskDefinitionKeyAuth" name="Task Definition Key" expressionLanguage="groovy">
@@ -44,25 +44,25 @@
         </inputEntry>
       </clause>
 
-      <clause id="inputErstattungGesamt" name="Approval Sum">
+      <clause id="inputErstattungGesamt" name="Erstattungsbetrag">
         <inputExpression id="erstattungGesamt" name="Sum" expressionLanguage="groovy">
           <text>erstattungGesamt</text>
         </inputExpression>
         <inputEntry id="inputEntry14" expressionLanguage="groovy">
-          <text><![CDATA[erstattungGesamt <= 500 && erstattungGesamt >= 0]]></text>
+          <text><![CDATA[erstattungGesamt >= 0 && erstattungGesamt <= 500]]></text>
         </inputEntry>
         <inputEntry id="inputEntry15" expressionLanguage="groovy">
-          <text><![CDATA[erstattungGesamt < 100 && erstattungGesamt >= 0]]></text>
+          <text><![CDATA[erstattungGesamt >= 0 && erstattungGesamt < 100]]></text>
         </inputEntry>
         <inputEntry id="inputEntry16" expressionLanguage="groovy">
-          <text><![CDATA[erstattungGesamt <= 500 && erstattungGesamt >= 100]]></text>
+          <text><![CDATA[erstattungGesamt >= 100 && erstattungGesamt <= 500]]></text>
         </inputEntry>
         <inputEntry id="inputEntry17" expressionLanguage="groovy">
           <text><![CDATA[erstattungGesamt > 500 ]]></text>
         </inputEntry>
       </clause>
 
-      <clause id="outputRequiredAuthorizations" name="outputRequiredAuthorizations" camunda:output="requiredAuthorizations">
+      <clause id="outputRequiredAuthorizations" name="Benötigte Rechte" camunda:output="requiredAuthorizations">
         <outputEntry expressionLanguage="groovy" id="outputEntry11">
           <text>'INTERNA'</text>
         </outputEntry>
@@ -97,7 +97,7 @@
       <rule id="rule15">
         <condition>inputEntry23</condition>
         <condition>inputEntry32</condition>
-        <condition>inputEntry15</condition>
+        <condition>inputEntry14</condition>
         <conclusion>outputEntry13</conclusion>
       </rule>
       <rule id="rule16">
@@ -110,12 +110,12 @@
         <condition>inputEntry23</condition>
         <condition>inputEntry33</condition>
         <condition>inputEntry16</condition>
-        <conclusion>outputEntry13</conclusion>
+        <conclusion>outputEntry14</conclusion>
       </rule>
       <rule id="rule18">
         <condition>inputEntry23</condition>
         <condition>inputEntry17</condition>
-        <conclusion>outputEntry13</conclusion>
+        <conclusion>outputEntry15</conclusion>
       </rule>
     </DecisionTable>
   </Decision>

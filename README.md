@@ -38,7 +38,7 @@ Dann auch immer gleich die Camunda Beispielanwendung (invoice) aus den Deploymen
 
 Wir haben ein eigenes  Process Engine Plugin gebaut, dass das automatische Handling der CandidateUsers aus den DMN Regeldateien übernimmt.
 
-Dazu muss der Inhalt des `jboss-module-de.holisticon.skill-based-routing-1.0-SNAPSHOT.zip` ins `$JBOSS_HOME/modules` ausgepackt werden.    
+Dazu muss der Inhalt des `jboss-module-de.holisticon.skill-based-routing-0.2-SNAPSHOT.zip` ins `$JBOSS_HOME/modules` ausgepackt werden.    
 
 Weiterhin muss das module in der `org/camunda/bpm/jboss/camunda-jboss-subsystem/main/module.xml` eingetragen werden:
 
@@ -52,19 +52,20 @@ Weiterhin muss das module in der `org/camunda/bpm/jboss/camunda-jboss-subsystem/
 
 Und unsere Plugin Klasse in der `standalone.xml` registriert werden
 
-    ...
-    <plugins>
-      <plugin>
-        <class>org.camunda.bpm.application.impl.event.ProcessApplicationEventListenerPlugin</class>
-      </plugin>
-      <plugin>
-        <class>de.holisticon.bpm.sbr.plugin.SkillBasedRoutingProcessEnginePlugin</class>
-      </plugin>
-      ...
+    <subsystem xmlns="urn:org.camunda.bpm.jboss:1.1">
+       <process-engines>
+          <process-engine name="default" default="true">
+             ...
+             <plugins>
+                ...
+                <plugin>
+                   <class>de.holisticon.bpm.sbr.plugin.SkillBasedRoutingProcessEnginePlugin</class>
+                </plugin>
+                ...
 
 
 Das wars. Camunda zieht beim Hochfahren unser Plugin, das Plugin registriert TaskListener für jedes TaskCreate-Element und dieser 
-Listener liest aus `$JBOSS_HOME/standalone/configuration/dmn` die entsprechende *.dmn Datei ein und wertet sie aus. 
+Listener liest aus `$JBOSS_HOME/standalone/configuration/dmn` die entsprechenden *.dmn Dateien ein und wertet sie aus. 
 
 
 
