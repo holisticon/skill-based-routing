@@ -113,6 +113,8 @@ public class VersicherungsschutzErmittelnDelegate implements JavaDelegate {
       put("GOZ-500", "ZN (50%)");
       put("GOZ-550", "ZN (50%)");
       put("AM", "ABZ (80%)");
+      put("GOÄ-539", "AB1 (100%)"); // Ultraschall
+      put("GOÄ-3550", "AB2 (80%)"); // Blutbild
     }
   });
 
@@ -161,6 +163,9 @@ public class VersicherungsschutzErmittelnDelegate implements JavaDelegate {
       put("AM", "AE+ (100%)");
       put("HM", "HMZ (80%)");
       put("SH", "SHB (60%)");
+      put("GOÄ-538", "ABZ (80%)");  // Wärmebehandlung
+      put("GOÄ-539", "AB1 (100%)"); // Ultraschall
+      put("GOÄ-3550", "AB2 (80%)"); // Blutbild
     }
   });
 
