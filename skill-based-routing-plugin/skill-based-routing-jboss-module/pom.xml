@@ -14,7 +14,7 @@
 
     <properties>
         <jboss-module-id>de.holisticon.skill-based-routing</jboss-module-id>
-        <jboss-module-version>0.2</jboss-module-version>
+        <jboss-module-version>${project.parent.version}</jboss-module-version>
         <jboss-module-zip-filename>jboss-module-${jboss-module-id}-${jboss-module-version}${version-postfix}.zip</jboss-module-zip-filename>
     </properties>
 
