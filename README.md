@@ -10,9 +10,13 @@ Holisticon hat auf Basis von DMN eine Lösung für camunda BPM entwickelt, mit d
 
 ## Camunda DMN Web Modeller
 
-Für die Bearbeitung der DMN Dateien, kann der Web Modeler verwendet werden. 
+Für die Bearbeitung der DMN Dateien, kann der Web Modeler verwendet werden.
+ 
+Das entsprechende maven module "dmn-editor" wird mitgebaut. Einfach das war aus dem target/ Verzeichnis deployen.
 
-Von [https://github.com/holisticon/dmn-js-examples.git](https://github.com/holisticon/dmn-js-examples.git) auschecken und den Build mit `grunt auto-build` starten, um den Modeller zu verwenden.
+Url ist dann:
+
+* http://localhost:8080/dmn-editor-0.2-SNAPSHOT
 
 
 ## JBoss einrichten
@@ -27,7 +31,7 @@ Das `/dmn` Verzeichnis aus `/docs` kopieren nach `$JBOSS_HOME/standalone/configu
 
 #### Deployments
     
-Das Process WAR `skill-based-routing-web-X.X.X.war` muss in `$JBOSS_HOME/standalone/deployments` liegen (symlink oder copy)    
+Das Process WAR `skill-based-routing-process-X.X.X.war` muss in `$JBOSS_HOME/standalone/deployments` liegen (symlink oder copy)    
 
 Eine vorkonfigurierte H2-Datenbank liegt im Verzeichnis `/docs`. Diese muss in `$JBOSS_HOME/bin/camunda-h2-dbs/`.
 
@@ -41,7 +45,6 @@ Wir haben ein eigenes  Process Engine Plugin gebaut, dass das automatische Handl
 Dazu muss der Inhalt des `jboss-module-de.holisticon.skill-based-routing-0.2-SNAPSHOT.zip` ins `$JBOSS_HOME/modules` ausgepackt werden.    
 
 Weiterhin muss das module in der `org/camunda/bpm/jboss/camunda-jboss-subsystem/main/module.xml` eingetragen werden:
-
 
      ...
      <module name="org.camunda.bpm.camunda-engine-plugin-spin" />
