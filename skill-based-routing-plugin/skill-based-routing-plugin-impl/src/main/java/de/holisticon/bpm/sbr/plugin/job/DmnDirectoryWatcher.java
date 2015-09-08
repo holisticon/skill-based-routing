@@ -20,7 +20,7 @@ public class DmnDirectoryWatcher {
 
   public static final String DMN_SUFFIX = ".dmn";
 
-  private final Map<File, Long> pastFiles = Maps.newHashMap();
+  private final Map<File, Long> pastFiles = Maps.newConcurrentMap();
 
   private final Function<File, Set<File>> readFiles = new Function<File, Set<File>>() {
 
