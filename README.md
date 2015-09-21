@@ -14,9 +14,7 @@ Für die Bearbeitung der DMN Dateien, kann der Web Modeler verwendet werden.
  
 Das entsprechende maven module "dmn-editor" wird mitgebaut. Einfach das war aus dem target/ Verzeichnis deployen.
 
-Url ist dann:
-
-* http://localhost:8080/dmn-editor-0.2-SNAPSHOT
+URL ist dann: [http://localhost:8080/dmn-editor-0.2-SNAPSHOT](http://localhost:8080/dmn-editor-0.2-SNAPSHOT)
 
 
 ## JBoss einrichten
