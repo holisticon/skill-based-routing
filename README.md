@@ -1,4 +1,7 @@
-# Abstract
+<img src="https://www.holisticon.de/wp-content/uploads/2013/05/holisticon-logo-hamburg.gif" align="right" />
+# Skill-based-Routing mit DMN
+
+## Abstract
 
 Skill-based Routing mit DMN - Out of the box!
 
@@ -6,7 +9,7 @@ Wer kann was? Wer darf was? Wer ist verfügbar? Dies sind die immer wiederkehren
 
 Holisticon hat auf Basis von DMN eine Lösung für camunda BPM entwickelt, mit der die Zuordnung von Benutzeraufgaben komplett aus den ausführbaren Prozessmodellen ausgelagert werden kann. Die Definition der Skills und Berechtigungen erfolgt extern über DMN-Entscheidungstabellen und lässt sich individuell und flexibel auf die jeweiligen Anwendungsfälle anpassen. Der Clou dabei ist jedoch, dass die ausführbaren Prozesse keinerlei Kenntnis über die Existenz dieses Skill-based Routing besitzen müssen. Dadurch lässt sich die Lösung auch ohne weiteres auf bereits bestehende Prozesse anwenden, ohne dass Anpassungen nötig sind! 
 
-# Beispiel
+## Beispiel
 
 Als Beispiel haben wir einen vereinfachten Prozess ausgesucht, der an die Leistungsabrechnung einer Krankenversicherung angelehnt ist. 
 
@@ -15,16 +18,16 @@ Als Beispiel haben wir einen vereinfachten Prozess ausgesucht, der an die Leistu
 Dabei hat der Prozess keinerlei Informationen über das Routing, es findet ausschließlich über die in DMN ausgelagerte Entschedungstabellen statt. 
 
 
-# Installation
+## Installation
 
-## Camunda DMN Web Modeller
+### Camunda DMN Web Modeller
 
 Für die Bearbeitung der DMN Dateien, kann der Web Modeler verwendet werden. Das entsprechende Apache Maven module "dmn-editor" wird mitgebaut. Einfach das WAR aus dem target/ Verzeichnis deployen.
 
 URL ist dann: [http://localhost:8080/dmn-editor-0.2-SNAPSHOT](http://localhost:8080/dmn-editor-0.2-SNAPSHOT)
 
 
-## JBoss einrichten
+### JBoss einrichten
 
 (Bis auf weiteres) Laden des aktuellesten (7.4.0-SNAPSHOT am 22.09.2015) Snapshot Bundles aus dem [camunda nexus](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0-SNAPSHOT/)
 
@@ -70,17 +73,17 @@ Und unsere Plugin Klasse in der `standalone.xml` registriert werden
 
 Camunda BPM zieht beim Hochfahren unser Plugin, das Plugin registriert TaskListener für jedes TaskCreate-Element und dieser Listener liest aus `$JBOSS_HOME/standalone/configuration/dmn` die entsprechenden *.dmn Dateien ein und wertet sie aus. 
 
-# Resources
+## Resources
 
 * [JBoss 7.2.0-Final Camunda BPM EE 7.4.0-SNAPSHOT](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0-SNAPSHOT/)
 * [sbr-decision-tables.xlsx](https://github.com/holisticon/skill-based-routing/raw/master/docs/sbr_decision_tables.xlsx)
 
-## Autoren
+### Autoren
 
 * [Jo Ehm](https://github.com/joehm)
 * [Jan Galinski](https://github.com/galinski)
 * [Simon Zambrovski](https://github.com/zambrovski)
 
-## License
+### License
 
 This project is released under the revised BSD License (s. LICENSE). 
