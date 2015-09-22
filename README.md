@@ -10,7 +10,7 @@ Holisticon hat auf Basis von DMN eine Lösung für camunda BPM entwickelt, mit d
 
 Als Beispiel haben wir einen vereinfachten Prozess ausgesucht, der an die Leistungsabrechnung einer Krankenversicherung angelehnt ist. 
 
-![Beispielprozess Leistungsabrechnung](https://github.com/holisticon/skill-based-routing/blob/master/skill-based-routing-process/src/main/resources/Leistungsabrechnung.png)
+![Beispielprozess Leistungsabrechnung](https://raw.githubusercontent.com/holisticon/skill-based-routing/master/docs/Leistungsabrechnung.png)
 
 Dabei hat der Prozess keinerlei Informationen über das Routing, es findet ausschließlich über die in DMN ausgelagerte Entschedungstabellen statt. 
 
@@ -41,7 +41,7 @@ Das Process WAR `skill-based-routing-process-X.X.X.war` muss in `$JBOSS_HOME/sta
 
 Wir haben ein eigenes Process Engine Plugin gebaut, dass das automatische Handling der CandidateUsers aus den DMN Regeldateien übernimmt.
 
-![Architekturskizze](https://github.com/holisticon/skill-based-routing/blob/master/docs/sbr_camunda-plugin_architecture.png)
+![Architekturskizze](https://raw.githubusercontent.com/holisticon/skill-based-routing/master/docs/sbr_camunda-plugin_architecture.png)
 
 Für die Installation muss der Inhalt des `jboss-module-de.holisticon.skill-based-routing-0.2-SNAPSHOT.zip` ins `$JBOSS_HOME/modules` ausgepackt werden.    
 
@@ -73,7 +73,7 @@ Camunda BPM zieht beim Hochfahren unser Plugin, das Plugin registriert TaskListe
 # Resources
 
 * [JBoss 7.2.0-Final Camunda BPM EE 7.4.0-SNAPSHOT](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0-SNAPSHOT/)
-* [sbr_decision_tables.xlsx](https://github.com/holisticon/skill-based-routing/blob/master/docs/sbr_decision_tables.xlsx)
+* [sbr-decision-tables.xlsx](https://github.com/holisticon/skill-based-routing/raw/master/docs/sbr_decision_tables.xlsx)
 
 ## Autoren
 
