@@ -1,20 +1,19 @@
-#
-# Eclipse
-#
+# ------------ Maven
+pom.xml.versionsBackup
+target/
+# ------------ Eclipse
 .classpath
 .project
 .settings/
-#
-# Idea
-#
+# ------------ Idea
 *.iml
 .idea
+# ------------ Misc
 .java-version
-target/
-tmp/
 */src/main/resources/*.png
 *.bak
 *.index
 /docker
+tmp/
 ~*
 

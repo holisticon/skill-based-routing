@@ -45,7 +45,7 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
 
     /**
      * Constructs a key from decision resource name and decision id.
-     * 
+     *
      * @param decisionResourceName
      * @param decisionId
      */
@@ -91,6 +91,6 @@ public class DmnDecisionLoader extends CacheLoader<Key, DmnDecision> {
   public DmnDecision load(final Key key) throws Exception {
     logger.info("Loading {} from {}", key.getFilenameSegment(), dmnDir.get());
     final File file = key.getFile(dmnDir.get());
-    return dmnEngine.parseDecision(new FileInputStream(file), key.decisionId);
+    return dmnEngine.parseDecision(key.decisionId, new FileInputStream(file));
   }
 }

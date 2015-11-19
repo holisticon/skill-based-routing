@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.camunda.bpm.dmn.engine.DmnEngine;
-import org.camunda.bpm.dmn.engine.impl.DmnEngineConfigurationImpl;
+import org.camunda.bpm.dmn.engine.impl.DefaultDmnEngine;
+import org.camunda.bpm.dmn.engine.impl.DefaultDmnEngineConfiguration;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.camunda.bpm.engine.impl.bpmn.parser.AbstractBpmnParseListener;
@@ -47,7 +48,7 @@ public class SkillBasedRoutingProcessEnginePlugin extends AbstractProcessEngineP
   private SkillBasedRoutingService skillBasedRoutingService;
 
   public SkillBasedRoutingProcessEnginePlugin() {
-    this(new DmnEngineConfigurationImpl().buildEngine(), //
+    this(new DefaultDmnEngineConfiguration().buildEngine(), //
         new EventBus("SkillBasedRoutingProcessEnginePlugin"), //
         new DmnDirectorySupplier());
   }

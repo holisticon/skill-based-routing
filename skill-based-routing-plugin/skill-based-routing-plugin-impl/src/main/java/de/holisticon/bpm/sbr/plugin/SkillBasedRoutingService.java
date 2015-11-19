@@ -1,23 +1,22 @@
 package de.holisticon.bpm.sbr.plugin;
 
+import com.google.common.base.Optional;
+import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
+import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
+import de.holisticon.bpm.sbr.plugin.util.DmnDecisionResourceNameRetriever;
+import org.camunda.bpm.dmn.engine.DmnDecision;
+import org.camunda.bpm.dmn.engine.DmnDecisionRuleResult;
+import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
+import org.camunda.bpm.dmn.engine.DmnEngine;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.camunda.bpm.dmn.engine.DmnDecision;
-import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
-import org.camunda.bpm.dmn.engine.DmnDecisionResult;
-import org.camunda.bpm.dmn.engine.DmnEngine;
-import org.slf4j.Logger;
-
-import com.google.common.base.Optional;
-
-import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
-import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
-import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
-import de.holisticon.bpm.sbr.plugin.util.DmnDecisionResourceNameRetriever;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SkillBasedRoutingService {
@@ -73,7 +72,7 @@ public class SkillBasedRoutingService {
 
   /**
    * Delivers candidate rules and groups for task routing.
-   * 
+   *
    * @param task
    *          task information.
    * @param variables
@@ -118,10 +117,10 @@ public class SkillBasedRoutingService {
       return Collections.EMPTY_LIST;
     }
 
-    final DmnDecisionResult result = dmnEngine.evaluate(decision.get(), context);
+    final DmnDecisionTableResult result = dmnEngine.evaluateDecisionTable(decision.get(), context);
     final List<T> outputValues = new ArrayList<T>();
     if (result != null && !result.isEmpty()) {
-      for (DmnDecisionOutput output : result) {
+      for (DmnDecisionRuleResult output : result) {
         outputValues.add((T) output.get(resultName));
       }
     }
@@ -130,7 +129,7 @@ public class SkillBasedRoutingService {
 
   /**
    * Prepares decision context for evaluation of process relevant information.
-   * 
+   *
    * @param context
    *          context to use.
    * @param task
@@ -147,7 +146,7 @@ public class SkillBasedRoutingService {
 
   /**
    * Prepares evaluation context for evaluation of routing information.
-   * 
+   *
    * @param context
    *          context to use.
    * @param requiredSkills

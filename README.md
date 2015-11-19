@@ -14,7 +14,9 @@ Für die Bearbeitung der DMN Dateien, kann der Web Modeler verwendet werden.
  
 Das entsprechende maven module "dmn-editor" wird mitgebaut. Einfach das war aus dem target/ Verzeichnis deployen.
 
-URL ist dann: [http://localhost:8080/dmn-editor-0.2-SNAPSHOT](http://localhost:8080/dmn-editor-0.2-SNAPSHOT)
+Url ist dann:
+
+* http://localhost:8080/dmn-editor-0.2-SNAPSHOT
 
 
 ## JBoss einrichten
@@ -81,4 +83,7 @@ Listener liest aus `$JBOSS_HOME/standalone/configuration/dmn` die entsprechenden
 * Jan -> holisticon   
 * Jo -> holisticon 
 
+## Useful
 
+* `mvn dependency:get -Dartifact=org.camunda.bpm.jboss:camunda-bpm-jboss:7.4.0-SNAPSHOT:zip` download the latest jboss distro bundle
+* [current DMN editor at camunda](https://camunda.org/dmn/demo-stage/)
