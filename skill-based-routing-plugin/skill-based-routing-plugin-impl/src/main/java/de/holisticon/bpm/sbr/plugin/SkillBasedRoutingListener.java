@@ -1,8 +1,9 @@
-package de.holisticon.bpm.sbr.plugin.listener;
+package de.holisticon.bpm.sbr.plugin;
 
 import de.holisticon.bpm.sbr.plugin.SkillBasedRoutingService;
 import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
 import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
+import org.camunda.bpm.engine.DecisionService;
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.TaskListener;
 import org.slf4j.Logger;
@@ -15,19 +16,14 @@ public class SkillBasedRoutingListener implements TaskListener {
 
   private final Logger logger = getLogger(this.getClass());
 
-  private final SkillBasedRoutingService skillBasedRoutingService;
-
-  public SkillBasedRoutingListener(final SkillBasedRoutingService skillBasedRoutingService) {
-    this.skillBasedRoutingService = skillBasedRoutingService;
-  }
-
   @Override
   public void notify(final DelegateTask delegateTask) {
     logger.info("Determining routing for {}", delegateTask.getTaskDefinitionKey());
+    final DecisionService decisionService = delegateTask.getProcessEngineServices().getDecisionService();
 
     final Map<String, Object> vars = delegateTask.getVariables();
     final TaskHolder task = TaskHolder.fromTask(delegateTask);
-    final CandidateResult candidateResult = skillBasedRoutingService.evaluate(task, vars);
+    final CandidateResult candidateResult = SkillBasedRoutingService.evaluate(decisionService, task, vars);
 
     if (candidateResult != null) {
       delegateTask.addCandidateUsers(candidateResult.getCandidateUsers());

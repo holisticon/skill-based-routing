@@ -22,7 +22,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class SharedDmnEngineSpike {
+public class RedeployAndEvaluateDecisionTest{
 
   public static final String SILVER_1000 = "dmn/camunda-example_silver1000.dmn";
   public static final String SILVER_2000 = "dmn/camunda-example_silver2000.dmn";
