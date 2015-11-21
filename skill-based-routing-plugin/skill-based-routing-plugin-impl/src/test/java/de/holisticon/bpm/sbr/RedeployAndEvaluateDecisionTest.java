@@ -30,7 +30,7 @@ public class RedeployAndEvaluateDecisionTest{
   private final Logger logger = getLogger(this.getClass());
 
   private final ProcessEngineConfigurationImpl configuration = new StandaloneInMemProcessEngineConfiguration() {{
-    databaseSchemaUpdate = DB_SCHEMA_UPDATE_CREATE_DROP;
+    databaseSchemaUpdate = DB_SCHEMA_UPDATE_DROP_CREATE;
     expressionManager = new MockExpressionManager();
     jobExecutorActivate = false;
     historyLevel = HistoryLevel.HISTORY_LEVEL_FULL;
