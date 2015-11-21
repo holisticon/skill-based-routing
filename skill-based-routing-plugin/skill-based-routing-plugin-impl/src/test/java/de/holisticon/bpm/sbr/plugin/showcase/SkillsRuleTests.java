@@ -68,7 +68,7 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, ZAHNARZT).putValue(PRODUKT, "Basis-Schutz"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("TAR_AB", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 
@@ -81,7 +81,7 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, ZAHNARZT).putValue(PRODUKT, "Zahnzusatz"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("TAR_EZ", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 
@@ -94,7 +94,7 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, ZAHNARZT).putValue(PRODUKT, "Brille 2000"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("TAR_ES", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 
@@ -107,7 +107,7 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Arzt").putValue(PRODUKT, "Egal"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("GOÄ", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 
@@ -120,7 +120,7 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Zahnarzt").putValue(PRODUKT, "Egal"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("GOZ", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 
@@ -133,7 +133,7 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Augenarzt").putValue(PRODUKT, "Egal"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("GOÄ", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 
@@ -146,7 +146,7 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Optiker").putValue(PRODUKT, "Egal"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("SH", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 
@@ -160,7 +160,7 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Arzneimittel").putValue(PRODUKT, "Egal"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("AMNOG", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 
@@ -173,9 +173,10 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Physiotherapie").putValue(PRODUKT, "Egal"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("HeilM-RL", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
+  
   @Test
   @Deployment(resources = SKILL_DMN_RESOURCE)
   public void evaluateSkillsErgo() throws Exception {
@@ -185,7 +186,7 @@ public class SkillsRuleTests {
 
     final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Ergotherapie").putValue(PRODUKT, "Egal"));
-
+    assertEquals(1, FluentIterable.from(results).size());
     assertEquals("HeilM-RL", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 

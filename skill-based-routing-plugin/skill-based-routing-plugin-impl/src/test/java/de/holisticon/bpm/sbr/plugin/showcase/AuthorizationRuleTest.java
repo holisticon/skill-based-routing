@@ -16,7 +16,7 @@ import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for showcase skill table.
+ * Tests for showcase authorizations table.
  * 
  * @author Simon Zambrovski (Holisticon AG)
  * 
@@ -34,7 +34,6 @@ public class AuthorizationRuleTest {
   private static final String DECISION_KEY = "leistungsabrechnung_requiredAuthorizations";
   private static final String KUNDENSTATUS = "kundenstatus";
   private static final String ERSTATTUNG = "erstattungGesamt";
-  private static final String ZAHNARZT = "Zahnarzt";
   private static final String RECHNUNGSART = "rechnungsart";
   private static final String REQUIRED_AUTH = "requiredAuthorizations";
 

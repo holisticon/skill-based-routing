@@ -12,7 +12,7 @@
           <text>task.taskDefinitionKey</text>
         </inputExpression>
         <inputValues id="inputTaskDefinitionKeySkillValue">
-          <text>'task_erstattungsbetrag_berechnen', 'task_gebuehrenrechtlich_pruefen'</text>
+          <text>"task_erstattungsbetrag_berechnen", "task_gebuehrenrechtlich_pruefen"</text>
         </inputValues>
       </input>
 
@@ -21,7 +21,7 @@
           <text>rechnungsart</text>
         </inputExpression>
         <inputValues id="inputRechnungsartSkillValue">
-          <text>'Arzt', 'Zahnarzt', 'Augenarzt', 'Optiker', 'Arzneimittel', 'Physiotherapie', 'Ergotherapie'</text>
+          <text>"Arzt", "Zahnarzt", "Augenarzt", "Optiker", "Arzneimittel", "Physiotherapie", "Ergotherapie"</text>
         </inputValues>
       </input>
 
@@ -30,169 +30,169 @@
           <text>produkt</text>
         </inputExpression>
         <inputValues id="inputProduktValue">
-          <text>'Basis-Schutz', 'Premium Komplett', 'Zahnzusatz', 'Brille 2000'</text>
+          <text>"Basis-Schutz", "Premium Komplett", "Zahnzusatz", "Brille 2000"</text>
         </inputValues>
       </input>
 
       <output id="outputRequiredSkills" label="Benötigte Fähigkeiten" name="requiredSkills" typeRef="string">
         <outputValues>
-          <text>'GOÄ', 'GOZ', 'SH' 'AMNOG', 'HeilM-RL', 'TAR_AB', 'TAR_EZ', 'TAR_ES'</text>
+          <text>"GOÄ", "GOZ", "SH" "AMNOG", "HeilM-RL", "TAR_AB", "TAR_EZ", "TAR_ES"</text>
         </outputValues>
       </output>
 
       <rule id="rule1">
         <inputEntry id="inputEntry1">
-          <text>'task_gebuehrenrechtlich_pruefen'</text>
+          <text>"task_gebuehrenrechtlich_pruefen"</text>
         </inputEntry>
         <inputEntry id="inputEntry2">
-          <text>'Arzt'</text>
+          <text>"Arzt"</text>
         </inputEntry>
         <inputEntry id="inputEntry2_"><text></text></inputEntry>
         <outputEntry id="outputEntry1">
-          <text>'GOÄ'</text>
+          <text>"GOÄ"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule2">
         <inputEntry id="inputEntry3">
-          <text>'task_gebuehrenrechtlich_pruefen'</text>
+          <text>"task_gebuehrenrechtlich_pruefen"</text>
         </inputEntry>
         <inputEntry id="inputEntry4">
-          <text>'Zahnarzt'</text>
+          <text>"Zahnarzt"</text>
         </inputEntry>
         <inputEntry id="inputEntry41"><text></text></inputEntry>      
         <outputEntry id="outputEntry2">
-          <text>'GOZ'</text>
+          <text>"GOZ"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule3">
         <inputEntry id="inputEntry5">
-          <text>'task_gebuehrenrechtlich_pruefen'</text>
+          <text>"task_gebuehrenrechtlich_pruefen"</text>
         </inputEntry>
         <inputEntry id="inputEntry6">
-          <text>'Augenarzt'</text>
+          <text>"Augenarzt"</text>
         </inputEntry>
         <inputEntry id="inputEntry61"><text></text></inputEntry>
         <outputEntry id="outputEntry3">
-          <text>'GOÄ'</text>
+          <text>"GOÄ"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule4">
         <inputEntry id="inputEntry7">
-          <text>'task_gebuehrenrechtlich_pruefen'</text>
+          <text>"task_gebuehrenrechtlich_pruefen"</text>
         </inputEntry>
         <inputEntry id="inputEntry8">
-          <text>'Optiker'</text>
+          <text>"Optiker"</text>
         </inputEntry>
         <inputEntry id="inputEntry81"><text></text></inputEntry>
         <outputEntry id="outputEntry4">
-          <text>'SH'</text>
+          <text>"SH"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule5">
         <inputEntry id="inputEntry9">
-          <text>'task_gebuehrenrechtlich_pruefen'</text>
+          <text>"task_gebuehrenrechtlich_pruefen"</text>
         </inputEntry>
         <inputEntry id="inputEntry10">
-          <text>'Arzneimittel'</text>
+          <text>"Arzneimittel"</text>
         </inputEntry>
         <inputEntry id="inputEntry101"><text></text></inputEntry>
         <outputEntry id="outputEntry5">
-          <text>'AMNOG'</text>
+          <text>"AMNOG"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule6">
         <inputEntry id="inputEntry11">
-          <text>'task_gebuehrenrechtlich_pruefen'</text>
+          <text>"task_gebuehrenrechtlich_pruefen"</text>
         </inputEntry>
         <inputEntry id="inputEntry12">
-          <text>'Physiotherapie'</text>
+          <text>"Physiotherapie"</text>
         </inputEntry>
         <inputEntry id="inputEntry121"><text></text></inputEntry>
         <outputEntry id="outputEntry6">
-          <text>'HeilM-RL'</text>
+          <text>"HeilM-RL"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule7">
         <inputEntry id="inputEntry13">
-          <text>'task_gebuehrenrechtlich_pruefen'</text>
+          <text>"task_gebuehrenrechtlich_pruefen"</text>
         </inputEntry>
         <inputEntry id="inputEntry14">
-          <text>'Ergotherapie'</text>
+          <text>"Ergotherapie"</text>
         </inputEntry>
         <inputEntry id="inputEntry141"><text></text></inputEntry>
         <outputEntry id="outputEntry7">
-          <text>'HeilM-RL'</text>
+          <text>"HeilM-RL"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule8">
         <inputEntry id="inputEntry15">
-          <text>'task_erstattungsbetrag_berechnen'</text>
+          <text>"task_erstattungsbetrag_berechnen"</text>
         </inputEntry>
         <inputEntry id="inputEntry151"><text></text></inputEntry>
         <inputEntry id="inputEntry16">
-          <text>'Basis-Schutz'</text>
+          <text>"Basis-Schutz"</text>
         </inputEntry>
         <outputEntry id="outputEntry8">
-          <text>'TAR_AB'</text>
+          <text>"TAR_AB"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule9">
         <inputEntry id="inputEntry17">
-          <text>'task_erstattungsbetrag_berechnen'</text>
+          <text>"task_erstattungsbetrag_berechnen"</text>
         </inputEntry>
         <inputEntry id="inputEntry171"><text></text></inputEntry>
         <inputEntry id="inputEntry18">
-          <text>'Premium Komplett'</text>
+          <text>"Premium Komplett"</text>
         </inputEntry>
         <outputEntry id="outputEntry9">
-          <text>'TAR_AB'</text>
+          <text>"TAR_AB"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule10">
         <inputEntry id="inputEntry19">
-          <text>'task_erstattungsbetrag_berechnen'</text>
+          <text>"task_erstattungsbetrag_berechnen"</text>
         </inputEntry>
         <inputEntry id="inputEntry191"><text></text></inputEntry>
         <inputEntry id="inputEntry20">
-          <text>'Premium Komplett'</text>
+          <text>"Premium Komplett"</text>
         </inputEntry>
         <outputEntry id="outputEntry10">
-          <text>'TAR_EZ'</text>
+          <text>"TAR_EZ"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule11">
         <inputEntry id="inputEntry21">
-          <text>'task_erstattungsbetrag_berechnen'</text>
+          <text>"task_erstattungsbetrag_berechnen"</text>
         </inputEntry>
         <inputEntry id="inputEntry211"><text></text></inputEntry>
         <inputEntry id="inputEntry22">
-          <text>'Zahnzusatz'</text>
+          <text>"Zahnzusatz"</text>
         </inputEntry>
         <outputEntry id="outputEntry11">
-          <text>'TAR_EZ'</text>
+          <text>"TAR_EZ"</text>
         </outputEntry>
       </rule>
 
       <rule id="rule12">
         <inputEntry id="inputEntry23">
-          <text>'task_erstattungsbetrag_berechnen'</text>
+          <text>"task_erstattungsbetrag_berechnen"</text>
         </inputEntry>
         <inputEntry id="inputEntry231"><text></text></inputEntry>
         <inputEntry id="inputEntry24">
-          <text>'Brille 2000'</text>
+          <text>"Brille 2000"</text>
         </inputEntry>
         <outputEntry id="outputEntry12">
-          <text>'TAR_ES'</text>
+          <text>"TAR_ES"</text>
         </outputEntry>
       </rule>
 
