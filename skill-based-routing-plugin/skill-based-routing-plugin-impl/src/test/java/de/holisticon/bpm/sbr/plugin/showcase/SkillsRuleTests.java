@@ -98,4 +98,95 @@ public class SkillsRuleTests {
     assertEquals("TAR_ES", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
 
+  @Test
+  @Deployment(resources = SKILL_DMN_RESOURCE)
+  public void evaluateSkillsArzt() throws Exception {
+
+    final TaskHolder task = new TaskHolder();
+    task.setTaskDefinitionKey("task_gebuehrenrechtlich_pruefen");
+
+    final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
+        Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Arzt").putValue(PRODUKT, "Egal"));
+
+    assertEquals("GOÄ", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
+  }
+
+  @Test
+  @Deployment(resources = SKILL_DMN_RESOURCE)
+  public void evaluateSkillsZahnarzt() throws Exception {
+
+    final TaskHolder task = new TaskHolder();
+    task.setTaskDefinitionKey("task_gebuehrenrechtlich_pruefen");
+
+    final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
+        Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Zahnarzt").putValue(PRODUKT, "Egal"));
+
+    assertEquals("GOZ", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
+  }
+
+  @Test
+  @Deployment(resources = SKILL_DMN_RESOURCE)
+  public void evaluateSkillsAugenarzt() throws Exception {
+
+    final TaskHolder task = new TaskHolder();
+    task.setTaskDefinitionKey("task_gebuehrenrechtlich_pruefen");
+
+    final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
+        Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Augenarzt").putValue(PRODUKT, "Egal"));
+
+    assertEquals("GOÄ", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
+  }
+
+  @Test
+  @Deployment(resources = SKILL_DMN_RESOURCE)
+  public void evaluateSkillsOptiker() throws Exception {
+
+    final TaskHolder task = new TaskHolder();
+    task.setTaskDefinitionKey("task_gebuehrenrechtlich_pruefen");
+
+    final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
+        Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Optiker").putValue(PRODUKT, "Egal"));
+
+    assertEquals("SH", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
+  }
+
+
+  @Test
+  @Deployment(resources = SKILL_DMN_RESOURCE)
+  public void evaluateSkillsArznei() throws Exception {
+
+    final TaskHolder task = new TaskHolder();
+    task.setTaskDefinitionKey("task_gebuehrenrechtlich_pruefen");
+
+    final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
+        Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Arzneimittel").putValue(PRODUKT, "Egal"));
+
+    assertEquals("AMNOG", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
+  }
+
+  @Test
+  @Deployment(resources = SKILL_DMN_RESOURCE)
+  public void evaluateSkillsPhysio() throws Exception {
+
+    final TaskHolder task = new TaskHolder();
+    task.setTaskDefinitionKey("task_gebuehrenrechtlich_pruefen");
+
+    final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
+        Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Physiotherapie").putValue(PRODUKT, "Egal"));
+
+    assertEquals("HeilM-RL", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
+  }
+  @Test
+  @Deployment(resources = SKILL_DMN_RESOURCE)
+  public void evaluateSkillsErgo() throws Exception {
+
+    final TaskHolder task = new TaskHolder();
+    task.setTaskDefinitionKey("task_gebuehrenrechtlich_pruefen");
+
+    final DmnDecisionTableResult results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
+        Variables.createVariables().putValue(TaskHolder.TASK, task).putValue(RECHNUNGSART, "Ergotherapie").putValue(PRODUKT, "Egal"));
+
+    assertEquals("HeilM-RL", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
+  }
+
 }
