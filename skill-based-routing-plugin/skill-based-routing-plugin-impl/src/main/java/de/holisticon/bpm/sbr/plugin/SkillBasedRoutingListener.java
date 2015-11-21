@@ -1,5 +1,6 @@
 package de.holisticon.bpm.sbr.plugin;
 
+import com.google.common.annotations.VisibleForTesting;
 import de.holisticon.bpm.sbr.plugin.SkillBasedRoutingService;
 import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
 import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
@@ -23,10 +24,21 @@ public class SkillBasedRoutingListener implements TaskListener {
 
     final Map<String, Object> vars = delegateTask.getVariables();
     final TaskHolder task = TaskHolder.fromTask(delegateTask);
-    final CandidateResult candidateResult = SkillBasedRoutingService.evaluate(decisionService, task, vars);
+    final CandidateResult candidateResult = skillBasedRoutingService(decisionService).evaluate(task, vars);
 
     if (candidateResult != null) {
       delegateTask.addCandidateUsers(candidateResult.getCandidateUsers());
     }
+  }
+
+  /**
+   * Moved to supplier function because the "new" call on prod code is hard to test. Now we can mock this.
+   *
+   * @param decisionService the engines decision service
+   * @return new SBRService instance
+   */
+  @VisibleForTesting
+  SkillBasedRoutingService skillBasedRoutingService(final DecisionService decisionService) {
+    return new SkillBasedRoutingService(decisionService);
   }
 }

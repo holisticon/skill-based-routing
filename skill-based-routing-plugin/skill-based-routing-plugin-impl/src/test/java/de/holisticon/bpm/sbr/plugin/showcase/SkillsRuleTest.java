@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
  * @author Simon Zambrovski (Holisticon AG)
  *
  */
-public class SkillsRuleTests {
+public class SkillsRuleTest {
 
   private static final String SKILL_DMN_RESOURCE = "showcase/leistungsabrechnung_requiredSkills.dmn";
   private static final String TASK_ERSTATTUNGSBETRAG_BERECHNEN = "task_erstattungsbetrag_berechnen";
