@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
  * @author Simon Zambrovski (Holisticon AG)
  * 
  */
-public class RoutingRuleTests {
+public class RoutingRuleTest {
 
   private static final String SKILL_DMN_RESOURCE = "showcase/leistungsabrechnung_candidateUsersRouting.dmn";
   private static final String DECISION_KEY = "leistungsabrechnung_candidateUsersRouting";
