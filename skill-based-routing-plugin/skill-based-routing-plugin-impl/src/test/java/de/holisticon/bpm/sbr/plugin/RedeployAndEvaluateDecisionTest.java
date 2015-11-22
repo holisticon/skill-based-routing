@@ -1,6 +1,7 @@
-package de.holisticon.bpm.sbr;
+package de.holisticon.bpm.sbr.plugin;
 
 import com.google.common.collect.FluentIterable;
+import de.holisticon.bpm.sbr.plugin.test.FluentProcessEngineConfiguration;
 import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.camunda.bpm.engine.DecisionService;
 import org.camunda.bpm.engine.RepositoryService;
@@ -29,15 +30,8 @@ public class RedeployAndEvaluateDecisionTest{
 
   private final Logger logger = getLogger(this.getClass());
 
-  private final ProcessEngineConfigurationImpl configuration = new StandaloneInMemProcessEngineConfiguration() {{
-    databaseSchemaUpdate = DB_SCHEMA_UPDATE_DROP_CREATE;
-    expressionManager = new MockExpressionManager();
-    jobExecutorActivate = false;
-    historyLevel = HistoryLevel.HISTORY_LEVEL_FULL;
-  }};
-
   @Rule
-  public final ProcessEngineRule processEngineRule = new ProcessEngineRule(configuration.buildProcessEngine());
+  public final ProcessEngineRule processEngineRule = FluentProcessEngineConfiguration.processEngineRule();
 
   @Test
   public void redeploy_rules_so_silver1500_is_ok() {

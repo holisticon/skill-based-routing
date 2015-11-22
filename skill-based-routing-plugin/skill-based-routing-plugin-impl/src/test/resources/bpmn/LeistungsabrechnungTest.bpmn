@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://activiti.org/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_mLhHACulEeW_IMg7skKuyQ" exporter="camunda modeler" exporterVersion="2.6.0" targetNamespace="http://activiti.org/bpmn">
+  <bpmn2:collaboration id="_Collaboration_6">
+    <bpmn2:participant id="leistungesabrechung_pool" name="Leistungsabrechnung" processRef="leistungsabrechnung"/>
+  </bpmn2:collaboration>
+  <bpmn2:process id="leistungsabrechnung" name="Leistungsabrechnung" isExecutable="true">
+    <bpmn2:laneSet id="LaneSet_1" name="Lane Set 1">
+      <bpmn2:lane id="Lane_1" name="Front Office">
+        <bpmn2:flowNodeRef>start</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>task_leistungen_erfassen</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+      <bpmn2:lane id="Lane_2" name="Fachabteiltung">
+        <bpmn2:flowNodeRef>task_gebuehrenrechtlich_pruefen</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>service_versicherungsschutz_ermitteln</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>task_erstattungsbetrag_berechnen</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>task_zahlung_freigeben</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>end</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+    </bpmn2:laneSet>
+    <bpmn2:startEvent id="start" camunda:formKey="embedded:app:start.html" name="Arztrechnung&#xD;&#xA;empfangen">
+      <bpmn2:extensionElements>
+        <camunda:executionListener delegateExpression="#{processStartVariableInitializationListener}" event="start"/>
+      </bpmn2:extensionElements>
+      <bpmn2:outgoing>seq_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="seq_1" name="" sourceRef="start" targetRef="task_leistungen_erfassen"/>
+    <bpmn2:userTask id="task_leistungen_erfassen" camunda:formKey="embedded:app:leistungen_erfassen.html" name="Leistungen&#xD;&#xA;erfassen">
+      <bpmn2:documentation>Erfassung der abzurechnenden Einzelleitungen gem. der jeweiligen Gebührenordnung</bpmn2:documentation>
+      <bpmn2:incoming>seq_1</bpmn2:incoming>
+      <bpmn2:outgoing>seq_2</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="seq_2" name="" sourceRef="task_leistungen_erfassen" targetRef="task_gebuehrenrechtlich_pruefen"/>
+    <bpmn2:userTask id="task_gebuehrenrechtlich_pruefen" camunda:formKey="embedded:app:gebuehrenrechtlich_pruefen.html" name="Gebührenrechtliche&#xD;&#xA;Prüfung&#xD;&#xA;durchführen">
+      <bpmn2:documentation>Prüfung der erfassten Leistungen auf ihre gebührenrechtliche Korrektheit</bpmn2:documentation>
+      <bpmn2:incoming>seq_2</bpmn2:incoming>
+      <bpmn2:outgoing>seq_3</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="seq_3" sourceRef="task_gebuehrenrechtlich_pruefen" targetRef="service_versicherungsschutz_ermitteln"/>
+    <bpmn2:serviceTask id="service_versicherungsschutz_ermitteln" camunda:delegateExpression="#{versicherungsschutzErmitteln}" name="Versicherungsschutz&#xD;&#xA;ermitteln">
+      <bpmn2:incoming>seq_3</bpmn2:incoming>
+      <bpmn2:outgoing>seq_4</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="seq_4" name="" sourceRef="service_versicherungsschutz_ermitteln" targetRef="task_erstattungsbetrag_berechnen"/>
+    <bpmn2:userTask id="task_erstattungsbetrag_berechnen" camunda:formKey="embedded:app:erstattungsbetrag_berechnen.html" name="Erstattungsbetrag berechnen">
+      <bpmn2:documentation>Erstattungsbeträge für die gebührenrechtlich anerkannten Leistungspositionen auf Basis des zugeordneten Tarifs berechnen.</bpmn2:documentation>
+      <bpmn2:incoming>seq_4</bpmn2:incoming>
+      <bpmn2:outgoing>seq_5</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="seq_5" name="" sourceRef="task_erstattungsbetrag_berechnen" targetRef="task_zahlung_freigeben"/>
+    <bpmn2:userTask id="task_zahlung_freigeben" camunda:formKey="embedded:app:zahlung_freigeben.html" name="Zahlung freigeben">
+      <bpmn2:documentation>Erstattungsantrag freigeben und zur Zahlung an den Kunden anweisen</bpmn2:documentation>
+      <bpmn2:incoming>seq_5</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_6" name="" sourceRef="task_zahlung_freigeben" targetRef="end"/>
+    <bpmn2:endEvent id="end" name="Abrechnung&#xD;&#xA;bearbeitet">
+      <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
+    </bpmn2:endEvent>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="_Collaboration_6">
+      <bpmndi:BPMNShape id="_BPMNShape_Participant_6" bpmnElement="leistungesabrechung_pool" isHorizontal="true">
+        <dc:Bounds height="433.0" width="1045.0" x="84.0" y="48.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Lane_2" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds height="205.0" width="1015.0" x="114.0" y="48.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Lane_3" bpmnElement="Lane_2" isHorizontal="true">
+        <dc:Bounds height="229.0" width="1015.0" x="114.0" y="252.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_18" bpmnElement="start">
+        <dc:Bounds height="36.0" width="36.0" x="175.0" y="133.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="28.0" width="68.0" x="159.0" y="177.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Task_2" bpmnElement="task_leistungen_erfassen">
+        <dc:Bounds height="80.0" width="100.0" x="264.0" y="111.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="seq_1" sourceElement="_BPMNShape_StartEvent_18" targetElement="_BPMNShape_Task_2">
+        <di:waypoint xsi:type="dc:Point" x="211.0" y="151.0"/>
+        <di:waypoint xsi:type="dc:Point" x="264.0" y="151.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="235.0" y="151.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_UserTask_25" bpmnElement="task_gebuehrenrechtlich_pruefen">
+        <dc:Bounds height="80.0" width="100.0" x="432.0" y="327.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="seq_2" sourceElement="_BPMNShape_Task_2" targetElement="_BPMNShape_UserTask_25">
+        <di:waypoint xsi:type="dc:Point" x="364.0" y="151.0"/>
+        <di:waypoint xsi:type="dc:Point" x="398.0" y="151.0"/>
+        <di:waypoint xsi:type="dc:Point" x="398.0" y="367.0"/>
+        <di:waypoint xsi:type="dc:Point" x="432.0" y="367.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="386.0" y="363.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_79" bpmnElement="service_versicherungsschutz_ermitteln">
+        <dc:Bounds height="80.0" width="100.0" x="582.0" y="327.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="seq_3" sourceElement="_BPMNShape_UserTask_25" targetElement="_BPMNShape_ServiceTask_79">
+        <di:waypoint xsi:type="dc:Point" x="532.0" y="367.0"/>
+        <di:waypoint xsi:type="dc:Point" x="582.0" y="367.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="557.0" y="367.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_UserTask_26" bpmnElement="task_erstattungsbetrag_berechnen">
+        <dc:Bounds height="80.0" width="100.0" x="732.0" y="327.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="seq_4" sourceElement="_BPMNShape_ServiceTask_79" targetElement="_BPMNShape_UserTask_26">
+        <di:waypoint xsi:type="dc:Point" x="682.0" y="367.0"/>
+        <di:waypoint xsi:type="dc:Point" x="732.0" y="367.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="704.0" y="367.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_UserTask_27" bpmnElement="task_zahlung_freigeben">
+        <dc:Bounds height="80.0" width="100.0" x="882.0" y="327.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="seq_5" sourceElement="_BPMNShape_UserTask_26" targetElement="_BPMNShape_UserTask_27">
+        <di:waypoint xsi:type="dc:Point" x="832.0" y="367.0"/>
+        <di:waypoint xsi:type="dc:Point" x="882.0" y="367.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="854.0" y="367.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_EndEvent_11" bpmnElement="end">
+        <dc:Bounds height="36.0" width="36.0" x="1032.0" y="349.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="28.0" width="63.0" x="1019.0" y="390.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="_BPMNShape_UserTask_27" targetElement="_BPMNShape_EndEvent_11">
+        <di:waypoint xsi:type="dc:Point" x="982.0" y="367.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1032.0" y="367.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="1004.0" y="367.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

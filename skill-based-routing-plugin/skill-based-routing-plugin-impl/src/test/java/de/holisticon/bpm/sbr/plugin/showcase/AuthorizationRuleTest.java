@@ -1,5 +1,6 @@
 package de.holisticon.bpm.sbr.plugin.showcase;
 
+import de.holisticon.bpm.sbr.plugin.test.FluentProcessEngineConfiguration;
 import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
@@ -17,9 +18,9 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for showcase authorizations table.
- * 
+ *
  * @author Simon Zambrovski (Holisticon AG)
- * 
+ *
  */
 public class AuthorizationRuleTest {
 
@@ -37,17 +38,9 @@ public class AuthorizationRuleTest {
   private static final String RECHNUNGSART = "rechnungsart";
   private static final String REQUIRED_AUTH = "requiredAuthorizations";
 
-  private final ProcessEngineConfigurationImpl configuration = new StandaloneInMemProcessEngineConfiguration() {
-    {
-      databaseSchemaUpdate = DB_SCHEMA_UPDATE_DROP_CREATE;
-      expressionManager = new MockExpressionManager();
-      jobExecutorActivate = false;
-      historyLevel = HistoryLevel.HISTORY_LEVEL_FULL;
-    }
-  };
 
   @Rule
-  public final ProcessEngineRule processEngineRule = new ProcessEngineRule(configuration.buildProcessEngine());
+  public final ProcessEngineRule processEngineRule = FluentProcessEngineConfiguration.processEngineRule();
 
   @Test
   @Deployment(resources = AUTH_DMN_RESOURCE)

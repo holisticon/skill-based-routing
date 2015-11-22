@@ -1,5 +1,6 @@
 package de.holisticon.bpm.sbr.plugin.showcase;
 
+import de.holisticon.bpm.sbr.plugin.test.FluentProcessEngineConfiguration;
 import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
@@ -32,17 +33,9 @@ public class SkillsRuleTest {
   private static final String RECHNUNGSART = "rechnungsart";
   private static final String REQUIRED_SKILLS = "requiredSkills";
 
-  private final ProcessEngineConfigurationImpl configuration = new StandaloneInMemProcessEngineConfiguration() {
-    {
-      databaseSchemaUpdate = DB_SCHEMA_UPDATE_DROP_CREATE;
-      expressionManager = new MockExpressionManager();
-      jobExecutorActivate = false;
-      historyLevel = HistoryLevel.HISTORY_LEVEL_FULL;
-    }
-  };
 
   @Rule
-  public final ProcessEngineRule processEngineRule = new ProcessEngineRule(configuration.buildProcessEngine());
+  public final ProcessEngineRule processEngineRule = FluentProcessEngineConfiguration.processEngineRule();
 
   @Test
   @Deployment(resources = SKILL_DMN_RESOURCE)
@@ -176,7 +169,7 @@ public class SkillsRuleTest {
     assertEquals(1, FluentIterable.from(results).size());
     assertEquals("HeilM-RL", FluentIterable.from(results).first().get().get(REQUIRED_SKILLS));
   }
-  
+
   @Test
   @Deployment(resources = SKILL_DMN_RESOURCE)
   public void evaluateSkillsErgo() throws Exception {

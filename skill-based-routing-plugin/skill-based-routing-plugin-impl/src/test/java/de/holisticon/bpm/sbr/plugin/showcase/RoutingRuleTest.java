@@ -1,5 +1,6 @@
 package de.holisticon.bpm.sbr.plugin.showcase;
 
+import de.holisticon.bpm.sbr.plugin.test.FluentProcessEngineConfiguration;
 import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
@@ -18,9 +19,9 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for showcase routing table.
- * 
+ *
  * @author Simon Zambrovski (Holisticon AG)
- * 
+ *
  */
 public class RoutingRuleTest {
 
@@ -30,17 +31,8 @@ public class RoutingRuleTest {
   private static final String REQUIRED_SKILLS = "requiredSkills";
   private static final String REQUIRED_AUTH = "requiredAuthorizations";
 
-  private final ProcessEngineConfigurationImpl configuration = new StandaloneInMemProcessEngineConfiguration() {
-    {
-      databaseSchemaUpdate = DB_SCHEMA_UPDATE_DROP_CREATE;
-      expressionManager = new MockExpressionManager();
-      jobExecutorActivate = false;
-      historyLevel = HistoryLevel.HISTORY_LEVEL_FULL;
-    }
-  };
-
   @Rule
-  public final ProcessEngineRule processEngineRule = new ProcessEngineRule(configuration.buildProcessEngine());
+  public final ProcessEngineRule processEngineRule = FluentProcessEngineConfiguration.processEngineRule();
 
   @Test
   @Deployment(resources = SKILL_DMN_RESOURCE)
@@ -95,7 +87,7 @@ public class RoutingRuleTest {
     assertEquals("Herbert", FluentIterable.from(results).get(0).get(CANDIDATE_USERS));
     assertEquals("Andreas", FluentIterable.from(results).get(1).get(CANDIDATE_USERS));
     assertEquals("Sonja", FluentIterable.from(results).get(2).get(CANDIDATE_USERS));
-    
+
     results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(REQUIRED_SKILLS, Lists.<String> newArrayList("GOZ")).putValue(REQUIRED_AUTH, Lists.<String> newArrayList("Not permitted")));
 
@@ -140,7 +132,7 @@ public class RoutingRuleTest {
     assertEquals("Herbert", FluentIterable.from(results).get(0).get(CANDIDATE_USERS));
     assertEquals("Sonja", FluentIterable.from(results).get(1).get(CANDIDATE_USERS));
     assertEquals("Xaver", FluentIterable.from(results).get(2).get(CANDIDATE_USERS));
-    
+
     results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(REQUIRED_SKILLS, Lists.<String> newArrayList("GOZ")).putValue(REQUIRED_AUTH, Lists.<String> newArrayList("Not permitted")));
 
@@ -159,7 +151,7 @@ public class RoutingRuleTest {
     assertEquals("Herbert", FluentIterable.from(results).get(0).get(CANDIDATE_USERS));
     assertEquals("Sonja", FluentIterable.from(results).get(1).get(CANDIDATE_USERS));
     assertEquals("Hanna", FluentIterable.from(results).get(2).get(CANDIDATE_USERS));
-    
+
     results = processEngineRule.getDecisionService().evaluateDecisionTableByKey(DECISION_KEY,
         Variables.createVariables().putValue(REQUIRED_SKILLS, Lists.<String> newArrayList("GOZ")).putValue(REQUIRED_AUTH, Lists.<String> newArrayList("Not permitted")));
 
