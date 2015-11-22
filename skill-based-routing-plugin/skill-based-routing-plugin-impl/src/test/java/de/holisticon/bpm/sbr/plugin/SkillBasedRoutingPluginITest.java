@@ -3,16 +3,13 @@ package de.holisticon.bpm.sbr.plugin;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import de.holisticon.bpm.sbr.plugin.test.FluentProcessEngineConfiguration;
-import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
-import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.repository.DecisionDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
-import org.camunda.bpm.engine.test.mock.MockExpressionManager;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -27,10 +24,11 @@ import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.task;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.taskService;
 import static org.slf4j.LoggerFactory.getLogger;
 
+@Ignore
 @Deployment(resources = {
   "showcase/leistungsabrechnung_requiredSkills.dmn",
-  //"showcase/leistungsabrechnung_candidateUsersRouting.dmn",
-  //"showcase/leistungsabrechnung_requiredAuthorizations.dmn",
+  "showcase/leistungsabrechnung_candidateUsersRouting.dmn",
+  "showcase/leistungsabrechnung_requiredAuthorizations.dmn",
   "bpmn/LeistungsabrechnungTest.bpmn"})
 public class SkillBasedRoutingPluginITest {
 
@@ -56,7 +54,7 @@ public class SkillBasedRoutingPluginITest {
 
   @Test
   public void deploys() {
-    assertThat(FluentIterable.from(decisionDefinitions()).transform(name).toImmutableSet()).containsOnly("leistungsabrechnung_requiredSkills");
+    assertThat(FluentIterable.from(decisionDefinitions()).transform(name).toImmutableSet()).containsOnly("leistungsabrechnung_requiredSkills", "leistungsabrechnung_requiredAuthorizations.dmn", "leistungsabrechnung_candidateUsersRouting.dmn");
   }
 
   @Test

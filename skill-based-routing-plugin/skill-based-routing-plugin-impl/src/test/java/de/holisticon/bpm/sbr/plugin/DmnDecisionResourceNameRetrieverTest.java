@@ -8,10 +8,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DmnDecisionResourceNameRetrieverTest {
 
   private final DmnDecisionResourceNameRetriever retriever = new DmnDecisionResourceNameRetriever();
+  private final  TaskHolder taskHolder = new TaskHolder();
 
   @Test
   public void returns_processDefintionKey() {
-    TaskHolder taskHolder = new TaskHolder();
     taskHolder.setProcessDefinitionId("fooProcess:1:1");
 
     assertThat(retriever.apply(taskHolder)).isEqualTo("fooProcess");
