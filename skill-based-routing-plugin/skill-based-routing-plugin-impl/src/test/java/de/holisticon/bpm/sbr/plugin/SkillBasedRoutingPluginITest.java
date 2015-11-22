@@ -9,6 +9,8 @@ import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.variable.Variables;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.ass
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.runtimeService;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.task;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.taskService;
+import static org.camunda.bpm.extension.mockito.DelegateExpressions.registerExecutionListenerMock;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Ignore
@@ -51,10 +54,18 @@ public class SkillBasedRoutingPluginITest {
   @Rule
   public final ProcessEngineRule processEngineRule = FluentProcessEngineConfiguration.processEngineRule();
 
-
   @Test
   public void deploys() {
-    assertThat(FluentIterable.from(decisionDefinitions()).transform(name).toImmutableSet()).containsOnly("leistungsabrechnung_requiredSkills", "leistungsabrechnung_requiredAuthorizations.dmn", "leistungsabrechnung_candidateUsersRouting.dmn");
+    assertThat(FluentIterable.from(decisionDefinitions()).transform(name).toImmutableSet()).containsOnly("leistungsabrechnung_requiredSkills", "leistungsabrechnung_requiredAuthorizations", "leistungsabrechnung_candidateUsersRouting");
+  }
+
+  @Before
+  public void setUp() {
+    registerExecutionListenerMock("processStartVariableInitializationListener").onExecutionSetVariables(Variables.createVariables()
+      .putValue("rechnungsart", null) //
+      .putValue("produkt", null) //
+      .putValue("kundenstatus", null) //
+      .putValue("erstattungGesamt", null));
   }
 
   @Test
@@ -62,9 +73,7 @@ public class SkillBasedRoutingPluginITest {
     final ProcessInstance processInstance = runtimeService().startProcessInstanceByKey("leistungsabrechnung");
     assertThat(processInstance).isWaitingAt("task_leistungen_erfassen");
 
-    assertThat(candidateUsers(task())).containsOnly("foo", "bar");
-
-
+    assertThat(candidateUsers(task())).containsOnly("Herbert", "Andreas", "Emma", "Sonja", "Xaver", "Hanna", "Bernd", "Tom");
   }
 
   private Set<String> candidateUsers(Task task) {
