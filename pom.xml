@@ -26,7 +26,9 @@
     <!--module>skill-based-routing-setup</module-->
     <module>skill-based-routing-process</module>
     <module>skill-based-routing-plugin</module>
+    <!-- 
     <module>dmn-editor</module>
+     -->
   </modules>
 
   <dependencyManagement>

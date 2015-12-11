@@ -13,7 +13,6 @@
         <dependency name="org.codehaus.groovy.groovy-all" services="export" export="true"/>
         <dependency name="org.camunda.bpm.camunda-engine" export="true"/>
         <dependency name="org.camunda.bpm.dmn.camunda-engine-dmn" export="true"/>
-        <dependency name="org.camunda.bpm.dmn.camunda-scriptengine-dmn" export="true"/>
         <dependency name="org.slf4j"/>
       </module>
     </modules>
