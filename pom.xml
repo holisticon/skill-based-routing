@@ -18,17 +18,14 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <camunda.version>7.4.0</camunda.version>
+    <camunda.version>7.4.0-ee</camunda.version>
     <groovy.version>2.3.6</groovy.version>
   </properties>
 
   <modules>
-    <!--module>skill-based-routing-setup</module-->
     <module>skill-based-routing-process</module>
     <module>skill-based-routing-plugin</module>
-    <!-- 
-    <module>dmn-editor</module>
-     -->
+    <module>skill-based-routing-setup</module>
   </modules>
 
   <dependencyManagement>
@@ -123,16 +120,9 @@
   </dependencyManagement>
   <repositories>
     <repository>
-      <id>camunda-bpm-nexus</id>
-      <name>camunda BPM Maven Repository</name>
-      <url>https://app.camunda.com/nexus/content/groups/public</url>
-    </repository>
-    <repository>
-      <id>camunda-bpm-snapshots</id>
-      <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
+      <id>camunda-bpm-ee</id>
+      <name>camunda BPM EE Maven Repository</name>
+      <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee</url>
     </repository>
     <repository>
       <id>jboss-public-repository</id>

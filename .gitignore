@@ -17,3 +17,4 @@ target/
 tmp/
 ~*
 
+skill-based-routing-setup/src/database/process-engine.h2.db
