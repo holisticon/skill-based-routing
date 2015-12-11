@@ -1,83 +1,75 @@
 package de.holisticon.bpm.sbr.plugin;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
+import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
+import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
+import org.camunda.bpm.dmn.engine.DmnDecisionRuleResult;
+import org.camunda.bpm.dmn.engine.DmnDecisionTableResult;
+import org.camunda.bpm.engine.DecisionService;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.camunda.bpm.dmn.engine.DmnDecision;
-import org.camunda.bpm.dmn.engine.DmnDecisionOutput;
-import org.camunda.bpm.dmn.engine.DmnDecisionResult;
-import org.camunda.bpm.dmn.engine.DmnEngine;
-import org.slf4j.Logger;
-
-import com.google.common.base.Optional;
-
-import de.holisticon.bpm.sbr.plugin.api.CandidateResult;
-import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
-import de.holisticon.bpm.sbr.plugin.util.DmnDecisionCache;
-import de.holisticon.bpm.sbr.plugin.util.DmnDecisionResourceNameRetriever;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SkillBasedRoutingService {
 
-  /**
-   * Name of the input variable task.
-   */
-  public static final String INPUT_TASK = "task";
-  /**
-   * Name of the output variable for skills.
-   */
-  public static final String OUTPUT_REQUIRED_SKILLS = "requiredSkills";
+  private final DecisionService decisionService;
 
-  /**
-   * Name of the output variable for authorizations.
-   */
-  public static final String OUTPUT_REQUIRED_AUTHORIZATIONS = "requiredAuthorizations";
+  public final static class Constants {
 
-  /**
-   * Name of the output variable for users.
-   */
-  public static final String OUTPUT_CANDIDATE_USERS = "candidateUsers";
-  /**
-   * Name of the output variable for groups.
-   */
-  public static final String OUTPUT_CANDIDATE_GROUPS = "candidateGroups";
+    /**
+     * Name of the input variable task.
+     */
+    public static final String INPUT_TASK = "task";
+    /**
+     * Name of the output variable for skills.
+     */
+    public static final String OUTPUT_REQUIRED_SKILLS = "requiredSkills";
+    /**
+     * Name of the output variable for authorizations.
+     */
+    public static final String OUTPUT_REQUIRED_AUTHORIZATIONS = "requiredAuthorizations";
+    /**
+     * Name of the output variable for users.
+     */
+    public static final String OUTPUT_CANDIDATE_USERS = "candidateUsers";
+    /**
+     * Name of the output variable for groups.
+     */
+    public static final String OUTPUT_CANDIDATE_GROUPS = "candidateGroups";
+    /**
+     * Name of the decision table for required skills.
+     */
+    public static final String DECISION_REQUIRED_SKILLS = "requiredSkills";
+    /**
+     * Name of the decision table for required skills.
+     */
+    public static final String DECISION_REQUIRED_AUTHORIZATIONS = "requiredAuthorizations";
+    /**
+     * Name of the decision table for candidate users.
+     */
+    public static final String DECISION_CANDIDATE_USERS_ROUTING = "candidateUsersRouting";
+  }
 
-  /**
-   * Name of the decision table for required skills.
-   */
-  public static final String DECISION_REQUIRED_SKILLS = "requiredSkills";
+  private static final Logger LOGGER = getLogger(SkillBasedRoutingService.class);
 
-  /**
-   * Name of the decision table for required skills.
-   */
-  public static final String DECISION_REQUIRED_AUTHORIZATIONS = "requiredAuthorizations";
+  private static final DmnDecisionResourceNameRetriever FROM_TASK = new DmnDecisionResourceNameRetriever();
 
-  /**
-   * Name of the decision table for candidate users.
-   */
-  public static final String DECISION_CANDIDATE_USERS_ROUTING = "candidateUsersRouting";
-
-  private final Logger logger = getLogger(this.getClass());
-
-  private final DmnDecisionCache decisionCache;
-  private final DmnDecisionResourceNameRetriever fromTask = new DmnDecisionResourceNameRetriever();
-  private final DmnEngine dmnEngine;
-
-  public SkillBasedRoutingService(final DmnEngine dmnEngine, final DmnDecisionCache decisionCache) {
-    this.dmnEngine = dmnEngine;
-    this.decisionCache = decisionCache;
+  public SkillBasedRoutingService(DecisionService decisionService) {
+    this.decisionService = decisionService;
   }
 
   /**
    * Delivers candidate rules and groups for task routing.
-   * 
-   * @param task
-   *          task information.
-   * @param variables
-   *          instance variables (payload).
+   *
+   * @param task      task information.
+   * @param variables instance variables (payload).
    * @return candidate result.
    */
   public CandidateResult evaluate(final TaskHolder task, final Map<String, Object> variables) {
@@ -88,58 +80,52 @@ public class SkillBasedRoutingService {
     prepareEvaluationProcessContext(context, task, variables);
 
     // skills
-    final List<String> requiredSkills = evaluateResults(fromTask.apply(task), DECISION_REQUIRED_SKILLS, context, OUTPUT_REQUIRED_SKILLS);
-    logger.info("Required skills {}", requiredSkills);
+    final List<String> requiredSkills = evaluateResults(FROM_TASK.apply(task), Constants.DECISION_REQUIRED_SKILLS, context, Constants.OUTPUT_REQUIRED_SKILLS);
+    LOGGER.info("Required skills {}", requiredSkills);
     // authorizations
-    final List<String> requiredAuthorizations = evaluateResults(fromTask.apply(task), DECISION_REQUIRED_AUTHORIZATIONS, context, OUTPUT_REQUIRED_AUTHORIZATIONS);
-    logger.info("Required authorizations {}", requiredAuthorizations);
+    final List<String> requiredAuthorizations = evaluateResults(FROM_TASK.apply(task), Constants.DECISION_REQUIRED_AUTHORIZATIONS, context, Constants.OUTPUT_REQUIRED_AUTHORIZATIONS);
+    LOGGER.info("Required authorizations {}", requiredAuthorizations);
 
     // prepare decision context for routing
     context = new HashMap<String, Object>();
     prepareEvaluationRoutingContext(context, requiredSkills, requiredAuthorizations);
 
     // routing
-    final List<String> candidateUsers = evaluateResults(fromTask.apply(task), DECISION_CANDIDATE_USERS_ROUTING, context, OUTPUT_CANDIDATE_USERS);
+    final List<String> candidateUsers = evaluateResults(FROM_TASK.apply(task), Constants.DECISION_CANDIDATE_USERS_ROUTING, context, Constants.OUTPUT_CANDIDATE_USERS);
 
     // users
     if (candidateUsers != null) {
       candidateResult.getCandidateUsers().addAll(candidateUsers);
-      logger.info("Candidate users: {}", candidateUsers);
+      LOGGER.info("Candidate users: {}", candidateUsers);
     }
 
     return candidateResult;
   }
 
+  @VisibleForTesting
   @SuppressWarnings("unchecked")
-  public <T> List<T> evaluateResults(final String decisionResourceName, final String decisionName, final Map<String, Object> context, final String resultName) {
+  <T> List<T> evaluateResults(final String decisionResourceName, final String decisionName, final Map<String, Object> context, final String resultName) {
+    String decisionDefinitionKey = decisionResourceName + "_" + decisionName;
 
-    final Optional<DmnDecision> decision = decisionCache.get(decisionResourceName, decisionName);
-    if (!decision.isPresent()) {
-      return Collections.EMPTY_LIST;
-    }
+    final DmnDecisionTableResult results = decisionService.evaluateDecisionTableByKey(decisionDefinitionKey, context);
 
-    final DmnDecisionResult result = dmnEngine.evaluate(decision.get(), context);
-    final List<T> outputValues = new ArrayList<T>();
-    if (result != null && !result.isEmpty()) {
-      for (DmnDecisionOutput output : result) {
-        outputValues.add((T) output.get(resultName));
+    return FluentIterable.from(results).transform(new Function<DmnDecisionRuleResult, T>() {
+      @Override
+      public T apply(DmnDecisionRuleResult result) {
+        return (T) result.get(resultName);
       }
-    }
-    return outputValues;
+    }).toImmutableList();
   }
 
   /**
    * Prepares decision context for evaluation of process relevant information.
-   * 
-   * @param context
-   *          context to use.
-   * @param task
-   *          task information.
-   * @param variables
-   *          process/case execution variables.
+   *
+   * @param context   context to use.
+   * @param task      task information.
+   * @param variables process/case execution variables.
    */
-  public static void prepareEvaluationProcessContext(final Map<String, Object> context, final TaskHolder task, final Map<String, Object> variables) {
-    context.put(INPUT_TASK, task);
+  void prepareEvaluationProcessContext(final Map<String, Object> context, final TaskHolder task, final Map<String, Object> variables) {
+    context.put(Constants.INPUT_TASK, task);
     for (final String variableName : variables.keySet()) {
       context.put(variableName, variables.get(variableName));
     }
@@ -147,18 +133,15 @@ public class SkillBasedRoutingService {
 
   /**
    * Prepares evaluation context for evaluation of routing information.
-   * 
-   * @param context
-   *          context to use.
-   * @param requiredSkills
-   *          required skills.
-   * @param requiredAuthorizations
-   *          required authorizations.
+   *
+   * @param context                context to use.
+   * @param requiredSkills         required skills.
+   * @param requiredAuthorizations required authorizations.
    */
-  public static void prepareEvaluationRoutingContext(final Map<String, Object> context, final List<String> requiredSkills,
-      final List<String> requiredAuthorizations) {
+  void prepareEvaluationRoutingContext(final Map<String, Object> context, final List<String> requiredSkills,
+                                       final List<String> requiredAuthorizations) {
 
-    context.put(OUTPUT_REQUIRED_AUTHORIZATIONS, requiredAuthorizations == null ? new ArrayList<String>() : requiredAuthorizations);
-    context.put(OUTPUT_REQUIRED_SKILLS, requiredSkills == null ? new ArrayList<String>() : requiredSkills);
+    context.put(Constants.OUTPUT_REQUIRED_AUTHORIZATIONS, requiredAuthorizations == null ? new ArrayList<String>() : requiredAuthorizations);
+    context.put(Constants.OUTPUT_REQUIRED_SKILLS, requiredSkills == null ? new ArrayList<String>() : requiredSkills);
   }
 }

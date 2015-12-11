@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.holisticon</groupId>
         <artifactId>skill-based-routing-plugin</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>skill-based-routing-jboss-module</artifactId>

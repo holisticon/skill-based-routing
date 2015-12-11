@@ -1,4 +1,4 @@
-package de.holisticon.bpm.sbr.plugin.util;
+package de.holisticon.bpm.sbr.plugin;
 
 import com.google.common.base.Function;
 import de.holisticon.bpm.sbr.plugin.api.TaskHolder;
