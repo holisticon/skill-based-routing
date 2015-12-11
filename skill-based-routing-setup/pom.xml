@@ -10,10 +10,10 @@
   </parent>
 
   <artifactId>skill-based-routing-setup</artifactId>
-  <packaging>ejb</packaging>
+  <packaging>pom</packaging>
 
   <dependencies>
-    <dependency>
+as    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <scope>provided</scope>
