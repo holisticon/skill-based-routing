@@ -8,12 +8,22 @@
         <resourceFileSet dir="${jboss-module-resources-dir}">
           <include name="*.jar"/>
         </resourceFileSet>
+
+        <dependency name="javax.api" />
+        <dependency name="javax.transaction.api"/>
+        <dependency name="javax.enterprise.api" />
+        <dependency name="javax.inject.api" />
+        <dependency name="javax.ejb.api" />
+        <dependency name="javax.xml.bind.api" />
+        <dependency name="javax.servlet.api" />
+
         <dependency name="com.google.guava" export="true"/>
         <dependency name="org.apache.commons.lang"/>
         <dependency name="org.codehaus.groovy.groovy-all" services="export" export="true"/>
         <dependency name="org.camunda.bpm.camunda-engine" export="true"/>
         <dependency name="org.camunda.bpm.dmn.camunda-engine-dmn" export="true"/>
         <dependency name="org.slf4j"/>
+
       </module>
     </modules>
   </target>

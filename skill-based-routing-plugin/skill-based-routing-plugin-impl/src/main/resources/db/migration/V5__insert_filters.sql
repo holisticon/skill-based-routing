@@ -1,4 +1,4 @@
-INSERT INTO PUBLIC.ACT_RU_FILTER(ID_, REV_, RESOURCE_TYPE_, NAME_, OWNER_, QUERY_, PROPERTIES_) VALUES
+INSERT INTO ACT_RU_FILTER(ID_, REV_, RESOURCE_TYPE_, NAME_, OWNER_, QUERY_, PROPERTIES_) VALUES
 ('8bab5d7b-3c4d-11e5-87de-28cfe91731d7', 1, 'Task', 'All Tasks', NULL, '{}', '{"color":"#EEEEEE","priority":0,"showUndefinedVariable":false,"refresh":true,"variables":[{"name":"vsnr","label":"Versicherungsnummer"}]}'),
 ('b2f5322d-3c4d-11e5-87de-28cfe91731d7', 2, 'Task', 'Ines', NULL, '{"candidateUser":"Ines","includeAssignedTasks":true}', '{"color":"#b3b3b3","priority":1,"showUndefinedVariable":false,"refresh":true,"variables":[{"name":"vsnr","label":"Versicherungsnummer"},{"name":"kundenstatus","label":"Kundenstatus"}]}'),
 ('d6f5f65f-3c4d-11e5-87de-28cfe91731d7', 2, 'Task', 'Herbert', NULL, '{"candidateUser":"Herbert","includeAssignedTasks":true}', '{"color":"#b3b3b3","priority":2,"showUndefinedVariable":false,"refresh":true,"variables":[{"name":"vsnr","label":"Versicherungsnummer"},{"name":"kundenstatus","label":"Kundenstatus"}]}'),
