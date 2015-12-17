@@ -1,6 +1,6 @@
 <module xmlns="urn:jboss:module:1.0" name="org.camunda.bpm.jboss.camunda-jboss-subsystem">
   <resources>
-    <resource-root path="camunda-jboss-subsystem-7.4.0-ee.jar" />
+    <resource-root path="camunda-jboss-subsystem-7.4.0.jar" />
   </resources>
 
   <dependencies>

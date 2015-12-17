@@ -18,7 +18,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <camunda.version>7.4.0-ee</camunda.version>
+    <camunda.version>7.4.0</camunda.version>
     <groovy.version>2.3.6</groovy.version>
   </properties>
 
@@ -118,16 +118,5 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <repositories>
-    <repository>
-      <id>camunda-bpm-ee</id>
-      <name>camunda BPM EE Maven Repository</name>
-      <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee</url>
-    </repository>
-    <repository>
-      <id>jboss-public-repository</id>
-      <name>JBoss Repository</name>
-      <url>http://repository.jboss.org/nexus/content/groups/public</url>
-    </repository>
-  </repositories>
+
 </project>

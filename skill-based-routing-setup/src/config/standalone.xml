@@ -97,17 +97,9 @@
     </subsystem>
     <subsystem xmlns="urn:jboss:domain:datasources:1.1">
       <datasources>
-        <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
-          <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
-          <driver>h2</driver>
-          <security>
-            <user-name>sa</user-name>
-            <password>sa</password>
-          </security>
-        </datasource>
         <datasource jta="true" jndi-name="java:jboss/datasources/ProcessEngine" pool-name="ProcessEngine" enabled="true"
                     use-java-context="true" use-ccm="true">
-          <connection-url>jdbc:h2:./camunda-h2-dbs/process-engine;DB_CLOSE_DELAY=-1;MVCC=TRUE;DB_CLOSE_ON_EXIT=FALSE</connection-url>
+          <connection-url>jdbc:h2:mem:process-engine;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</connection-url>
           <driver>h2</driver>
           <security>
             <user-name>sa</user-name>
@@ -138,10 +130,8 @@
       </session-bean>
       <pools>
         <bean-instance-pools>
-          <strict-max-pool name="slsb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5"
-                           instance-acquisition-timeout-unit="MINUTES"/>
-          <strict-max-pool name="mdb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5"
-                           instance-acquisition-timeout-unit="MINUTES"/>
+          <strict-max-pool name="slsb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
+          <strict-max-pool name="mdb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
         </bean-instance-pools>
       </pools>
       <caches>
@@ -166,8 +156,7 @@
       <default-missing-method-permissions-deny-access value="true"/>
     </subsystem>
     <subsystem xmlns="urn:jboss:domain:infinispan:1.4">
-      <cache-container name="web" aliases="standard-session-cache" default-cache="local-web"
-                       module="org.jboss.as.clustering.web.infinispan">
+      <cache-container name="web" aliases="standard-session-cache" default-cache="local-web" module="org.jboss.as.clustering.web.infinispan">
         <local-cache name="local-web" batching="true">
           <file-store passivation="false" purge="false"/>
         </local-cache>
@@ -259,10 +248,10 @@
     </subsystem>
     <subsystem xmlns="urn:jboss:domain:threads:1.1">
       <bounded-queue-thread-pool name="job-executor-tp" allow-core-timeout="true">
-        <core-threads count="3"/>
-        <queue-length count="3"/>
-        <max-threads count="10"/>
-        <keepalive-time time="10" unit="seconds"/>
+        <core-threads count="3" />
+        <queue-length count="3" />
+        <max-threads count="10" />
+        <keepalive-time time="10" unit="seconds" />
       </bounded-queue-thread-pool>
     </subsystem>
     <subsystem xmlns="urn:jboss:domain:transactions:1.2">
@@ -300,7 +289,7 @@
           <history-level>full</history-level>
           <properties>
             <property name="jobExecutorAcquisitionName">default</property>
-            <property name="isAutoSchemaUpdate">true</property>
+            <property name="isAutoSchemaUpdate">false</property>
             <property name="authorizationEnabled">true</property>
             <property name="jobExecutorDeploymentAware">true</property>
           </properties>
@@ -324,6 +313,7 @@
             <plugin>
               <class>de.holisticon.bpm.sbr.plugin.SkillBasedRoutingProcessEnginePlugin</class>
             </plugin>
+
           </plugins>
         </process-engine>
       </process-engines>

@@ -16,7 +16,7 @@
     <!-- unpack jboss -->
     <dependencySet>
       <includes>
-        <include>org.camunda.bpm.jboss:camunda-bpm-ee-jboss:zip</include>
+        <include>org.camunda.bpm.jboss:camunda-bpm-jboss:zip</include>
       </includes>
       <unpack>true</unpack>
       <unpackOptions>
@@ -24,7 +24,7 @@
           <include>${server.path}/**</include>
         </includes>
         <excludes>
-          <exclude>${server.path}/standalone/configuration/standalone-*.xml</exclude>
+          <exclude>${server.path}/standalone/configuration/standalone*.xml</exclude>
           <exclude>${server.path}/bin/domain*</exclude>
 
           <exclude>${server.path}/standalone/deployments/camunda-example-*.war</exclude>
@@ -63,9 +63,6 @@
       <source>src/config/module.xml</source>
       <outputDirectory>${server.path}/modules/org/camunda/bpm/jboss/camunda-jboss-subsystem/main</outputDirectory>
     </file>
-    <file>
-      <source>src/database/process-engine.h2.db</source>
-      <outputDirectory>${server.path}/bin/camunda-h2-dbs</outputDirectory>
-    </file>
   </files>
+
 </assembly>
