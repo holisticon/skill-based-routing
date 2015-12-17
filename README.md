@@ -20,18 +20,11 @@ Dabei hat der Prozess keinerlei Informationen über das Routing, es findet aussc
 
 ### Camunda DMN Web Modeller
 
-Für die Bearbeitung der DMN Dateien, kann der Web Modeler verwendet werden. Das entsprechende Apache Maven module "dmn-editor" wird mitgebaut. Einfach das WAR aus dem target/ Verzeichnis deployen.
-
-URL ist dann: [http://localhost:8080/dmn-editor-0.2-SNAPSHOT](http://localhost:8080/dmn-editor-0.2-SNAPSHOT)
-
+Für die Bearbeitung der DMN Dateien, kann der Web Modeler verwendet werden. Dieser ist Teil des Camunda BPM Enterprise Cockpits oder kann alternativ auch auf der [bpmn.io](http://demo.bpmn.io/dmn/) verwendet werden.  
 
 ### JBoss einrichten
 
-(Bis auf weiteres) Laden des aktuellesten (7.4.0-SNAPSHOT am 22.09.2015) Snapshot Bundles aus dem [camunda nexus](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0-SNAPSHOT/)
-
-#### Rules
-
-Das `/dmn` Verzeichnis aus `/resources` kopieren nach `$JBOSS_HOME/standalone/configuration`
+Laden des aktuellesten (Camunda BPM ee 7.4.0) Bundles aus dem [camunda nexus](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0/)
 
 #### Deployments
     
@@ -69,11 +62,11 @@ Und unsere Plugin Klasse in der `standalone.xml` registriert werden
                 ...
 
 
-Camunda BPM zieht beim Hochfahren unser Plugin, das Plugin registriert TaskListener für jedes TaskCreate-Element und dieser Listener liest aus `$JBOSS_HOME/standalone/configuration/dmn` die entsprechenden *.dmn Dateien ein und wertet sie aus. 
+Camunda BPM zieht beim Hochfahren unser Plugin, das Plugin registriert TaskListener für jedes TaskCreate-Element und dieser Listener liest aus Deployment die entsprechenden *.dmn Dateien ein und wertet sie aus. 
 
 ## Resources
 
-* [JBoss 7.2.0-Final Camunda BPM EE 7.4.0-SNAPSHOT](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0-SNAPSHOT/)
+* [JBoss 7.2.0-Final Camunda BPM EE 7.4.0](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0/)
 * [sbr-decision-tables.xlsx](https://github.com/holisticon/skill-based-routing/raw/master/docs/sbr_decision_tables.xlsx)
 
 ### Autoren
@@ -87,7 +80,6 @@ Camunda BPM zieht beim Hochfahren unser Plugin, das Plugin registriert TaskListe
 This project is released under the revised BSD License (s. LICENSE). 
 
 ## Useful
-
 
 * `curl -v http://localhost:8080/engine-rest/deployment/create -F deployment-name="<NAME>" -F table.dmn=@<FILE>` deploy resource via REST
 * `mvn dependency:get -Dartifact=org.camunda.bpm.jboss:camunda-bpm-jboss:7.4.0-SNAPSHOT:zip` download the latest jboss distro bundle
