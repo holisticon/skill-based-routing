@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn11.xsd"
+             xmlns:camunda="http://camunda.org/schema/1.0/dmn"
+             id="definitions"
+             name="definitions"
+             namespace="http://camunda.org/schema/1.1/dmn">
+             
+  <decision id="leistungsabrechnung_requiredAuthorizations" name="benötigte Berechtigung">
+    <decisionTable id="leistungsabrechnung_requiredAuthorizationsTable" hitPolicy="COLLECT">
+
+      <input id="inputTaskDefinitionKeyAuth" label="Task Definition Key">
+        <inputExpression id="taskDefinitionKeyAuth" typeRef="string">
+          <text>task.taskDefinitionKey</text>
+        </inputExpression>
+        <inputValues><text>"task_gebuehrenrechtlich_pruefen", "task_erstattungsbetrag_berechnen", "task_zahlung_freigeben"</text></inputValues>
+      </input>
+
+      <input id="inputRechnungsartAuth" label="Rechnungsart">
+        <inputExpression id="rechnungsartAuth" typeRef="string">
+          <text>rechnungsart</text>
+        </inputExpression>
+        <inputValues>
+            <text>"Sonstiges"</text>
+        </inputValues>
+      </input>
+
+      <input id="inputKundenstatus" label="Kundenstatus">
+        <inputExpression id="kundenstatus" typeRef="string">
+          <text>kundenstatus</text>
+        </inputExpression>
+        <inputValues>
+            <text>"Mitarbeiter", "VIP"</text>
+        </inputValues>
+      </input>
+
+      <input id="inputErstattungGesamt" label="Erstattungsbetrag">
+        <inputExpression id="erstattungGesamt" typeRef="double">
+          <text>erstattungGesamt</text>
+        </inputExpression>
+      </input>
+
+      <output id="outputRequiredAuthorizations" label="Benötigte Rechte" name="requiredAuthorizations">
+        <outputValues>
+            <text>"KULANZ", "EXKASSO_S", "EXKASSO_M", "EXKASSO_L"</text>
+        </outputValues>
+      </output>
+
+      <rule id="rule12">
+        <inputEntry id="inputEntry121"><text></text></inputEntry>
+        <inputEntry id="inputEntry122"><text></text></inputEntry>
+        <inputEntry id="inputEntry123">
+          <text>"Mitarbeiter"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry124"><text></text></inputEntry>
+        <outputEntry  id="outputEntry125">
+          <text>"INTERNA"</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule13">
+        <inputEntry id="inputEntry131">
+          <text>"task_gebuehrenrechtlich_pruefen"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry132" >
+          <text>"Sonstiges"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry133"><text></text></inputEntry>
+        <inputEntry id="inputEntry134"><text></text></inputEntry>
+        <outputEntry  id="outputEntry135">
+          <text>"KULANZ"</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule14">
+        <inputEntry id="inputEntry141" >
+          <text>"task_erstattungsbetrag_berechnen"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry142"><text></text></inputEntry>
+        <inputEntry id="inputEntry143">
+          <text>"VIP"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry144"><text></text></inputEntry>
+        <outputEntry  id="outputEntry145">
+          <text>"KULANZ"</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule15">
+        <inputEntry id="inputEntry151" >
+          <text>"task_zahlung_freigeben"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry152"><text></text></inputEntry>
+        <inputEntry id="inputEntry153" >
+          <text>"VIP"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry154" >
+          <text><![CDATA[[0 .. 500]]]></text>
+        </inputEntry>
+        <outputEntry id="outputEntry155">
+          <text>"EXKASSO_S"</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule16">
+        <inputEntry id="inputEntry161" >
+          <text>"task_zahlung_freigeben"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry162"><text></text></inputEntry>
+        <inputEntry id="inputEntry163" >
+          <text>not("VIP")</text>
+        </inputEntry>
+        <inputEntry id="inputEntry164" >
+          <text><![CDATA[[0 .. 100[]]></text>
+        </inputEntry>
+        <outputEntry  id="outputEntry165">
+          <text>"EXKASSO_S"</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule17">
+        <inputEntry id="inputEntry171" >
+          <text>"task_zahlung_freigeben"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry172"><text></text></inputEntry>
+        <inputEntry id="inputEntry173" >
+          <text>not("VIP")</text>
+        </inputEntry>
+        <inputEntry id="inputEntry174" >
+          <text><![CDATA[[100 .. 500]]]></text>
+        </inputEntry>
+        <outputEntry  id="outputEntry175">
+          <text>"EXKASSO_M"</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule18">
+        <inputEntry id="inputEntry181" >
+          <text>"task_zahlung_freigeben"</text>
+        </inputEntry>
+        <inputEntry id="inputEntry182"><text></text></inputEntry>
+        <inputEntry id="inputEntry183"><text></text></inputEntry>
+        <inputEntry id="inputEntry184" >
+          <text><![CDATA[> 500]]></text>
+        </inputEntry>
+        <outputEntry  id="outputEntry185">
+          <text>"EXKASSO_L"</text>
+        </outputEntry>
+      </rule>
+      
+    </decisionTable>
+  </decision>
+
+</definitions>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn11.xsd"
+             xmlns:camunda="http://camunda.org/schema/1.0/dmn"
+             id="definitions"
+             name="definitions"
+             namespace="http://camunda.org/schema/1.1/dmn">
+
+  <decision id="leistungsabrechnung_candidateUsersRouting" name="mögliche Benutzer">
+
+    <decisionTable id="candidateUsersTable" hitPolicy="RULE ORDER">
+
+      <input id="inputRequiredSkills" label="Required Skills">
+        <inputExpression id="requiredSkills">
+          <text>requiredSkills</text>
+        </inputExpression>
+        <inputValues>
+            <text>'GOÄ', 'GOZ', 'SH' 'AMNOG', 'HeilM-RL', 'TAR_AB', 'TAR_EZ', 'TAR_ES'</text>
+        </inputValues>        
+      </input>
+
+      <input id="inputRequiredAuthorizations" label="Required Authorizations">
+        <inputExpression id="requiredAuthorizations">
+          <text>requiredAuthorizations</text>
+        </inputExpression>
+        <inputValues>
+            <text>'KULANZ', 'EXKASSO_S', 'EXKASSO_M', 'EXKASSO_L'</text>
+        </inputValues>
+      </input>
+      
+      <output id="candidateUsers" name="candidateUsers" label="Candidate User">
+        <outputValues>
+            <text>'Ines', 'Herbert', 'Andreas', 'Emma', 'Sonja', 'Xavier', 'Hanna', 'Bernd', 'Tom'</text>
+        </outputValues>
+      </output>
+
+      <rule id="rule81">
+        <inputEntry expressionLanguage="groovy" id="inputEntry811">
+          <text></text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry812">
+          <text>requiredAuthorizations.contains('INTERNA')</text>
+        </inputEntry>
+        <outputEntry id="outputEntry813">
+          <text>'Ines'</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule82">
+        <inputEntry expressionLanguage="groovy" id="inputEntry821">
+          <text>['HeilM-RL'].containsAll(requiredSkills)</text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry822">
+          <text>requiredAuthorizations.contains('INTERNA')</text>
+        </inputEntry>
+        <outputEntry id="outputEntry823">
+          <text>'Herbert'</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule83">
+        <inputEntry expressionLanguage="groovy" id="inputEntry831">
+          <text></text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry832">
+          <text>['KULANZ', 'EXKASSO_L'].containsAll(requiredAuthorizations)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry833">
+          <text>'Herbert'</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule84">
+        <inputEntry expressionLanguage="groovy" id="inputEntry841">
+          <text>['GOÄ', 'AMNOG', 'TAR_AB'].containsAll(requiredSkills)</text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry842">
+          <text>requiredAuthorizations.isEmpty()</text>
+        </inputEntry>
+        <outputEntry id="outputEntry843">
+          <text>'Andreas'</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule85">
+        <inputEntry expressionLanguage="groovy" id="inputEntry852">
+          <text>['GOÄ', 'AMNOG'].containsAll(requiredSkills)</text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry853">
+          <text>['EXKASSO_S', 'EXKASSO_M'].containsAll(requiredAuthorizations)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry854">
+          <text>'Emma'</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule86">
+        <inputEntry expressionLanguage="groovy" id="inputEntry861">
+          <text></text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry862">
+          <text>['EXKASSO_S'].containsAll(requiredAuthorizations)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry863">
+          <text>'Sonja'</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule87">
+        <inputEntry expressionLanguage="groovy" id="inputEntry871">
+          <text>['GOZ', 'TAR_EZ'].containsAll(requiredSkills)</text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry872">
+          <text>requiredAuthorizations.isEmpty()</text>
+        </inputEntry>
+        <outputEntry id="outputEntry873">
+          <text>'Xaver'</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule88">
+        <inputEntry expressionLanguage="groovy" id="inputEntry881">
+          <text>['HeilM-RL'].containsAll(requiredSkills)</text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry882">
+          <text>requiredAuthorizations.isEmpty()</text>
+        </inputEntry>
+        <outputEntry id="outputEntry883">
+          <text>'Hanna'</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule89">
+        <inputEntry expressionLanguage="groovy" id="inputEntry891">
+          <text>['SH', 'TAR_ES'].containsAll(requiredSkills)</text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry892">
+          <text>['KULANZ'].containsAll(requiredAuthorizations)</text>
+        </inputEntry>
+        <outputEntry id="outputEntry893">
+          <text>'Bernd'</text>
+        </outputEntry>
+      </rule>
+      
+      <rule id="rule90">
+        <inputEntry expressionLanguage="groovy" id="inputEntry901">
+          <text>['TAR_AB', 'TAR_EZ'].containsAll(requiredSkills)</text>
+        </inputEntry>
+        <inputEntry expressionLanguage="groovy" id="inputEntry902">
+          <text>['EXKASSO_M'].containsAll(requiredAuthorizations)</text>
+        </inputEntry>
+        <outputEntry expressionLanguage="groovy" id="outputEntry903">
+          <text>'Tom'</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
