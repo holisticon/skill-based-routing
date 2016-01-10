@@ -5,7 +5,7 @@ public class LeistungsabrechnungProcess {
   public static final String KEY = "leistungsabrechnung";
   public static final String RESOURCE = "Leistungsabrechnung.bpmn";
 
-  public static enum Activities {
+  public static enum ACTIVITIES {
     ;
     public static final String service_versicherungsschutz_ermitteln = "service_versicherungsschutz_ermitteln";
     public static final String task_leistungen_erfassen = "task_leistungen_erfassen";
@@ -14,7 +14,7 @@ public class LeistungsabrechnungProcess {
     public static final String task_zahlung_freigeben = "task_zahlung_freigeben";
   }
 
-  public static enum Variables {
+  public static enum VARIABLES {
     ;
     public static final String VERSICHERUNGSNUMMER = "vsnr";
     public static final String RECHNUNGSART = "rechnungsart";

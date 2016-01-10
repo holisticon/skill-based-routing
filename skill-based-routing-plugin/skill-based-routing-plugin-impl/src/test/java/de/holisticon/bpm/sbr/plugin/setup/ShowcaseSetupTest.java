@@ -1,7 +1,5 @@
 package de.holisticon.bpm.sbr.plugin.setup;
 
-import com.google.common.base.Optional;
-import org.assertj.core.api.Assertions;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.ProcessEngines;
@@ -14,9 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 
 public class ShowcaseSetupTest {
@@ -55,5 +56,20 @@ public class ShowcaseSetupTest {
     ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
 
     assertThat(processEngine.getIdentityService().createUserQuery().userFirstName("Jan").singleResult().getLastName()).isEqualTo("G.");
+  }
+
+  @Test
+  public void setUpLicense() throws SQLException {
+    assumeTrue(ShowcaseSetup.IS_LICENSE_PRESENT);
+    showcaseSetup.run();
+
+    try (Connection connection = processEngineConfiguration.getDataSource().getConnection()) {
+      final ResultSet resultSet = connection.createStatement()
+        .executeQuery("SELECT VALUE_ FROM ACT_GE_PROPERTY where NAME_ = 'camunda-license-key'");
+      String key =  resultSet.next() ? resultSet.getString(1) : "";
+
+      assertThat(key).contains("Holisticon");
+    }
+
   }
 }

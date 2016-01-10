@@ -5,7 +5,7 @@ import javax.inject.Named;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
 
-import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
+import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.VARIABLES;
 
 /**
  * Pre-fill execution with variable names.
@@ -17,7 +17,7 @@ public final class ProcessStartVariableInitializationListener implements Executi
 
   @Override
   public void notify(DelegateExecution execution) throws Exception {
-    for (String variableName : Variables.TO_BE_INITIALIZED_WITH_NULL) {
+    for (String variableName : VARIABLES.TO_BE_INITIALIZED_WITH_NULL) {
       if (!execution.hasVariable(variableName)) {
         execution.setVariable(variableName, null);
       }

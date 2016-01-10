@@ -90,4 +90,18 @@
       <version>2.2.7</version>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>ee</id>
+
+      <dependencies>
+        <dependency>
+          <groupId>de.holisticon.bpm</groupId>
+          <artifactId>camunda-license</artifactId>
+          <version>${camunda-license.version}</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>

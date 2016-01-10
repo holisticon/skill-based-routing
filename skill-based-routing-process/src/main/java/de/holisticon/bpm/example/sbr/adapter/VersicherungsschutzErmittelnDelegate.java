@@ -1,7 +1,7 @@
 package de.holisticon.bpm.example.sbr.adapter;
 
 import com.google.common.annotations.VisibleForTesting;
-import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
+import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.VARIABLES;
 import de.holisticon.bpm.sbr.api.Leistung;
 import org.apache.commons.lang3.ArrayUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -40,8 +40,8 @@ public class VersicherungsschutzErmittelnDelegate implements JavaDelegate {
   @Override
   public void execute(final DelegateExecution execution) throws Exception {
 
-    String produkt = (String) execution.getVariable(Variables.PRODUKT);
-    List<Leistung> leistungen = (List<Leistung>) execution.getVariable(Variables.LEISTUNGEN);
+    String produkt = (String) execution.getVariable(VARIABLES.PRODUKT);
+    List<Leistung> leistungen = (List<Leistung>) execution.getVariable(VARIABLES.LEISTUNGEN);
     for (final Leistung leistung : leistungen) {
       switch (produkt) {
         case PRODUKT_BASIS_SCHUTZ:
@@ -62,7 +62,7 @@ public class VersicherungsschutzErmittelnDelegate implements JavaDelegate {
     }
 
     ObjectValue jsonValue = org.camunda.bpm.engine.variable.Variables.objectValue(leistungen).serializationDataFormat("application/json").create();
-    execution.setVariable(Variables.LEISTUNGEN, jsonValue);
+    execution.setVariable(VARIABLES.LEISTUNGEN, jsonValue);
 
     // if <property name="defaultSerializationFormat">application/json</property> is set in engine configuration (standalone.xml)
     // we could use the usual way to set this process variable:

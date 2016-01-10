@@ -1,7 +1,7 @@
 package de.holisticon.bpm.example.sbr.adapter;
 
 import com.google.common.collect.Lists;
-import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
+import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.VARIABLES;
 import de.holisticon.bpm.sbr.api.Leistung;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.junit.Before;
@@ -52,8 +52,8 @@ public class VersicherungsschutzErmittelnTest {
 
   @Test
   public void shouldMapLeistungenToTarife() throws Exception {
-    given(execution.getVariable(Variables.PRODUKT)).willReturn(PRODUKT_PREMIUM_KOMPLETT);
-    given(execution.getVariable(Variables.LEISTUNGEN)).willReturn(leistungen);
+    given(execution.getVariable(VARIABLES.PRODUKT)).willReturn(PRODUKT_PREMIUM_KOMPLETT);
+    given(execution.getVariable(VARIABLES.LEISTUNGEN)).willReturn(leistungen);
 
     delegate.execute(execution);
 

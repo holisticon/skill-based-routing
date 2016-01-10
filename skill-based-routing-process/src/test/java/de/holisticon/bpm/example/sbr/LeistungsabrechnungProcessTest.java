@@ -1,7 +1,7 @@
 package de.holisticon.bpm.example.sbr;
 
-import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Activities;
-import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.Variables;
+import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.ACTIVITIES;
+import de.holisticon.bpm.example.sbr.LeistungsabrechnungProcess.VARIABLES;
 import de.holisticon.bpm.example.sbr.adapter.VersicherungsschutzErmittelnDelegate;
 import de.holisticon.bpm.sbr.api.Leistung;
 import org.camunda.bpm.engine.RuntimeService;
@@ -67,8 +67,8 @@ public class LeistungsabrechnungProcessTest {
   @Deployment(resources = LeistungsabrechnungProcess.RESOURCE)
   public void startToLeistungenErfassen() {
     ProcessInstance instance = driver.startProcess();
-    assertThat(instance).task().hasDefinitionKey(Activities.task_leistungen_erfassen);
-    assertThat(instance).hasVariables(Variables.VERSICHERUNGSNUMMER, Variables.RECHNUNGSART);
+    assertThat(instance).task().hasDefinitionKey(ACTIVITIES.task_leistungen_erfassen);
+    assertThat(instance).hasVariables(VARIABLES.VERSICHERUNGSNUMMER, VARIABLES.RECHNUNGSART);
   }
 
   @Test
@@ -76,8 +76,8 @@ public class LeistungsabrechnungProcessTest {
   public void leistungenErfassenToGebuehrenPruefen() {
     ProcessInstance instance = driver.startProcess();
     driver.leistungenErfassen();
-    assertThat(instance).task().hasDefinitionKey(Activities.task_gebuehrenrechtlich_pruefen);
-    assertThat(instance).hasVariables(Variables.PRODUKT, Variables.KUNDENSTATUS, Variables.LEISTUNGEN);
+    assertThat(instance).task().hasDefinitionKey(ACTIVITIES.task_gebuehrenrechtlich_pruefen);
+    assertThat(instance).hasVariables(VARIABLES.PRODUKT, VARIABLES.KUNDENSTATUS, VARIABLES.LEISTUNGEN);
 
   }
 
@@ -86,7 +86,7 @@ public class LeistungsabrechnungProcessTest {
   public void gebuehrenPruefenToErstattungBerechnen() throws Exception {
     ProcessInstance instance = driver.inGebuehrenPruefen();
     driver.gebuehrenPruefen();
-    assertThat(instance).task().hasDefinitionKey(Activities.task_erstattungsbetrag_berechnen);
+    assertThat(instance).task().hasDefinitionKey(ACTIVITIES.task_erstattungsbetrag_berechnen);
   }
 
   @Test
@@ -94,7 +94,7 @@ public class LeistungsabrechnungProcessTest {
   public void erstattungBerechnenToZahlungFreigeben() {
     ProcessInstance instance = driver.inErstattungBerechnen();
     driver.erstattungBerechnen();
-    assertThat(instance).task().hasDefinitionKey(Activities.task_zahlung_freigeben);
+    assertThat(instance).task().hasDefinitionKey(ACTIVITIES.task_zahlung_freigeben);
   }
 
   @Test
@@ -117,8 +117,8 @@ public class LeistungsabrechnungProcessTest {
 
     public ProcessInstance startProcess() {
       Map<String, Object> variables = org.camunda.bpm.engine.variable.Variables.createVariables();
-      variables.put(Variables.VERSICHERUNGSNUMMER, "4711");
-      variables.put(Variables.RECHNUNGSART, "Arzt");
+      variables.put(VARIABLES.VERSICHERUNGSNUMMER, "4711");
+      variables.put(VARIABLES.RECHNUNGSART, "Arzt");
       ProcessInstance instance = runtimeService.startProcessInstanceByKey(LeistungsabrechnungProcess.KEY, variables);
       assertThat(instance).isNotNull();
       return instance;
@@ -130,7 +130,7 @@ public class LeistungsabrechnungProcessTest {
 
         @Override
         protected void answer(DelegateExecution execution) throws Exception {
-          List<Leistung> leistungen = (List<Leistung>) execution.getVariable(Variables.LEISTUNGEN);
+          List<Leistung> leistungen = (List<Leistung>) execution.getVariable(VARIABLES.LEISTUNGEN);
           for (final Leistung leistung : leistungen) {
             if (leistung.isGebuehrenrechtlichOk()) {
               switch (leistung.getBezeichnung()) {
@@ -146,7 +146,7 @@ public class LeistungsabrechnungProcessTest {
               }
             }
           }
-          execution.setVariable(Variables.LEISTUNGEN, leistungen);
+          execution.setVariable(VARIABLES.LEISTUNGEN, leistungen);
         }
 
       }).when(mock).execute(Matchers.any(DelegateExecution.class));
@@ -159,7 +159,7 @@ public class LeistungsabrechnungProcessTest {
           leistung.setErstattungsbetrag(BETRAG);
         }
       }
-      taskService().complete(task().getId(), withVariables(Variables.LEISTUNGEN, leistungen));
+      taskService().complete(task().getId(), withVariables(VARIABLES.LEISTUNGEN, leistungen));
     }
 
     public void gebuehrenPruefen() {
@@ -167,15 +167,15 @@ public class LeistungsabrechnungProcessTest {
       for (final Leistung leistung : leistungen) {
         leistung.setGebuehrenrechtlichOk(!leistung.getBezeichnung().endsWith("2"));
       }
-      taskService().complete(task().getId(), withVariables(Variables.LEISTUNGEN, leistungen));
+      taskService().complete(task().getId(), withVariables(VARIABLES.LEISTUNGEN, leistungen));
     }
 
     public void zahlungFreigeben() {
-      taskService().complete(task().getId(), withVariables(Variables.FREIGEGEBEN, true));
+      taskService().complete(task().getId(), withVariables(VARIABLES.FREIGEGEBEN, true));
     }
 
     private List<Leistung> getLeistungen() {
-      return (List<Leistung>) runtimeService().getVariable(processInstance().getId(), Variables.LEISTUNGEN);
+      return (List<Leistung>) runtimeService().getVariable(processInstance().getId(), VARIABLES.LEISTUNGEN);
     }
 
     private ProcessInstance processInstance() {
@@ -188,7 +188,7 @@ public class LeistungsabrechnungProcessTest {
       leistungen.add(new Leistung(L2));
       leistungen.add(new Leistung(L3));
       taskService().complete(task().getId(),
-        withVariables(Variables.LEISTUNGEN, leistungen, Variables.PRODUKT, "Premium", Variables.KUNDENSTATUS, "VIP"));
+        withVariables(VARIABLES.LEISTUNGEN, leistungen, VARIABLES.PRODUKT, "Premium", VARIABLES.KUNDENSTATUS, "VIP"));
     }
 
     public ProcessInstance inGebuehrenPruefen() {

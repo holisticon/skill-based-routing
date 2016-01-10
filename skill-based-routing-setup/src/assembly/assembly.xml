@@ -16,7 +16,7 @@
     <!-- unpack jboss -->
     <dependencySet>
       <includes>
-        <include>org.camunda.bpm.jboss:camunda-bpm-jboss:zip</include>
+        <include>org.camunda.bpm.jboss:${camunda-jboss.artifact}:zip</include>
       </includes>
       <unpack>true</unpack>
       <unpackOptions>
@@ -62,6 +62,7 @@
     <file>
       <source>src/config/module.xml</source>
       <outputDirectory>${server.path}/modules/org/camunda/bpm/jboss/camunda-jboss-subsystem/main</outputDirectory>
+      <filtered>true</filtered>
     </file>
   </files>
 

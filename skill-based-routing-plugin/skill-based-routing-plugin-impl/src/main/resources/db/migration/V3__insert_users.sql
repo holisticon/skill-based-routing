@@ -1,5 +1,5 @@
 INSERT INTO ACT_ID_USER(ID_, REV_, FIRST_, LAST_, EMAIL_, PWD_, PICTURE_ID_) VALUES
-('Jo', 1, 'Jo', 'Ehm', '', '{SHA}P+cLJJRgQRclbM5kZzkqER4FeXw=', NULL),
+('Jo', 1, 'Jo', 'E.', '', '{SHA}P+cLJJRgQRclbM5kZzkqER4FeXw=', NULL),
 ('Simon', 1, 'Simon', 'Z.', '', '{SHA}P+cLJJRgQRclbM5kZzkqER4FeXw=', NULL),
 ('Jan', 1, 'Jan', 'G.', '', '{SHA}P+cLJJRgQRclbM5kZzkqER4FeXw=', NULL),
 ('Ines', 1, 'Ines', NULL, '', '{SHA}P+cLJJRgQRclbM5kZzkqER4FeXw=', NULL),
