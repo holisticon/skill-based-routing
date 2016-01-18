@@ -85,4 +85,4 @@ This project is released under the revised BSD License (s. LICENSE).
 * `mvn dependency:get -Dartifact=org.camunda.bpm.jboss:camunda-bpm-jboss:7.4.0-SNAPSHOT:zip` download the latest jboss distro bundle
 * [current DMN editor at camunda](https://camunda.org/dmn/demo-stage/)
 * [showcase start page](http://localhost:8080/camunda)
-* [showcase start init](http://localhost:8080/skill-based-routing-1.0-SNAPSHOT/showcasesetup)
+* [showcase start init](http://localhost:8080/skill-based-routing-process-1.0-SNAPSHOT/showcasesetup)
