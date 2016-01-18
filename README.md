@@ -84,3 +84,5 @@ This project is released under the revised BSD License (s. LICENSE).
 * `curl -v http://localhost:8080/engine-rest/deployment/create -F deployment-name="<NAME>" -F table.dmn=@<FILE>` deploy resource via REST
 * `mvn dependency:get -Dartifact=org.camunda.bpm.jboss:camunda-bpm-jboss:7.4.0-SNAPSHOT:zip` download the latest jboss distro bundle
 * [current DMN editor at camunda](https://camunda.org/dmn/demo-stage/)
+* http://localhost:8080/camunda
+* http://localhost:8080/skill-based-routing-1.0-SNAPSHOT/showcasesetup
