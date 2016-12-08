@@ -113,7 +113,7 @@
       <id>ee</id>
 
       <properties>
-        <camunda.version>7.4.1-ee</camunda.version>
+        <camunda.version>7.6.0-ee</camunda.version>
         <camunda-jboss.artifact>camunda-bpm-ee-jboss</camunda-jboss.artifact>
       </properties>
 
