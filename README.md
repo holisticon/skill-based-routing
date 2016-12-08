@@ -24,7 +24,7 @@ Für die Bearbeitung der DMN Dateien, kann der Web Modeler verwendet werden. Die
 
 ### JBoss einrichten
 
-Laden des aktuellesten (Camunda BPM ee 7.4.0) Bundles aus dem [camunda nexus](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0/)
+Laden des aktuellesten (Camunda BPM ee 7.6.0) Bundles von [camunda docs](https://docs.camunda.org/enterprise/download/)
 
 #### Deployments
     
@@ -66,7 +66,7 @@ Camunda BPM zieht beim Hochfahren unser Plugin, das Plugin registriert TaskListe
 
 ## Resources
 
-* [JBoss 7.2.0-Final Camunda BPM EE 7.4.0](https://app.camunda.com/nexus/content/repositories/camunda-bpm-snapshots/org/camunda/bpm/jboss/camunda-bpm-ee-jboss/7.4.0/)
+* [JBoss 7.2.0-Final Camunda BPM EE 7.6.0](https://docs.camunda.org/enterprise/download/)
 * [sbr-decision-tables.xlsx](https://github.com/holisticon/skill-based-routing/raw/master/docs/sbr_decision_tables.xlsx)
 
 ### Autoren
@@ -82,7 +82,7 @@ This project is released under the revised BSD License (s. LICENSE).
 ## Useful
 
 * `curl -v http://localhost:8080/engine-rest/deployment/create -F deployment-name="<NAME>" -F table.dmn=@<FILE>` deploy resource via REST
-* `mvn dependency:get -Dartifact=org.camunda.bpm.jboss:camunda-bpm-jboss:7.4.0-SNAPSHOT:zip` download the latest jboss distro bundle
+* `mvn dependency:get -Dartifact=org.camunda.bpm.jboss:camunda-bpm-jboss:7.6.0-SNAPSHOT:zip` download the latest jboss distro bundle
 * [current DMN editor at camunda](https://camunda.org/dmn/demo-stage/)
 * [showcase tasklist](http://localhost:8080/camunda/app/tasklist/)
 * [showcase cockpit](http://localhost:8080/camunda/app/cockpit/)
