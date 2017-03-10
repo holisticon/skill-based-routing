@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="definitions_1lngudu" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="leistungsabrechnung_requiredAuthorizations" name="benötigte Berechtigung">
+    <extensionElements>
+      <biodi:bounds x="720" y="207" width="180" height="80" />
+    </extensionElements>
+    <decisionTable id="leistungsabrechnung_requiredAuthorizationsTable" hitPolicy="COLLECT">
+      <extensionElements>
+        <biodi:bounds x="742" y="186" width="180" height="80" />
+      </extensionElements>
+      <input id="inputTaskDefinitionKeyAuth" label="Task Definition Key">
+        <inputExpression id="taskDefinitionKeyAuth" typeRef="string">        <text>task.taskDefinitionKey</text>
+</inputExpression>
+        <inputValues>        <text><![CDATA["task_gebuehrenrechtlich_pruefen", "task_erstattungsbetrag_berechnen", "task_zahlung_freigeben"]]></text>
+</inputValues>
+      </input>
+      <input id="inputRechnungsartAuth" label="Rechnungsart">
+        <inputExpression id="rechnungsartAuth" typeRef="string">        <text>rechnungsart</text>
+</inputExpression>
+        <inputValues>        <text><![CDATA["Sonstiges"]]></text>
+</inputValues>
+      </input>
+      <input id="inputKundenstatus" label="Kundenstatus">
+        <inputExpression id="kundenstatus" typeRef="string">        <text>kundenstatus</text>
+</inputExpression>
+        <inputValues>        <text><![CDATA["Mitarbeiter", "VIP"]]></text>
+</inputValues>
+      </input>
+      <input id="inputErstattungGesamt" label="Erstattungsbetrag">
+        <inputExpression id="erstattungGesamt" typeRef="double">        <text>erstattungGesamt</text>
+</inputExpression>
+      </input>
+      <output id="outputRequiredAuthorizations" label="Benötigte Rechte" name="requiredAuthorizations">
+        <outputValues>        <text><![CDATA["KULANZ", "EXKASSO_S", "EXKASSO_M", "EXKASSO_L"]]></text>
+</outputValues>
+      </output>
+      <rule id="rule12a">
+        <inputEntry id="inputEntry121a" />
+        <inputEntry />
+        <inputEntry>        <text><![CDATA["Mitarbeiter"]]></text>
+</inputEntry>
+        <inputEntry />
+        <outputEntry>        <text><![CDATA["INTERNA"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_gebuehrenrechtlich_pruefen"]]></text>
+</inputEntry>
+        <inputEntry>        <text><![CDATA["Sonstiges"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry />
+        <outputEntry>        <text><![CDATA["KULANZ"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry id="inputEntry141a">        <text><![CDATA["task_erstattungsbetrag_berechnen"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry>        <text><![CDATA["VIP"]]></text>
+</inputEntry>
+        <inputEntry />
+        <outputEntry>        <text><![CDATA["KULANZ"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry id="inputEntry151a">        <text><![CDATA["task_zahlung_freigeben"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry>        <text><![CDATA["VIP"]]></text>
+</inputEntry>
+        <inputEntry>        <text>[0 .. 500]</text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA["EXKASSO_S"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_zahlung_freigeben"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry>        <text><![CDATA[not("VIP")]]></text>
+</inputEntry>
+        <inputEntry>        <text>[0 .. 100[</text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA["EXKASSO_S"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry id="inputEntry171a">        <text><![CDATA["task_zahlung_freigeben"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry>        <text><![CDATA[not("VIP")]]></text>
+</inputEntry>
+        <inputEntry>        <text>[100 .. 500]</text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA["EXKASSO_M"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_zahlung_freigeben"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry />
+        <inputEntry>        <text><![CDATA[> 500]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA["EXKASSO_L"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="leistungsabrechnung_requiredSkills" name="benötigte Fähigkeit">
+    <extensionElements>
+      <biodi:bounds x="351" y="192" width="180" height="80" />
+      <biodi:edge source="InputData_18sg1xh">
+        <biodi:waypoints x="441" y="105" />
+        <biodi:waypoints x="441" y="192" />
+      </biodi:edge>
+      <biodi:edge source="InputData_0a8qpsc">
+        <biodi:waypoints x="292" y="147" />
+        <biodi:waypoints x="371" y="192" />
+      </biodi:edge>
+      <biodi:edge source="InputData_193wkrp">
+        <biodi:waypoints x="590" y="140" />
+        <biodi:waypoints x="506" y="192" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_18sg1xh" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_0a8qpsc" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_193wkrp" />
+    </informationRequirement>
+    <decisionTable id="leistungsabrechnung_requiredSkillsTable" hitPolicy="COLLECT">
+      <input id="inputTaskDefinitionKeySkill" label="Task Definition Key">
+        <inputExpression id="taskDefinitionKeySkill" typeRef="string">        <text>task.taskDefinitionKey</text>
+</inputExpression>
+        <inputValues id="inputTaskDefinitionKeySkillValue">        <text><![CDATA["task_erstattungsbetrag_berechnen", "task_gebuehrenrechtlich_pruefen"]]></text>
+</inputValues>
+      </input>
+      <input id="inputRechnungsartSkill" label="Rechnungsart">
+        <inputExpression id="rechnungsartSkill" typeRef="string">        <text>rechnungsart</text>
+</inputExpression>
+        <inputValues id="inputRechnungsartSkillValue">        <text><![CDATA["Arzt", "Zahnarzt", "Augenarzt", "Optiker", "Arzneimittel", "Physiotherapie", "Ergotherapie"]]></text>
+</inputValues>
+      </input>
+      <input id="inputProdukt" label="Produkt">
+        <inputExpression id="produkt" typeRef="string">        <text>produkt</text>
+</inputExpression>
+        <inputValues id="inputProduktValue">        <text><![CDATA["Basis-Schutz", "Premium Komplett", "Zahnzusatz", "Brille 2000"]]></text>
+</inputValues>
+      </input>
+      <output id="outputRequiredSkills" label="Benötigte Fähigkeiten" name="requiredSkills" typeRef="string">
+        <outputValues>        <text><![CDATA["GOÄ", "GOZ", "SH" "AMNOG", "HeilM-RL", "TAR_AB", "TAR_EZ", "TAR_ES"]]></text>
+</outputValues>
+      </output>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_gebuehrenrechtlich_pruefen"]]></text>
+</inputEntry>
+        <inputEntry>        <text><![CDATA["Arzt"]]></text>
+</inputEntry>
+        <inputEntry id="inputEntry2_" />
+        <outputEntry>        <text><![CDATA["GOÄ"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_gebuehrenrechtlich_pruefen"]]></text>
+</inputEntry>
+        <inputEntry>        <text><![CDATA["Zahnarzt"]]></text>
+</inputEntry>
+        <inputEntry />
+        <outputEntry>        <text><![CDATA["GOZ"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_gebuehrenrechtlich_pruefen"]]></text>
+</inputEntry>
+        <inputEntry>        <text><![CDATA["Augenarzt"]]></text>
+</inputEntry>
+        <inputEntry />
+        <outputEntry>        <text><![CDATA["GOÄ"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_gebuehrenrechtlich_pruefen"]]></text>
+</inputEntry>
+        <inputEntry>        <text><![CDATA["Optiker"]]></text>
+</inputEntry>
+        <inputEntry />
+        <outputEntry>        <text><![CDATA["SH"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_gebuehrenrechtlich_pruefen"]]></text>
+</inputEntry>
+        <inputEntry>        <text><![CDATA["Arzneimittel"]]></text>
+</inputEntry>
+        <inputEntry />
+        <outputEntry>        <text><![CDATA["AMNOG"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_gebuehrenrechtlich_pruefen"]]></text>
+</inputEntry>
+        <inputEntry>        <text><![CDATA["Physiotherapie"]]></text>
+</inputEntry>
+        <inputEntry />
+        <outputEntry>        <text><![CDATA["HeilM-RL"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_gebuehrenrechtlich_pruefen"]]></text>
+</inputEntry>
+        <inputEntry>        <text><![CDATA["Ergotherapie"]]></text>
+</inputEntry>
+        <inputEntry />
+        <outputEntry>        <text><![CDATA["HeilM-RL"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_erstattungsbetrag_berechnen"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry>        <text><![CDATA["Basis-Schutz"]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA["TAR_AB"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_erstattungsbetrag_berechnen"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry>        <text><![CDATA["Premium Komplett"]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA["TAR_AB"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_erstattungsbetrag_berechnen"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry>        <text><![CDATA["Premium Komplett"]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA["TAR_EZ"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_erstattungsbetrag_berechnen"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry>        <text><![CDATA["Zahnzusatz"]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA["TAR_EZ"]]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>        <text><![CDATA["task_erstattungsbetrag_berechnen"]]></text>
+</inputEntry>
+        <inputEntry />
+        <inputEntry>        <text><![CDATA["Brille 2000"]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA["TAR_ES"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="leistungsabrechnung_candidateUsersRouting" name="mögliche Benutzer">
+    <extensionElements>
+      <biodi:bounds x="546" y="461" width="180" height="80" />
+      <biodi:edge source="leistungsabrechnung_requiredSkills">
+        <biodi:waypoints x="470" y="272" />
+        <biodi:waypoints x="608" y="461" />
+      </biodi:edge>
+      <biodi:edge source="leistungsabrechnung_requiredAuthorizations">
+        <biodi:waypoints x="781" y="287" />
+        <biodi:waypoints x="656" y="461" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredDecision href="#leistungsabrechnung_requiredSkills" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredDecision href="#leistungsabrechnung_requiredAuthorizations" />
+    </informationRequirement>
+    <decisionTable id="candidateUsersTable" hitPolicy="RULE ORDER">
+      <input id="inputRequiredSkills" label="Required Skills">
+        <inputExpression id="requiredSkills">        <text>requiredSkills</text>
+</inputExpression>
+        <inputValues>        <text><![CDATA['GOÄ', 'GOZ', 'SH' 'AMNOG', 'HeilM-RL', 'TAR_AB', 'TAR_EZ', 'TAR_ES']]></text>
+</inputValues>
+      </input>
+      <input id="inputRequiredAuthorizations" label="Required Authorizations">
+        <inputExpression id="requiredAuthorizations">        <text>requiredAuthorizations</text>
+</inputExpression>
+        <inputValues>        <text><![CDATA['KULANZ', 'EXKASSO_S', 'EXKASSO_M', 'EXKASSO_L']]></text>
+</inputValues>
+      </input>
+      <output id="candidateUsers" label="Candidate User" name="candidateUsers">
+        <outputValues>        <text><![CDATA['Ines', 'Herbert', 'Andreas', 'Emma', 'Sonja', 'Xavier', 'Hanna', 'Bernd', 'Tom']]></text>
+</outputValues>
+      </output>
+      <rule>
+        <inputEntry expressionLanguage="groovy" />
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[requiredAuthorizations.contains('INTERNA')]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA['Ines']]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['HeilM-RL'].containsAll(requiredSkills)]]></text>
+</inputEntry>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[requiredAuthorizations.contains('INTERNA')]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA['Herbert']]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry expressionLanguage="groovy" />
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['KULANZ', 'EXKASSO_L'].containsAll(requiredAuthorizations)]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA['Herbert']]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['GOÄ', 'AMNOG', 'TAR_AB'].containsAll(requiredSkills)]]></text>
+</inputEntry>
+        <inputEntry expressionLanguage="groovy">        <text>requiredAuthorizations.isEmpty()</text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA['Andreas']]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['GOÄ', 'AMNOG'].containsAll(requiredSkills)]]></text>
+</inputEntry>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['EXKASSO_S', 'EXKASSO_M'].containsAll(requiredAuthorizations)]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA['Emma']]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry expressionLanguage="groovy" />
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['EXKASSO_S'].containsAll(requiredAuthorizations)]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA['Sonja']]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['GOZ', 'TAR_EZ'].containsAll(requiredSkills)]]></text>
+</inputEntry>
+        <inputEntry expressionLanguage="groovy">        <text>requiredAuthorizations.isEmpty()</text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA['Xaver']]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['HeilM-RL'].containsAll(requiredSkills)]]></text>
+</inputEntry>
+        <inputEntry expressionLanguage="groovy">        <text>requiredAuthorizations.isEmpty()</text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA['Hanna']]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['SH', 'TAR_ES'].containsAll(requiredSkills)]]></text>
+</inputEntry>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['KULANZ'].containsAll(requiredAuthorizations)]]></text>
+</inputEntry>
+        <outputEntry>        <text><![CDATA['Bernd']]></text>
+</outputEntry>
+      </rule>
+      <rule>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['TAR_AB', 'TAR_EZ'].containsAll(requiredSkills)]]></text>
+</inputEntry>
+        <inputEntry expressionLanguage="groovy">        <text><![CDATA[['EXKASSO_M'].containsAll(requiredAuthorizations)]]></text>
+</inputEntry>
+        <outputEntry expressionLanguage="groovy">        <text><![CDATA['Tom']]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0a8qpsc" name="Task Definition Key&#10;">
+    <extensionElements>
+      <biodi:bounds x="191" y="102" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_18sg1xh" name="Rechnungsart&#10;">
+    <extensionElements>
+      <biodi:bounds x="378" y="60" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_193wkrp" name="Produkt&#10;">
+    <extensionElements>
+      <biodi:bounds x="563" y="95" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+</definitions>
